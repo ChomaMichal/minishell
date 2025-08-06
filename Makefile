@@ -11,7 +11,8 @@ COMMANDS = commands/cd.c\
 		   commands/com_main.c\
 		   commands/pwd.c\
 		   commands/env.c\
-		   commands/unset.c
+		   commands/unset.c\
+		   commands/export.c
 LIBFT = libft/ft_calloc.c\
 		libft/ft_putstr_fd.c\
 		libft/ft_split.c\

@@ -20,6 +20,8 @@
 #include <signal.h>
 #include <string.h>
 
+char	*ft_get_env_value(char **arr, char *key);
+char	**ft_append_arr_str(char ***arr, char *str);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	**ft_coppyarrstr(char **arr);
 char	**ft_split(char const *s, char c);

@@ -5,7 +5,8 @@
 
 int main(int argc, char **argv, char **envp)
 {
-	char	*str = ft_strdup("PATH");
+	// char	*str = ft_strdup("PATH");
+	char	*str2 = ft_strdup("PATH=hehe");
 	t_data	data[1];
 
 
@@ -14,7 +15,7 @@ int main(int argc, char **argv, char **envp)
 	// ft_pwd();
 	data->env = ft_coppyarrstr(envp);
 	// free(env[1]);
-	ft_unset(data, str);
+	ft_export(data, str2);
 	ft_env(data);
 	free_arr((void ***)&data->env);
 }

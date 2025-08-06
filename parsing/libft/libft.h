@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 21:54:09 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/07/09 18:48:35 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/08/06 16:53:08 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,16 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }	t_list;
+
+typedef struct	s_btree
+{
+	struct s_btree	*left;
+	struct s_btree	*right;
+	void			*item;
+}	t_btree;
+
+/* btree */
+
 
 /* ft_malloc.c */
 void	*ft_malloc(size_t size, int list_num);

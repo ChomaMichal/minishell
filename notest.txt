@@ -1,3 +1,10 @@
-1.	File structure: bonus is completely separate? or just additional sources?
+== IN PROGRESS:
+1.	Binary Tree
+2.	
+
+
+######################################################################
+== NOTES:
+1.	File structure: bonus is just additional sources.
 
 2.	

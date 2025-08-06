@@ -21,7 +21,6 @@
 # include <stdint.h>
 # include <fcntl.h>
 # include "printf.h"
-# include "libft.h"
 
 typedef struct s_command
 {

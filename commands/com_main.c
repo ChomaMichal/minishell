@@ -26,8 +26,11 @@ int main(int argc, char **argv, char **envp)
 		return (free_arr((void ***)&data->env), 1);
 	ft_cd(data, str);
 	ft_pwd();
-	// free(env[1]);
-	// ft_export(data, str2);
+	str  = ft_strdup("ATH");
+	if (str == NULL)
+		return (free_arr((void ***)&data->env), 1);
+	ft_unset(data, str);// ft_export(data, str2);
 	// ft_env(data);
-	// free_arr((void ***)&data->env);
+	printf("%i\n", data->rt);
+	free_arr((void ***)&data->env);
 }

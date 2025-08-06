@@ -6,7 +6,7 @@
 /*   By: mchoma <mchoma@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:07:28 by mchoma            #+#    #+#             */
-/*   Updated: 2025/08/06 13:35:08 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/08/06 16:39:46 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,16 @@ int	ft_cd(t_data *data, char *path)
 	{
 		i = cd_path(data, &path);
 		if (i == 0)
-			return (free(path), 0);
+			return (free(path), set_rt(&data->rt, 1), 0);
 		if (i == 2)
-			return (free(path), 2);
+			return (free(path), set_rt(&data->rt, 0), 2);
 	}
 	if (*path == 0)
 	{
 		free(path);
 		path = ft_get_env_value(data->env, "HOME");
 		if (path == NULL)
-			return (0);
+			return (set_rt(&data->rt, 1), 0);
 	}
 	if (chdir(path) == -1)
 	{
@@ -70,8 +70,8 @@ int	ft_cd(t_data *data, char *path)
 		ft_putstr_fd("bash: cd: ", 2);
 		ft_putstr_fd(path, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-		return (free(path), 0);
+		return (free(path), set_rt(&data->rt, 1), 0);
 	}
 	data->rt = 0;
-	return (free(path), 1);
+	return (free(path), set_rt(&data->rt, 0), 1);
 }

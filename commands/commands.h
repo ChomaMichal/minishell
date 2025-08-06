@@ -12,7 +12,7 @@
 // in case of no arguments given pass ft_strdup("") as a path
 int	ft_cd(t_data *data, char *path);
 //prints current directory to stdout
-int	ft_pwd(void);
+int	ft_pwd(t_data *data);
 // takes null terminated formated string
 // the string has to be joined can't accept mutible strings
 // frees it after using dont give NULL

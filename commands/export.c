@@ -19,7 +19,6 @@ static int	arg_check(char *arg)
 			return (0);
 		i++;
 	}
-
 	return (1);
 }
 
@@ -34,14 +33,14 @@ int	ft_export(t_data *data, char *arg)
 		data->rt = 1;
 		return (free(arg), ft_putstr_fd("bash: export: '", 2),
 			ft_putstr_fd(arg, 2), ft_putstr_fd("': not a valid identifier", 2),
-			0);
+			set_rt(&data->rt, 1), 0);
 	}
 	var = ft_substr(arg, 0, (size_t)(ft_strchr(arg, '=') - arg));
 	if (var == NULL)
-		return (free(arg), 0);
+		return (free(arg), set_rt(&data->rt, 1), 0);
 	i = 0;
 	ft_unset(data, var);
 	if (ft_append_arr_str(&data->env, arg) == NULL)
-		return (free(arg), 0); //error
-	return (free(arg), 1);
+		return (free(arg), set_rt(&data->rt, 1), 0); //error
+	return (set_rt(&data->rt, 0), 1);
 }

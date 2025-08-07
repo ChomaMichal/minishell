@@ -14,9 +14,9 @@ int main(int argc, char **argv, char **envp)
 	if (data->env == NULL)
 		return (free(str), 1);
 
-	ft_pwd();
+	ft_pwd(data);
 	ft_cd(data, str);
-	ft_pwd();
+	ft_pwd(data);
 	str  = ft_strdup("CDPATH=/tmp");
 	if (str == NULL)
 		return (free_arr((void ***)&data->env), 1);
@@ -25,7 +25,7 @@ int main(int argc, char **argv, char **envp)
 	if (str == NULL)
 		return (free_arr((void ***)&data->env), 1);
 	ft_cd(data, str);
-	ft_pwd();
+	ft_pwd(data);
 	str  = ft_strdup("ATH");
 	if (str == NULL)
 		return (free_arr((void ***)&data->env), 1);

@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 21:54:09 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/08/06 16:53:08 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/08/07 01:56:52 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,16 @@ typedef struct	s_btree
 }	t_btree;
 
 /* btree */
+t_btree	*btree_create_node(void *item);
+void	btree_apply_prefix(t_btree *root, void (*applyf)(void *));
+void	btree_apply_infix(t_btree *root, void (*applyf)(void *));
+void	btree_apply_suffix(t_btree *root, void (*applyf)(void *));
+int		btree_level_count(t_btree *root);
+
+void	*btree_search_item(t_btree *root, void *item,
+	int (*cmpf)(void *, void *));
+void	btree_insert_data(t_btree **root, void *item,
+	int (*cmpf)(void *, void *));
 
 
 /* ft_malloc.c */

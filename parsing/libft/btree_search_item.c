@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   btree_insert_data.c                                :+:      :+:    :+:   */
+/*   btree_search_item.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/06 16:50:32 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/08/06 23:46:07 by jel-ghna         ###   ########.fr       */
+/*   Created: 2025/08/06 23:47:30 by jel-ghna          #+#    #+#             */
+/*   Updated: 2025/08/07 01:23:56 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	btree_insert_data(t_btree **root, void *item, int (*cmpf)(void *, void *))
+void	*btree_search_item(t_btree *root, void *item, int (*cmpf)(void *, void *))
 {
-	t_btree	*new_node;
-	t_btree	*cur_node;
-
-	cur_node = *root;
-	if (!*root)
-	{
-		new_node = btree_create_node(item);	
-		*root = new_node;
-		return ;
-	}
-	if (cmpf(cur_node->item, item) > 0)
-		btree_insert_data(cur_node->left, item, cmpf);
+	if (cmpf(root->item, item) < 0)
+		return (btree_search_item(root->left, item, cmpf));
+	else if (cmpf(root->item, item) == 0)
+		return (root->item);
 	else
-		btree_insert_data(cur_node->right, item, cmpf);
+		return (btree_search_item(root->right, item, cmpf));
 }

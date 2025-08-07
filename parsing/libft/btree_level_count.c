@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   btree_insert_data.c                                :+:      :+:    :+:   */
+/*   btree_level_count.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/06 16:50:32 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/08/06 23:46:07 by jel-ghna         ###   ########.fr       */
+/*   Created: 2025/08/07 01:25:20 by jel-ghna          #+#    #+#             */
+/*   Updated: 2025/08/07 01:31:33 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	btree_insert_data(t_btree **root, void *item, int (*cmpf)(void *, void *))
+int	btree_level_count(t_btree *root)
 {
-	t_btree	*new_node;
-	t_btree	*cur_node;
-
-	cur_node = *root;
-	if (!*root)
-	{
-		new_node = btree_create_node(item);	
-		*root = new_node;
-		return ;
-	}
-	if (cmpf(cur_node->item, item) > 0)
-		btree_insert_data(cur_node->left, item, cmpf);
-	else
-		btree_insert_data(cur_node->right, item, cmpf);
+	if (!root)
+		return (0);
+	else if (!root->right && !root->left)
+		return (0);
+	else if (root->right || root->left)
+		return (1);
+	return (1 + (btree_level_count(root->right)
+		|| btree_level_count(root->left)));
 }

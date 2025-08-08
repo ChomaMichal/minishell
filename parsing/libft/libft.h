@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 21:54:09 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/08/07 01:56:52 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/08/08 20:21:28 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,29 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+typedef struct	s_bitem
+{
+	char	*str;
+	int		index;
+}	t_bitem;
+
 typedef struct	s_btree
 {
 	struct s_btree	*left;
 	struct s_btree	*right;
-	void			*item;
+	t_bitem			*item;
 }	t_btree;
 
 /* btree */
-t_btree	*btree_create_node(void *item);
+t_btree	*btree_create_node(t_bitem *item);
 void	btree_apply_prefix(t_btree *root, void (*applyf)(void *));
 void	btree_apply_infix(t_btree *root, void (*applyf)(void *));
 void	btree_apply_suffix(t_btree *root, void (*applyf)(void *));
 int		btree_level_count(t_btree *root);
 
-void	*btree_search_item(t_btree *root, void *item,
+void	*btree_search_item(t_btree *root, t_bitem *item,
 	int (*cmpf)(void *, void *));
-void	btree_insert_data(t_btree **root, void *item,
+void	btree_insert_data(t_btree **root, t_bitem *item,
 	int (*cmpf)(void *, void *));
 
 

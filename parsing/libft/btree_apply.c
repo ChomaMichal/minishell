@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   btree_apply_prefix.c                               :+:      :+:    :+:   */
+/*   btree_apply.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 16:28:14 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/08/06 16:43:57 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/08/08 22:49:49 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	btree_apply_prefix(t_btree *root, void (*applyf)(void *))
 {
-	applyf(root->item);
+	applyf(root);
 	if (root->left)
 		btree_apply_prefix(root->left, applyf);
 	if (root->right)

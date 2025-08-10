@@ -6,4 +6,6 @@
 # include <libft.h>
 # include <stdio.h>
 
+t_btree	*create_cmds_tree(char *line);
+
 #endif

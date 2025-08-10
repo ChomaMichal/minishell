@@ -7,4 +7,8 @@
 == NOTES:
 1.	File structure: bonus is just additional sources.
 
-2.	
+2.	Naming functions:
+		functions that return allocated spaces that should be freed in the calling
+			function (create... OR make...) example: char **create_split_cmds();
+		functions that return values that can't be freed (get...) example:
+			size_t len_till_splitter();

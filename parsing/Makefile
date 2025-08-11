@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Ilibft -g
+CFLAGS = -Ilibft -g
 LIBS = -lreadline -lhistory
 HEADERS = minishell.h libft/libft.h
 LIBFT = libft/libft.a
@@ -26,6 +26,9 @@ $(DIR_OBJ):
 $(LIBFT):
 	make -C libft
 ############### LIBFT ###############
+
+test: all
+	valgrind --leak-check=full --suppressions=readline.supp ./minishell
 
 clean:
 	rm -rf $(DIR_OBJ)

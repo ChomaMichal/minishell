@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 16:28:14 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/08/08 22:49:49 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/08/11 20:41:37 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	btree_apply_infix(t_btree *root, void (*applyf)(void *))
 void	btree_apply_suffix(t_btree *root, void (*applyf)(void *))
 {
 	if (root->left)
-		btree_apply_infix(root->left, applyf);
+		btree_apply_suffix(root->left, applyf);
 	if (root->right)
-		btree_apply_infix(root->right, applyf);
+		btree_apply_suffix(root->right, applyf);
 	applyf(root);
 }

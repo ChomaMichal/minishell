@@ -17,13 +17,13 @@ char **ft_append_arr_str(char ***arr, char *str)
 	char	**new;
 	
 	i = 0;
-	while ((*arr)[i])
+	while (*arr && (*arr)[i])
 		i++;
 	new = ft_calloc(i + 2, sizeof(char*));
 	if (new == NULL)
 		return (NULL);
 	i = 0;
-	while ((*arr)[i])
+	while (*arr && (*arr)[i])
 	{
 		new[i] = (*arr)[i];
 		i ++;

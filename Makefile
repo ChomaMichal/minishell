@@ -25,6 +25,7 @@ LIBFT = libft/ft_calloc.c\
 		libft/ft_isalnum.c\
 		libft/ft_isalpha.c\
 		libft/ft_digit.c
+STAR = star/test.c
 FILES = $(EXECFILES)
 OBJ = $(FILES:.c=.o)
 
@@ -54,4 +55,7 @@ exec:
 com:
 	cc -Wall -Wextra $(COMMANDS) libft/*.c -g -o com
 
-.PHONY: re fclean clean all com
+star:
+	cc -Wall -Wextra $(STAR) libft/*.c -g -o sta
+
+.PHONY: re fclean clean all com star

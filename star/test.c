@@ -7,20 +7,24 @@
 char	**get_all_folders();
 int	star_match(char *match, char *str);
 
-int main()
+int main(int argc, char **argv)
 {
 	char	**paths;
 	size_t	i;
 
 	i = 0;
 	paths = get_all_folders();
-	// printf("%i result\n",star_match("*.c", "main.chehe"));
+	// printf("%i result\n",star_match(".*", ".gitignore"));
+	// /*
+	// printf("%sargv[1]\n", argv[1]);
 	while (paths[i])
 	{
-		if (star_match("he*", paths[i]))
+		// printf("%i result\n",star_match(argv[1],paths[i]));
+		if (star_match(argv[1], paths[i]) == 1)
 			printf("%s\n", paths[i]);
 		i++;
 	}
+// */
 	free_arr((void ***) &paths);
 	return (0);
 }
@@ -73,7 +77,7 @@ int	star_match(char *match, char *str)
 			// printf("%c str\n", str[i]);
 			// printf("%c match\n", match[j]);
 		}
-		else if (star == 0)
+		else if (star == 1)
 		{
 			i ++;
 			change = 1;

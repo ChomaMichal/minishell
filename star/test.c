@@ -1,33 +1,76 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchoma <mchoma@student.42vienna.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/13 16:17:42 by mchoma            #+#    #+#             */
+/*   Updated: 2025/08/13 17:35:24 by mchoma           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <dirent.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include "../libft/libft.h"
 
-char	**get_all_folders();
 int	star_match(char *match, char *str);
 
+static DIR	*ft_opendir(char *path, DIR **directory)
+{
+	*directory = opendir(path);
+	return (*directory);
+}
+
+char	**expand_star_append(char *match, char ***arr)
+{
+	DIR				*directory;
+	struct dirent	*idk;
+	int				i;
+	char			path[PATH_MAX];
+	char			*str;
+
+	if (getcwd(path, PATH_MAX) == NULL)
+		return (NULL);
+	i = 0;
+	if (ft_opendir(path, &directory) == NULL)
+		return (*arr);
+	idk = readdir(directory);
+	while (idk)
+	{
+		if (star_match(match, idk->d_name) == 1)
+		{
+			str = ft_strdup(idk->d_name);
+			if (str == NULL)
+				return (closedir(directory), NULL);
+			if (ft_append_arr_str(arr, str) == NULL)
+				return (free(str), closedir(directory), NULL);
+		}
+		idk = readdir(directory);
+	}
+	return (free(idk), closedir(directory), *arr);
+}
+/*
 int main(int argc, char **argv)
 {
 	char	**paths;
 	size_t	i;
 
 	i = 0;
-	paths = get_all_folders();
-	// printf("%i result\n",star_match(".*", ".gitignore"));
-	// /*
-	// printf("%sargv[1]\n", argv[1]);
-	while (paths[i])
+	paths = NULL;
+	if (expand_star_append(argv[1], &paths) == NULL)
+		return (free_arr((void***) &paths), 0);
+	while (paths && paths[i])
 	{
-		// printf("%i result\n",star_match(argv[1],paths[i]));
-		if (star_match(argv[1], paths[i]) == 1)
-			printf("%s\n", paths[i]);
+		printf("%s\n", paths[i]);
 		i++;
 	}
-// */
 	free_arr((void ***) &paths);
 	return (0);
 }
+*/
 
 int	star_match(char *match, char *str)
 {
@@ -39,7 +82,7 @@ int	star_match(char *match, char *str)
 
 	star = 0;
 	j = 0;
-	i =  0;
+	i = 0;
 	change = 0;
 	while(1)
 	{
@@ -78,10 +121,7 @@ int	star_match(char *match, char *str)
 			// printf("%c match\n", match[j]);
 		}
 		else if (star == 1)
-		{
-			i ++;
-			change = 1;
-		}
+			(i ++, change = 1);
 		// if (str[i] == 0 && (match[j] == 0 || (match[j]== '*' && match[j] == 0 )))
 			// return (1);
 		if (str[i] == 0 && match[j] == 0)
@@ -92,44 +132,7 @@ int	star_match(char *match, char *str)
 			return (0);
 		if (str[i] == 0)
 			return (0);
-		if ( change == 0)
+		if (change == 0)
 			return (0);
 	}
-}
-
-
-
-char	**get_all_folders()
-{
-	DIR *directory;
-	struct dirent	*idk;
-	int i;
-	char	path[PATH_MAX];
-	char	*str;
-	char	**arr;
-
-	arr = NULL;
-	str = getcwd(path, PATH_MAX);
-	// printf("%s\n", str);
-		// exit(1); // errorahnle properly
-	idk = malloc(sizeof(struct dirent));
-	i = 0;
-	// printf("hehe\n");
-	directory = opendir(str);
-	// printf("hehe\n");
-	// printf("%s  ", idk->d_name);
-	idk = readdir(directory);
-	// printf("hehe\n");
-	while (idk)
-	{
-	// printf("hehe\n");
-		str = ft_strdup(idk->d_name);
-		// printf("%s\n", str);
-		ft_append_arr_str(&arr, str);
-		idk = readdir(directory);
-	}
-	ft_append_arr_str(&arr, NULL);
-	free(idk);
-	closedir(directory);
-	return (arr);
 }

@@ -25,7 +25,8 @@ LIBFT = libft/ft_calloc.c\
 		libft/ft_isalnum.c\
 		libft/ft_isalpha.c\
 		libft/ft_digit.c
-STAR = star/test.c
+STAR = star/test.c\
+	   star/pattern.c
 FILES = $(EXECFILES)
 OBJ = $(FILES:.c=.o)
 

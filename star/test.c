@@ -6,7 +6,7 @@
 /*   By: mchoma <mchoma@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:17:42 by mchoma            #+#    #+#             */
-/*   Updated: 2025/08/13 17:35:24 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/08/13 18:46:32 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@
 
 int	star_match(char *match, char *str);
 
+int	star_match(char *match, char *str);
+
 static DIR	*ft_opendir(char *path, DIR **directory)
 {
 	*directory = opendir(path);
 	return (*directory);
 }
 
+//need to remove . and .. files in current directory
 char	**expand_star_append(char *match, char ***arr)
 {
 	DIR				*directory;
@@ -52,7 +55,7 @@ char	**expand_star_append(char *match, char ***arr)
 	}
 	return (free(idk), closedir(directory), *arr);
 }
-/*
+
 int main(int argc, char **argv)
 {
 	char	**paths;
@@ -70,8 +73,8 @@ int main(int argc, char **argv)
 	free_arr((void ***) &paths);
 	return (0);
 }
-*/
 
+/*
 int	star_match(char *match, char *str)
 {
 	size_t	i;
@@ -87,43 +90,31 @@ int	star_match(char *match, char *str)
 	while(1)
 	{
 		change = 0;
-		// printf("%c char \n", str[i]);
 		if (match[j] == '*')
 		{
 			star = 1;
 			j ++;
 			change = 1;
 		}
-		// printf("%i star\n", star);
 		while (star == 0 && str[i] == match[j] && str[i] && match[j])
 		{
-			// printf("triggered star\n");
 			i ++;
 			j++;
 			change = 1;
 		}
 		tmp = 0;
-		while (star == 1 && str[i + tmp] == match[j + tmp] && str[i + tmp] && match[j + tmp] && !(match[0] == '*' && i == 0))
-		{
+		while (star == 1 && str[i + tmp] == match[j + tmp] && str[i + tmp]
+			&& match[j + tmp] && !(match[0] == '*' && i == 0))
 			tmp ++;
-			// printf("triggered tmp\n");
-		}
-		// printf("%lutmp\n", tmp);
-		// printf("%lu j + tmp\n", j + tmp);
-		// printf("%i match[j  + tmp]\n", match[j + tmp]);
 		if ((match[j + tmp] == '*' || match[j + tmp] == 0) && tmp != 0)
 		{
 			j = j + tmp;
 			i = i + tmp;
 			star = 0;
 			change = 1;
-			// printf("%c str\n", str[i]);
-			// printf("%c match\n", match[j]);
 		}
 		else if (star == 1)
 			(i ++, change = 1);
-		// if (str[i] == 0 && (match[j] == 0 || (match[j]== '*' && match[j] == 0 )))
-			// return (1);
 		if (str[i] == 0 && match[j] == 0)
 			return (1);
 		if (str[i] != 0 && match[j] == '*' && match[j+1] == 0)
@@ -135,4 +126,4 @@ int	star_match(char *match, char *str)
 		if (change == 0)
 			return (0);
 	}
-}
+}*/

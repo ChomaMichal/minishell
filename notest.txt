@@ -12,3 +12,14 @@
 			function (create... OR make...) example: char **create_split_cmds();
 		functions that return values that can't be freed (get...) example:
 			size_t len_till_splitter();
+
+3.	The WORD tokens shall have the word expansion rules applied to them immediately
+		before the associated command is executed, not at the time the command is parsed.
+
+4.	If the token is an operator, the token identifier for that operator shall result.
+	If the string consists solely of digits and the delimiter character is one of '<' or '>',
+		the token identifier IO_NUMBER shall be returned.
+	Otherwise, the token identifier TOKEN results.
+
+5.	TODO: return different numbers from failed deep functions, and handle them differently in
+		calling function.

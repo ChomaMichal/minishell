@@ -1,11 +1,45 @@
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
+
+# define SINGLE_QUOTE (1 << 0)
+# define DOUBLE_QUOTE (1 << 1)
+# define OR (1 << 2)
+# define PIPE (1 << 3)
+# define AND (1 << 4)
+# define OUTPUT_REDIR_APPEND (1 << 5)
+# define OUTPUT_REDIR (1 << 6)
+# define HERE_DOC (1 << 7)
+# define INPUT_REDIR (1 << 8)
+# define OPEN_PARENTHESIS (1 << 9)
+# define CLOSE_PARENTHESIS (1 << 10)
+
+# define BUILTIN (1 << 11)
+# define COMMAND (1 << 12)
+# define OPERATOR (1 << 13)
 
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <libft.h>
 # include <stdio.h>
 
+/* parse.c */
 t_btree	*create_cmds_tree(char *line);
+
+/* parse_utils.c */
+int		create_splitter_arr(char ***splitter_arr);
+void	free_split(char **arr);
+int		is_splitter(char *cur_char, char **splitter);
+size_t	command_len(char *cur_char, char **splitter);
+void	print_line_arr(char **line_arr);
+void	set_len_and_op(char *line_start, char **splitter,
+	size_t *cmd_len, int *op_index);
+
+/* tree.c */
+int		has_bigger_index(void *cur_item, void *inserted_item);
+void	print_node_info(void *node);
+t_bitem	*create_item(char *str, int index);
+void	free_item(t_bitem *item);
+t_btree	*create_cmds_tree_test(t_bitem *item[5]);
+void	free_btree_node(void *ptr);
 
 #endif

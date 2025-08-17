@@ -5,7 +5,7 @@ LIBS = -lreadline -lhistory
 HEADERS = minishell.h libft/libft.h
 LIBFT = libft/libft.a
 
-SRC = main.c parse.c
+SRC = main.c parse.c parse_utils.c tree.c
 
 DIR_OBJ = objects/
 

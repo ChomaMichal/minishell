@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 21:15:35 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/04/23 21:22:36 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/08/17 20:11:40 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-	del(lst->content);
+	del(lst->str);
 	free(lst);
 }

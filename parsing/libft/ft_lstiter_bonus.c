@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 15:07:32 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/08/17 20:11:09 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:55:48 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,15 @@ void	ft_lstiter(t_list *lst, void (*f)(void *))
 	while (lst)
 	{
 		f(lst->str);
+		lst = lst->next;
+	}
+}
+
+void	ft_lstnodeiter(t_list *lst, void(*f)(void *))
+{
+	while (lst)
+	{
+		f(lst);
 		lst = lst->next;
 	}
 }

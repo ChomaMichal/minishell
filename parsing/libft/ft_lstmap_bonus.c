@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 15:20:17 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/08/17 20:11:26 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/08/26 15:41:39 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list	*res;
 	t_list	*node;
-	t_list	*tmp;
+	char	*tmp;
 
 	res = NULL;
 	while (lst)

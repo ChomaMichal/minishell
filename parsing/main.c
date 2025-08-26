@@ -24,9 +24,11 @@ int	main(void)
 		if (!line)
 			break ;
 		if (line[0])
+		{
 			add_history(line);
-		rl_on_new_line();
-		cmds_tree = create_cmds_tree(line);
+			rl_on_new_line();
+			cmds_tree = create_cmds_tree(line);
+		}
 		// cmds_tree = create_cmds_tree_test(item);			// Custom tree function for testing
 		// btree_apply_prefix(cmds_tree, print_node_info);		// Print all nodes' info
 		// btree_apply_suffix(cmds_tree, free_btree_node);		// Free btree nodes

@@ -94,22 +94,22 @@ int	add_command(t_list **head, char *line_start, size_t len)
 		return (1);
 	sub_str = malloc(sizeof(char) * (len + 1));
 	if (!sub_str)
-		return (perror("malloc: add_substr"), 1);
+		return (perror("malloc: add_command"), 1);
 	ft_strlcpy(sub_str, line_start, len + 1);
 	node = ft_lstnew(sub_str);
 	if (!node)
-		return (free(sub_str), perror("malloc: add_substr"), 1);
+		return (free(sub_str), perror("malloc: add_command"), 1);
 	ft_lstadd_back(head, node);
 	return (0);
 }
 
-int	add_operator(t_list **head, char *line_start, char **splitter, int op_index)
+int	add_operator(t_list **head, char *line_start, char **operators, int op_index)
 {
 	char	*sub_str;
 	t_list	*node;
 	size_t	len;
 
-	len = ft_strlen(splitter[op_index]);
+	len = ft_strlen(operators[op_index]);
 	sub_str = malloc(sizeof(char) * (len + 1));
 	if (!sub_str)
 		return (perror("malloc: add_operator"), 1);
@@ -122,42 +122,91 @@ int	add_operator(t_list **head, char *line_start, char **splitter, int op_index)
 	return (0);
 }
 
-static t_list	*split_line_linked_list(char *line, char **splitter)
+size_t	len_to_delimiter(char *line, char **operators)
+{
+	size_t	len;
+	size_t	op;
+
+	len = 0;
+	while (line[len])
+	{
+		op = 0;
+		if (line[len] == "\"")
+		{
+			len++;
+			while (line[len] != "\"")
+				len++;
+		}
+		while (operators[op])
+		{
+			if (!ft_strncmp(&line[len], operators[op], ft_strlen(operators[op])))
+				return (len);
+			op++;
+		}
+		len++;
+	}
+	return (len);
+}
+
+int	ft_isblank(char c)
+{
+	return (c == ' ' || c == '	');
+}
+
+static t_list	*tokenize(char *line, char **operators)
 {
 	t_list	*head;
 	size_t	i;
-	size_t	substr_len;
+	size_t	word_len;
 	int		op_index;
 
 	i = 0;
 	head = NULL;
+	// printf("line is (%s)\n", line);
 	while (line[i])
 	{
-		substr_len = 0;
-		op_index = 0;
-		set_len_and_op(&line[i], splitter, &substr_len, &op_index);
-		if (substr_len)
-			if (add_command(&head, &line[i], substr_len))
-				return (NULL);
-		i += ((substr_len == 0) + substr_len - (op_index > -1));
+		// printf("address is: %p\n", line + i);
+		while (ft_isblank(line[i]))
+			i++;
+		op_index = is_operator(&line[i], operators);
 		if (op_index > -1)
-			if (add_operator(&head, &line[i], splitter, op_index))
+		{
+			if (add_operator(&head, &line[i], operators, op_index))
 				return (NULL);
-		if (op_index == -1)
-			i += 1;
+			i += ft_strlen(operators[op_index]);
+		}
 		else
-			i += ft_strlen(splitter[op_index]);
+		{
+			word_len = len_to_delimiter(&line[i], operators);
+			if (add_command(&head, &line[i], word_len))
+				return (perror("add_command failed"), NULL);
+			i += word_len;
+		}
+		// printf("i is %zu\n", i);
 	}
 	return (head);
 }
 
-void	print_strings(void *ptr)
+void	print_string(void *ptr)
 {
-	char *str;
+	char	*str;
 
 	str = (char *)ptr;
 	printf("%s\n", str);
 }
+
+// void	trim_spaces(void *ptr)
+// {
+// 	char	*str;
+// 	size_t	i;
+// 	size_t	len;
+
+// 	i = 0;
+// 	str = (char *)ptr;
+// 	len = ft_strlen(str);
+// 	while (ft_isspace(str[i]))
+// 		i++;
+// }
 
 void	free_str(void *ptr)
 {
@@ -168,18 +217,19 @@ t_btree	*create_cmds_tree(char *line)
 {
 	// t_btree	*cmds_tree;
 	t_list	*line_list;
-	char	**splitter;
+	char	**operators;
 
-	if (create_splitter_arr(&splitter))
-		return (perror("malloc: split_line"), NULL);
-	line_list = split_line_linked_list(line, splitter);
+	if (create_operators(&operators))
+		return (perror("create_operators failed"), NULL);
+	line_list = tokenize(line, operators);
 	if (!line_list)
-		return (free(splitter), perror("split_line"), NULL);
-	ft_lstiter(line_list, print_strings);
+		return (free(operators), perror("split_line failed"), NULL);
+	ft_lstiter(line_list, print_string);
+	// ft_lstnodeiter(line_list, trim_spaces);
 	// cmds_tree = create_tree(line_list);
 	// print_line_arr(line_list);
 	ft_lstclear(&line_list, free_str);
-	free_split(splitter);
+	free_split(operators);
 	return (NULL);
 	// return (cmds_tree);
 }

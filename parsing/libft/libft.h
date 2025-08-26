@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 21:54:09 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/08/17 16:32:04 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:56:35 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ void	*ft_check(void *ptr, int error_num);
 char	*get_next_line(int fd);
 int		ft_printf(const char *format, ...);
 
-t_list	*ft_lstnew_ft_malloc(void *content);
+t_list	*ft_lstnew_ft_malloc(char *str);
+void	ft_lstnodeiter(t_list *lst, void(*f)(void *));
 
 int		ft_atoi(const char *nptr);
 long	ft_atoi_but_better(const char *nptr);

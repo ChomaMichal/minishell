@@ -26,13 +26,12 @@
 t_btree	*create_cmds_tree(char *line);
 
 /* parse_utils.c */
-int		create_splitter_arr(char ***splitter_arr);
+int		create_operators(char ***operators);
 void	free_split(char **arr);
-int		is_splitter(char *cur_char, char **splitter);
-size_t	command_len(char *cur_char, char **splitter);
+int		is_operator(char *cur_char, char **operators);
 void	print_line_arr(char **line_arr);
-void	set_len_and_op(char *line_start, char **splitter,
-	size_t *cmd_len, int *op_index);
+void	set_len_and_op(char *line_start, char **operators,
+	size_t *substr_len, int *op_index);
 
 /* tree.c */
 int		has_bigger_index(void *cur_item, void *inserted_item);

@@ -131,18 +131,14 @@ size_t	len_to_delimiter(char *line, char **operators)
 	while (line[len])
 	{
 		op = 0;
-		if (line[len] == "\"")
-		{
-			len++;
-			while (line[len] != "\"")
-				len++;
-		}
 		while (operators[op])
 		{
 			if (!ft_strncmp(&line[len], operators[op], ft_strlen(operators[op])))
 				return (len);
 			op++;
 		}
+		if (line[len] == ' '|| line[len] == '	')
+			return (len);
 		len++;
 	}
 	return (len);
@@ -153,36 +149,77 @@ int	ft_isblank(char c)
 	return (c == ' ' || c == '	');
 }
 
+int	handle_quotes(t_list **head, char *line, char quote, size_t *i)
+{
+	size_t	j;
+
+	j = 0;
+	while (line[j + 1])
+	{
+		if (line[j + 1] == quote)
+			break ;
+		else if (line[j + 1] == 0)
+			return (perror("unclosed quote"), 1);
+		j++;
+	}
+	if (add_command(head, &line[1], j))
+		return (perror("add_command failed"), 1);
+	*i += (j + 2);
+	return (0);
+}
+
+int	handle_operator(t_list **head, char *line, char **operators, size_t *i)
+{
+	int	op_index;
+
+	// printf("reading (%s) from line\n", &line[*i]);
+	op_index = is_operator(&line[*i], operators);
+	// printf("adding operator (%d)\n", op_index);
+	if (op_index == -1)
+		return (0);
+	if (add_operator(head, &line[*i], operators, op_index))
+		return (perror("add_operator failed"), 1);
+	*i += ft_strlen(operators[op_index]);
+	return (0);
+}
+
+int	handle_command(t_list **head, char *line, char **operators, size_t *i)
+{
+	size_t	word_len;
+
+	if (line[*i] == '\'' || line[*i] == '\"')
+	{
+		if (handle_quotes(head, line, line[*i], i))
+			return (perror("handle_quotes failed"), 1);
+	}
+	else
+	{	
+		word_len = len_to_delimiter(&line[*i], operators);
+		if (add_command(head, &line[*i], word_len))
+			return (perror("add_command failed"), 1);
+		*i += word_len;
+	}
+	return (0);
+}
+
 static t_list	*tokenize(char *line, char **operators)
 {
 	t_list	*head;
 	size_t	i;
-	size_t	word_len;
-	int		op_index;
 
 	i = 0;
 	head = NULL;
-	// printf("line is (%s)\n", line);
 	while (line[i])
 	{
-		// printf("address is: %p\n", line + i);
+		// printf("at (%s)\n", &line[i]);
 		while (ft_isblank(line[i]))
 			i++;
-		op_index = is_operator(&line[i], operators);
-		if (op_index > -1)
-		{
-			if (add_operator(&head, &line[i], operators, op_index))
-				return (NULL);
-			i += ft_strlen(operators[op_index]);
-		}
-		else
-		{
-			word_len = len_to_delimiter(&line[i], operators);
-			if (add_command(&head, &line[i], word_len))
-				return (perror("add_command failed"), NULL);
-			i += word_len;
-		}
-		// printf("i is %zu\n", i);
+		if (handle_operator(&head, line, operators, &i))
+			return (NULL);
+		while (ft_isblank(line[i]))
+			i++;
+		if (handle_command(&head, line, operators, &i))
+			return (NULL);
 	}
 	return (head);
 }

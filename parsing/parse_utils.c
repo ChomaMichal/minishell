@@ -5,18 +5,16 @@ int	create_operators(char ***arr)
 	*arr = malloc(sizeof(char **) * 13);
 	if (!*arr)
 		return (1);
-	(*arr)[0] = ft_strdup("\'");
-	(*arr)[1] = ft_strdup("\"");
-	(*arr)[2] = ft_strdup("||");
-	(*arr)[3] = ft_strdup("|");
-	(*arr)[4] = ft_strdup("&&");
-	(*arr)[5] = ft_strdup(">>");
-	(*arr)[6] = ft_strdup(">");
-	(*arr)[7] = ft_strdup("<<");
-	(*arr)[8] = ft_strdup("<");
-	(*arr)[9] = ft_strdup("(");
-	(*arr)[10] = ft_strdup(")");
-	(*arr)[11] = NULL;
+	(*arr)[0] = ft_strdup("||");
+	(*arr)[1] = ft_strdup("|");
+	(*arr)[2] = ft_strdup("&&");
+	(*arr)[3] = ft_strdup(">>");
+	(*arr)[4] = ft_strdup(">");
+	(*arr)[5] = ft_strdup("<<");
+	(*arr)[6] = ft_strdup("<");
+	(*arr)[7] = ft_strdup("(");
+	(*arr)[8] = ft_strdup(")");
+	(*arr)[9] = NULL;
 	// (*splitter_arr)[11] = ft_strdup("{");
 	// (*splitter_arr)[12] = ft_strdup("}");
 	// (*splitter_arr)[13] = ft_strdup("$");

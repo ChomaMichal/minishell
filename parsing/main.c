@@ -10,14 +10,33 @@
     "ls -l"  "grep .c"
 */
 
+void	set_operators(char **operators)
+{
+	operators[0] = "||";
+	operators[1] = "|";
+	operators[2] = "&&";
+	operators[3] = ">>";
+	operators[4] = ">";
+	operators[5] = "<<";
+	operators[6] = "<";
+	operators[7] = "(";
+	operators[8] = ")";
+	operators[9] = NULL;
+	// (*splitter_arr)[11] = ft_strdup("{");
+	// (*splitter_arr)[12] = ft_strdup("}");
+	// (*splitter_arr)[13] = ft_strdup("$");
+}
+
 // Currently there's nothing in the tree's nodes to
 //	indicate what is operator and what is command.
 int	main(void)
 {
 	char	*line;
 	t_btree	*cmds_tree;
+	char	*operators[10];
 	// t_bitem	*item[5];
 
+	set_operators(operators);
 	while (1)
 	{
 		line = readline("josef-shell-$ ");
@@ -27,7 +46,7 @@ int	main(void)
 		{
 			add_history(line);
 			rl_on_new_line();
-			cmds_tree = create_cmds_tree(line);
+			cmds_tree = create_cmds_tree(line, operators);
 		}
 		// cmds_tree = create_cmds_tree_test(item);			// Custom tree function for testing
 		// btree_apply_prefix(cmds_tree, print_node_info);		// Print all nodes' info

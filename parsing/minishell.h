@@ -23,7 +23,7 @@
 # include <stdio.h>
 
 /* parse.c */
-t_btree	*create_cmds_tree(char *line);
+t_btree	*create_cmds_tree(char *line, char **operators);
 
 /* parse_utils.c */
 int		create_operators(char ***operators);

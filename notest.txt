@@ -21,5 +21,16 @@
 		the token identifier IO_NUMBER shall be returned.
 	Otherwise, the token identifier TOKEN results.
 
-5.	TODO: return different numbers from failed deep functions, and handle them differently in
-		calling function.
+5.	TODO:	-Return different numbers from failed deep functions, and handle them differently in
+				calling function.
+
+			-Add quoting information to the token, maybe as a struct? or in bits.
+
+			-Store the command token as fragments, example: echo 123"$HOME"'$HOME'
+				is stored as framgents {("123", LITERAL),
+										("$HOME", DOUBLE_QUOTE),
+										("$HOME", SINGLE_QUOTE)}
+				while echo "hello xD"
+				is stored as {("hello xD", LITERAL)} or DOUBLE_QUOTE idk
+
+			-Remove empty tokens.

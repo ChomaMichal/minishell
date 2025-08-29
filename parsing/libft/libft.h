@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 21:54:09 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/08/26 17:56:35 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/08/29 23:45:20 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,23 @@
 # include <stdint.h>
 # include <unistd.h>
 
+typedef struct	s_fragment
+{
+	char	*str;
+	int		type; // LITERAL or DOUBLE_QUOTED or SINGLE_QUOTED
+}	t_fragment;
+
+typedef struct	s_token
+{
+	char				*str;
+	int					options; // bits including info about WORD or OPERATOR
+	size_t				fragment_count;
+	t_fragment			*fragments;
+}	t_token;
+
 typedef struct s_list
 {
-	char			*str;
-	int				options;
+	t_token			*token;
 	struct s_list	*next;
 }	t_list;
 
@@ -64,7 +77,6 @@ void	*ft_check(void *ptr, int error_num);
 char	*get_next_line(int fd);
 int		ft_printf(const char *format, ...);
 
-t_list	*ft_lstnew_ft_malloc(char *str);
 void	ft_lstnodeiter(t_list *lst, void(*f)(void *));
 
 int		ft_atoi(const char *nptr);
@@ -85,7 +97,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-t_list	*ft_lstnew(char *str);
+t_list	*ft_lstnew(t_token *token);
 int		ft_lstsize(t_list *lst);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);

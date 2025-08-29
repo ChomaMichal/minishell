@@ -6,34 +6,20 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:50:59 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/08/17 16:21:47 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/08/29 21:21:50 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstnew(char *str)
+t_list	*ft_lstnew(t_token *token)
 {
 	t_list	*node;
 
 	node = malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
-	node->str = str;
-	node->options = 0;
-	node->next = NULL;
-	return (node);
-}
-
-t_list	*ft_lstnew_ft_malloc(char *str)
-{
-	t_list	*node;
-
-	node = ft_malloc(sizeof(t_list), 0);
-	if (!node)
-		return (NULL);
-	node->str = str;
-	node->options = 0;
+	node->token = token;
 	node->next = NULL;
 	return (node);
 }

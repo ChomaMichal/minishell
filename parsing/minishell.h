@@ -1,21 +1,26 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define SINGLE_QUOTE (1 << 0)
-# define DOUBLE_QUOTE (1 << 1)
-# define OR (1 << 2)
-# define PIPE (1 << 3)
-# define AND (1 << 4)
-# define OUTPUT_REDIR_APPEND (1 << 5)
-# define OUTPUT_REDIR (1 << 6)
-# define HERE_DOC (1 << 7)
-# define INPUT_REDIR (1 << 8)
-# define OPEN_PARENTHESIS (1 << 9)
-# define CLOSE_PARENTHESIS (1 << 10)
+# define OR (1 << 0)
+# define PIPE (1 << 1)
+# define AND (1 << 2)
+# define OUTPUT_REDIR_APPEND (1 << 3)
+# define OUTPUT_REDIR (1 << 4)
+# define HERE_DOC (1 << 5)
+# define INPUT_REDIR (1 << 6)
+# define OPEN_PARENTHESIS (1 << 7)
+# define CLOSE_PARENTHESIS (1 << 8)
+# define SINGLE_QUOTE (1 << 9)
+# define DOUBLE_QUOTE (1 << 10)
 
-# define BUILTIN (1 << 11)
-# define COMMAND (1 << 12)
-# define OPERATOR (1 << 13)
+# define WORD (1 << 11)
+# define OPERATOR (1 << 12)
+# define BUILTIN (1 << 13)
+
+# define EMPTY 0
+# define SINGLE 1
+# define DOUBLE 2
+# define UNQUOTED 3
 
 # include <readline/readline.h>
 # include <readline/history.h>

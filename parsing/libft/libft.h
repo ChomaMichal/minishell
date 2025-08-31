@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 21:54:09 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/08/29 23:45:20 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/08/31 05:57:44 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 
 typedef struct	s_fragment
 {
-	char	*str;
+	size_t	start;
+	size_t	end;
 	int		type; // LITERAL or DOUBLE_QUOTED or SINGLE_QUOTED
 }	t_fragment;
 

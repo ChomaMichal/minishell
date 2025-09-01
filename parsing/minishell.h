@@ -26,6 +26,7 @@
 # include <readline/history.h>
 # include <libft.h>
 # include <stdio.h>
+# include <signal.h>
 
 /* parse.c */
 t_btree	*create_cmds_tree(char *line, char **operators);
@@ -37,6 +38,22 @@ int		is_operator(char *cur_char, char **operators);
 void	print_line_arr(char **line_arr);
 void	set_len_and_op(char *line_start, char **operators,
 	size_t *substr_len, int *op_index);
+
+/* tokenize.c */
+t_list	*tokenize(char *line, char **operators);
+
+/* tokenize_utils.c */
+void	skip_blank(char *line, size_t *i);
+size_t	len_to_delimiter(char *line, char **operators);
+size_t	len_to_unquoted_delimiter(char *line, char **operators);
+size_t	len_to_quote_or_delimiter(char *line, char **operators);
+
+/* fragment.c */
+
+int		fragment_double_quote(char *line, t_token *token, size_t *i);
+int		fragment_single_quote(char *line, t_token *token, size_t *i);
+int		fragment_unquoted(char *line, t_token *token, size_t *i, char **operators);
+int		handle_fragments(char *line, char **operators, t_token *token, size_t *i);
 
 /* tree.c */
 int		has_bigger_index(void *cur_item, void *inserted_item);

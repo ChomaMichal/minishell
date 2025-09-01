@@ -5,7 +5,7 @@
 
 ######################################################################
 == NOTES:
-1.	File structure: bonus is just additional sources.
+#1.	File structure: bonus is just additional sources.
 
 2.	Naming functions:
 		functions that return allocated spaces that should be freed in the calling
@@ -23,14 +23,4 @@
 
 5.	TODO:	-Return different numbers from failed deep functions, and handle them differently in
 				calling function.
-
-			-Add quoting information to the token, maybe as a struct? or in bits.
-
-			-Store the command token as fragments, example: echo 123"$HOME"'$HOME'
-				is stored as framgents {("123", LITERAL),
-										("$HOME", DOUBLE_QUOTE),
-										("$HOME", SINGLE_QUOTE)}
-				while echo "hello xD"
-				is stored as {("hello xD", LITERAL)} or DOUBLE_QUOTE idk
-
-			-Remove empty tokens.
+			

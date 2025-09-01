@@ -27,8 +27,6 @@ void	set_operators(char **operators)
 	// (*splitter_arr)[13] = ft_strdup("$");
 }
 
-// Currently there's nothing in the tree's nodes to
-//	indicate what is operator and what is command.
 int	main(void)
 {
 	char	*line;
@@ -47,6 +45,7 @@ int	main(void)
 			add_history(line);
 			rl_on_new_line();
 			cmds_tree = create_cmds_tree(line, operators);
+			// execute(cmds_tree, env);
 		}
 		// cmds_tree = create_cmds_tree_test(item);			// Custom tree function for testing
 		// btree_apply_prefix(cmds_tree, print_node_info);		// Print all nodes' info

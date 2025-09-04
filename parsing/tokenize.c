@@ -25,6 +25,16 @@ t_token	*create_token(void)
 	return (token);
 }
 
+void	set_operator_options(int *options, int op)
+{
+	*options |= (1 << op);
+	*options |= OPERATOR;
+	if (op == 3 || op == 4 || op == 5 || op == 6)
+		*options |= REDIR_OP;
+	else if (7 == op || op == 8)
+		*options |= PARENTHESIS;
+}
+
 int	handle_operator(t_list **head, char *line, char **operators, size_t *i)
 {
 	t_token	*token;
@@ -37,8 +47,7 @@ int	handle_operator(t_list **head, char *line, char **operators, size_t *i)
 	token = create_token();
 	if (!token)
 		return (perror("malloc: create_token"), 1);
-	token->options |= (1 << op_index);
-	token->options |= OPERATOR;
+	set_operator_options(&token->options, op_index);
 	if (add_token(head, token))
 		return (free(token), perror("malloc: add_token"), 1);
 	*i += ft_strlen(operators[op_index]);
@@ -74,6 +83,12 @@ int	handle_word(t_list **head, char *line, char **operators, size_t *i)
 	return (0);
 }
 
+static void	free_token(void *ptr)
+{
+	free(((t_token *)ptr)->fragments);
+	free(ptr);
+}
+
 // TODO: change the variable line's name depending on how you use it, from the start or from the middle of the line
 t_list	*tokenize(char *line, char **operators)
 {
@@ -85,9 +100,11 @@ t_list	*tokenize(char *line, char **operators)
 	while (line[i])
 	{
 		if (handle_operator(&head, line, operators, &i))
-			return (perror("handle_operator failed"), NULL);
+			return (ft_lstclear(&head, free_token),
+			perror("handle_operator failed"), NULL);
 		if (handle_word(&head, line, operators, &i))
-			return (perror("handle_word failed"), NULL);
+			return (ft_lstclear(&head, free_token),
+			perror("handle_word failed"), NULL);
 	}
 	return (head);
 }

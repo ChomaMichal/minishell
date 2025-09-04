@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 21:54:09 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/09/01 01:05:22 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/09/04 16:25:52 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	*ft_check_add(void *ptr, int ptrs_list, int error_num);
 void	*ft_check(void *ptr, int error_num);
 
 char	*get_next_line(int fd);
-int		ft_printf(const char *format, ...);
+int		ft_printf(int fd, const char *format, ...);
 
 void	ft_lstnodeiter(t_list *lst, void(*f)(void *));
 

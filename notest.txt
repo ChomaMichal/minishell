@@ -23,4 +23,18 @@
 
 5.	TODO:	-Return different numbers from failed deep functions, and handle them differently in
 				calling function.
-			
+
+6.	If any part of word is quoted, the delimiter shall be formed by performing quote removal on word,
+		and the here-document lines shall not be expanded. Otherwise, the delimiter shall be the word itself.
+	If no part of word is quoted, all lines of the here-document shall be expanded for parameter expansion,
+		command substitution, and arithmetic expansion. In this case, the <backslash> in the input behaves as
+		the <backslash> inside double-quotes (see Double-Quotes). However, the double-quote character ( ' )' shall not
+		be treated specially within a here-document, except when the double-quote appears within "$()", "``", or "${}".
+
+7.	Tilde expansions, parameter expansions, command substitutions, arithmetic expansions, and quote removals that occur
+		within a single word expand to a single field. It is only field splitting or pathname expansion that can create
+		multiple fields from a single word. The single exception to this rule is the expansion of the special parameter
+		'@' within double-quotes, as described in Special Parameters.
+
+8.	The return status (see Exit Status) of a simple command is its exit status as provided by the POSIX 1003.1 waitpid
+		function, or 128+n if the command was terminated by signal n.

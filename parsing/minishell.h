@@ -10,8 +10,9 @@
 # define INPUT_REDIR (1 << 6)
 # define OPEN_PARENTHESIS (1 << 7)
 # define CLOSE_PARENTHESIS (1 << 8)
-# define SINGLE_QUOTE (1 << 9)
-# define DOUBLE_QUOTE (1 << 10)
+
+# define REDIR_OP (1 << 9)
+# define PARENTHESIS (1 << 10)
 
 # define WORD (1 << 11)
 # define OPERATOR (1 << 12)

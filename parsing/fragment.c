@@ -7,7 +7,7 @@ int	fragment_double_quote(char *line, t_token *token, size_t *i)
 
 	match = ft_strchr(&line[*i + 1], '\"');
 	if (!match)
-		return (perror("unclosed double quote"), 1);
+		return (ft_printf(2, "minishell: unclosed quote `\"'\n"), 1); // LEAKS WHEN THIS CHECKS !!!!
 	if (match == &line[*i + 1])
 	{
 		*i += 2;
@@ -30,7 +30,7 @@ int	fragment_single_quote(char *line, t_token *token, size_t *i)
 
 	match = ft_strchr(&line[*i + 1], '\'');
 	if (!match)
-		return (perror("unclosed single quote"), 1);
+		return (ft_printf(2, "minishell: unclosed quote `\''\n"), 1);
 	if (match == &line[*i + 1])
 	{
 		*i += 2;

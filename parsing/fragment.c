@@ -79,10 +79,8 @@ int	handle_fragments(char *line, char **operators, t_token *token, size_t *i)
 				return (1);
 		}
 		else if (line[*i])
-		{
 			if (fragment_unquoted(line, token, i, operators))
 				return (1);
-		}
 	}
 	return (0);
 }

@@ -80,54 +80,72 @@ int	btoindex(int options)
 	return (i);
 }
 
-int	validate_parentheses(t_list *tokens) // THIS DOESN'T WORK, NEED TO MAKE A STACK AND POP WHEN 2 PARENS MATCH
+// NEEDS TESTING
+int	validate_parentheses(t_list *tokens)
 {
 	t_list	*cur;
+	t_list	*prev;
 	long	count;
 
 	count = 0;
 	cur = tokens;
+	prev = NULL;
 	while (cur)
 	{
 		if (cur->token->options & OPEN_PARENTHESIS)
+		{
+			if (prev && ((prev->token->options & CLOSE_PARENTHESIS)
+				|| prev->token->options & REDIR_OP))
+					return (ft_printf(2, "minishell: syntax error near unexpected token `('\n"), 1);
 			count++;
+		}
 		else if (cur->token->options & CLOSE_PARENTHESIS)
+		{
+			if (prev && (prev->token->options & OPEN_PARENTHESIS))
+				return (ft_printf(2, "minishell: syntax error near unexpected token `('\n", 1));
+			if (cur->next && (cur->next->token->options & WORD))
+				return (ft_printf(2, "minishell: syntax error near unexpected token `%s'\n", cur->next->token->str), 1);
 			count--;
+		}
+		if (count < 0)
+			return (ft_printf(2, "minishell: syntax error near unexpected token `)'\n"), 1);
+		prev = cur;
 		cur = cur->next;
 	}
-	if (count)
-		ft_printf(2, "minishell: syntax error: unmatched parentheses\n");
+	if (count || count < 0)
+		ft_printf(2, "minishell: syntax error: unclosed parenthesis\n");
 	return (count);
 }
 
 int	validate_tokens(t_list *tokens, char **operators)
 {
-	t_list	*cur;
-	t_list	*prev;
-	int		options;
+	// t_list	*cur;
+	// t_list	*prev;
+	// int		options;
 
-	cur = tokens;
-	options = cur->token->options;
-	if ((options & OR) || (options & AND) || (options & PIPE))
-	{
-		ft_printf(2,"minishell: syntax error near unexpected token `%s'\n",
-			operators[btoindex(options)]);
-		return (1);
-	}
-	if ((options & REDIR_OP) && cur->next == NULL)
-	{
-		ft_printf(2,
-			"minishell: syntax error near unexpected token `newline'\n");
-		return (1);
-	}
 	if (validate_parentheses(tokens))
 		return (1);
-	// prev = cur;
-	// cur = cur->next;
+	(void)operators;
+	// cur = tokens;
+	// prev = NULL;
+	// options = cur->token->options;
+	// if ((options & OR) || (options & AND) || (options & PIPE))
+	// {
+	// 	ft_printf(2, "minishell: syntax error near unexpected token `%s'\n",
+	// 		operators[btoindex(options)]);
+	// 	return (1);
+	// }
 	// while (cur)
 	// {
-		
+	// 	if ((options))
 	// }
+	// if ((options & REDIR_OP) && cur->next == NULL)
+	// {
+	// 	ft_printf(2,
+	// 		"minishell: syntax error near unexpected token `newline'\n");
+	// 	return (1);
+	// }
+	return (0);
 }
 
 int	parse(t_list *tokens, char *line, char **operators)
@@ -145,11 +163,13 @@ int	parse(t_list *tokens, char *line, char **operators)
 			
 	// 	cur = cur->next;
 	// }
+	return (0);
 }
 
 void	free_token(void *ptr)
 {
 	free(((t_token *)ptr)->fragments);
+	free(((t_token *)ptr)->str);
 	free(ptr);
 }
 

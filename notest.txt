@@ -1,6 +1,6 @@
 == IN PROGRESS:
 1.	Binary Tree
-2.	
+2.	Parsing
 
 
 ######################################################################
@@ -38,3 +38,6 @@
 
 8.	The return status (see Exit Status) of a simple command is its exit status as provided by the POSIX 1003.1 waitpid
 		function, or 128+n if the command was terminated by signal n.
+
+#9.	Check the output error message of this bash input: (echo hello) hehe"hoho"'haha'
+		Can we match the same output with the full token string?

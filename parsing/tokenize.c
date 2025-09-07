@@ -74,6 +74,7 @@ int	handle_word(t_list **head, char *line, char **operators, size_t *i)
 	token->fragments = malloc(sizeof(t_fragment) * ((word_len / 2) + 1));
 	if (!token->fragments)
 		return (free(token), perror("malloc: handle_word"), 1);
+	token->str = ft_substr(&line[*i], 0, word_len);
 	if (handle_fragments(line, operators, token, i))
 		return (free(token->fragments), free(token), 1);
 	if (add_token(head, token))

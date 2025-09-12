@@ -71,7 +71,7 @@ int	handle_word(t_list **head, char *line, char **operators, size_t *i)
 	word_len = len_to_unquoted_delimiter(&line[*i], operators);
 	if (word_len == 0)
 		return (free(token), 0);
-	token->fragments = malloc(sizeof(t_fragment) * ((word_len / 2) + 1));
+	token->fragments = malloc(sizeof(t_fragment) * ((word_len / 2) + 1)); // RECHECK, CHANGE TO MORE CONSISTENT?
 	if (!token->fragments)
 		return (free(token), perror("malloc: handle_word"), 1);
 	token->str = ft_substr(&line[*i], 0, word_len);
@@ -80,7 +80,6 @@ int	handle_word(t_list **head, char *line, char **operators, size_t *i)
 	if (add_token(head, token))
 		return (free(token->fragments), free(token),
 		perror("malloc: handle_word"), 1);
-	// *i += word_len;
 	return (0);
 }
 

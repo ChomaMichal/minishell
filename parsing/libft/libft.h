@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 21:54:09 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/09/04 16:25:52 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/09/09 18:03:41 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ typedef struct	s_btree
 	struct s_btree	*right;
 	t_bitem			*item;
 }	t_btree;
+
+typedef	struct	s_print_d
+{
+	char	**operators;
+	t_token	*token;
+	char	*line;
+}	t_print_d;
 
 /* btree */
 t_btree	*btree_create_node(t_bitem *item);
@@ -95,7 +102,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
-void	ft_lstiter(t_list *lst, void (*f)(void *, char *), char *line);
+void	ft_lstiter(t_list *lst, void (*f)(t_print_d *), t_print_d *data);
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list	*ft_lstnew(t_token *token);

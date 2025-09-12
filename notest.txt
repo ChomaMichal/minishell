@@ -2,6 +2,9 @@
 1.	Binary Tree
 2.	Parsing
 
+	========== IMPORTANT ===========
+!!!! Fix leaks when unclosed quotes !!!!!
+	========== IMPORTANT ===========
 
 ######################################################################
 == NOTES:
@@ -41,3 +44,20 @@
 
 #9.	Check the output error message of this bash input: (echo hello) hehe"hoho"'haha'
 		Can we match the same output with the full token string?
+
+10.	Are you handling empty strings correctly? Example: echo "" || cat ''
+
+11.	Token validations should not be separate. Validate all types of tokens in one iteration, so that the first error
+		token we meet is returned. Ask Michal and others if it's no big difference.
+
+12.	Don't forget 0>output, 1023>output, 1024<input, 2147483648<input...
+
+13.	Should we put a hard limit to how many nested or not nested (), how many || and/or | we can have in input?
+
+14. Should I always store the str of the token? or maybe only when I need it for validate_close_parent(), when
+		I need to print it?
+
+15.	Check created files when you input these:
+		echo hello 10000>output1 | echo str2 20000>output2 && echo str3 30000>output3
+		echo hello 10000>output1 | echo str2 20>output2 && echo str3 30000>output3
+		echo hello 20>output1 | echo str2 20000>output2 && echo str3 30000>output3

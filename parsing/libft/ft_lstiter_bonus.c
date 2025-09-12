@@ -6,17 +6,18 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 15:07:32 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/09/01 00:43:02 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/09/09 19:20:04 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstiter(t_list *lst, void (*f)(void *, char *), char *line)
+void	ft_lstiter(t_list *lst, void (*f)(t_print_d *), t_print_d *data)
 {
 	while (lst)
 	{
-		f(lst->token, line);
+		data->token = lst->token;
+		f(data);
 		lst = lst->next;
 	}
 }

@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+// TOKEN OPTIONS
 # define OR (1 << 0)
 # define PIPE (1 << 1)
 # define AND (1 << 2)
@@ -18,7 +19,7 @@
 # define OPERATOR (1 << 12)
 # define BUILTIN (1 << 13)
 
-# define EMPTY 0
+// FRAGMENT TYPES
 # define SINGLE 1
 # define DOUBLE 2
 # define UNQUOTED 3
@@ -29,9 +30,16 @@
 # include <stdio.h>
 # include <signal.h>
 
+/* TEMP print.c */
+void	print_tokens(t_print_d *data);
+
 /* parse.c */
 t_btree	*create_cmds_tree(char *line, char **operators);
+int		btoindex(int options);
 
+/* validate_tokens.c */
+int		validate_tokens(t_list *tokens, char **operators);
+	
 /* parse_utils.c */
 int		create_operators(char ***operators);
 void	free_split(char **arr);
@@ -50,7 +58,6 @@ size_t	len_to_unquoted_delimiter(char *line, char **operators);
 size_t	len_to_quote_or_delimiter(char *line, char **operators);
 
 /* fragment.c */
-
 int		fragment_double_quote(char *line, t_token *token, size_t *i);
 int		fragment_single_quote(char *line, t_token *token, size_t *i);
 int		fragment_unquoted(char *line, t_token *token, size_t *i, char **operators);

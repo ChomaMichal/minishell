@@ -38,12 +38,3 @@ void	set_len_and_op(char *line_start, char **operators,
 	}
 	*substr_len = len;
 }
-
-void	print_line_arr(char **line_arr)
-{
-	size_t	i;
-
-	i = 0;
-	while (line_arr[i])
-		printf("\"%s\"\n", line_arr[i++]);
-}

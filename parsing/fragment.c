@@ -3,7 +3,6 @@
 int	fragment_double_quote(char *line, t_token *token, size_t *i)
 {
 	char	*match;
-	size_t	len;
 
 	match = ft_strchr(&line[*i + 1], '\"');
 	if (!match)
@@ -13,7 +12,6 @@ int	fragment_double_quote(char *line, t_token *token, size_t *i)
 		*i += 2;
 		return (0);
 	}
-	len = match - &line[*i];
 	token->fragments[token->fragment_count].start = *i + 1;
 	token->fragments[token->fragment_count].end = *i + 1 + (match - &line[*i] - 2);
 	token->fragments[token->fragment_count].type = DOUBLE;

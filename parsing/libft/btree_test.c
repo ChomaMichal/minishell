@@ -39,23 +39,23 @@ void	free_item(t_bitem *item)
 	free(item);
 }
 
-void	print_node_info(void *node)
-{
-	t_btree	*left;
-	t_btree	*right;
-	t_btree	*node_data;
-	t_bitem	*item;
+// void	print_node_info(void *node)
+// {
+// 	t_btree	*left;
+// 	t_btree	*right;
+// 	t_btree	*node_data;
+// 	t_bitem	*item;
 
-	node_data = (t_btree *)node;
-	left = node_data->left;
-	right = node_data->right;
-	item = node_data->item;
-	printf("node (%d)(%s) children are\n", item->index, item->str);
-	if (left)
-		printf("\tlefft:(%d)(%s)\n", left->item->index, left->item->str);
-	if (right)
-		printf("\tright:(%d)(%s)\n", right->item->index, right->item->str);
-}
+// 	node_data = (t_btree *)node;
+// 	left = node_data->left;
+// 	right = node_data->right;
+// 	item = node_data->item;
+// 	printf("node (%d)(%s) children are\n", item->index, item->str);
+// 	if (left)
+// 		printf("\tlefft:(%d)(%s)\n", left->item->index, left->item->str);
+// 	if (right)
+// 		printf("\tright:(%d)(%s)\n", right->item->index, right->item->str);
+// }
 
 // void	delete_bnode(t_btree *node)
 // {

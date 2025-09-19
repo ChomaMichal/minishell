@@ -5,6 +5,8 @@ void	free_split(char **arr)
 	size_t	i;
 
 	i = 0;
+	if (!arr)
+		return ;
 	while (arr[i])
 		free(arr[i++]);
 	free(arr);

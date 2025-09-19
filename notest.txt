@@ -52,7 +52,8 @@
 
 12.	Don't forget 0>output, 1023>output, 1024<input, 2147483648<input...
 
-13.	Should we put a hard limit to how many nested or not nested (), how many || and/or | we can have in input?
+13.	Should we put a hard limit to how many nested or not nested (), how many || and/or | we can have in input? to avoid
+		edge case trouble.
 
 14. Should I always store the str of the token? or maybe only when I need it for validate_close_parent(), when
 		I need to print it?

@@ -32,9 +32,10 @@
 
 /* TEMP print.c */
 void	print_tokens(t_print_d *data);
+void	print_btree_pyramid(const t_btree *node);
 
 /* parse.c */
-t_btree	*create_cmds_tree(char *line, char **operators);
+t_btree	*create_exec_tree(char *line, char **operators);
 int		btoindex(int options);
 
 /* validate_tokens.c */
@@ -63,12 +64,7 @@ int		fragment_single_quote(char *line, t_token *token, size_t *i);
 int		fragment_unquoted(char *line, t_token *token, size_t *i, char **operators);
 int		handle_fragments(char *line, char **operators, t_token *token, size_t *i);
 
-/* tree.c */
-int		has_bigger_index(void *cur_item, void *inserted_item);
-void	print_node_info(void *node);
-t_bitem	*create_item(char *str, int index);
-void	free_item(t_bitem *item);
-t_btree	*create_cmds_tree_test(t_bitem *item[5]);
-void	free_btree_node(void *ptr);
+/* execution_tree.c */
+t_btree	*create_tree(t_list *tokens);
 
 #endif

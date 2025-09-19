@@ -11,58 +11,93 @@ int	has_bigger_index(void *cur_item, void *inserted_item)
 		return (-1);
 }
 
+void	print_command(t_btree *node)
+{
+	size_t	i;
+
+	i = 0;
+	printf("node (");
+	while (node->cmd_argv[i])
+	{
+		printf("%s-", node->cmd_argv[i]);
+		i++;
+	}
+	printf(")\n");
+}
+
+void	print_node(t_btree *node)
+{
+	if (node->type == BNODE_COMMAND)
+		print_command(node);
+	else if (node->type == BNODE_AND)
+		printf("node (&&)\n");
+	else if (node->type == BNODE_OR)
+		printf("node (||)\n");
+	else if (node->type == BNODE_PIPE)
+		printf("node (|)\n");
+	else if (node->type == BNODE_SUBSHELL)
+		printf("node (())\n");
+
+}
+
 void	print_node_info(void *node)
 {
 	t_btree	*left;
 	t_btree	*right;
 	t_btree	*node_data;
-	t_bitem	*item;
+	char	*str;
 
 	node_data = (t_btree *)node;
 	left = node_data->left;
 	right = node_data->right;
-	item = node_data->item;
-	printf("node (%d)(%s) children are\n", item->index, item->str);
+	print_node(node_data);
 	if (left)
-		printf("\tlefft:(%d)(%s)\n", left->item->index, left->item->str);
+	{
+		printf("left: ");
+		print_node(left);
+	}
 	if (right)
-		printf("\tright:(%d)(%s)\n", right->item->index, right->item->str);
+	{
+		printf("right: ");
+		print_node(right);
+	}
+	printf("\n\n");
 }
 
-t_bitem	*create_item(char *str, int index)
-{
-	t_bitem	*item;
+// t_bitem	*create_item(char *str, int index)
+// {
+// 	t_bitem	*item;
 
-	item = malloc(sizeof(t_bitem));
-	if (!item)
-		return (NULL);
-	item->str = ft_strdup(str);
-	if (!item->str)
-		return (free(item), NULL);
-	item->index = index;
-	return (item);
-}
+// 	item = malloc(sizeof(t_bitem));
+// 	if (!item)
+// 		return (NULL);
+// 	item->str = ft_strdup(str);
+// 	if (!item->str)
+// 		return (free(item), NULL);
+// 	item->index = index;
+// 	return (item);
+// }
 
-void	free_item(t_bitem *item)
-{
-	free(item->str);
-	free(item);
-}
+// void	free_item(t_bitem *item)
+// {
+// 	free(item->str);
+// 	free(item);
+// }
 
-t_btree	*create_cmds_tree_test(t_bitem *item[5])
-{
-	t_btree *cmds_tree;
+// t_btree	*create_cmds_tree_test(t_bitem *item[5])
+// {
+// 	t_btree *cmds_tree;
 
-	cmds_tree = NULL;
-	item[0] = create_item("|", 3);			// Function btree_insert_data compares the indices of items
-	item[1] = create_item("&&", 2);			// 	and puts lower index to left, and equal or higher
-	item[2] = create_item("ls -l", 1);		//	to right. hence similar indices 2 and 3.
-	item[3] = create_item("grep .c", 2);
-	item[4] = create_item("wc -l", 3);
-	for (int i = 0; i < 5; i++)
-		btree_insert_data(&cmds_tree, item[i], has_bigger_index);
-	return (cmds_tree);
-}
+// 	cmds_tree = NULL;
+// 	item[0] = create_item("|", 3);			// Function btree_insert_data compares the indices of items
+// 	item[1] = create_item("&&", 2);			// 	and puts lower index to left, and equal or higher
+// 	item[2] = create_item("ls -l", 1);		//	to right. hence similar indices 2 and 3.
+// 	item[3] = create_item("grep .c", 2);
+// 	item[4] = create_item("wc -l", 3);
+// 	for (int i = 0; i < 5; i++)
+// 		btree_insert_data(&cmds_tree, item[i], has_bigger_index);
+// 	return (cmds_tree);
+// }
 
 void	free_btree_node(void *ptr)
 {

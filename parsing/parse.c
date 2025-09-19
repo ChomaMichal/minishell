@@ -15,6 +15,12 @@
 // 	// printf("sig recieved\n");
 // }
 
+// What if we have 2 bits of 2, and we want to check the 1 bit that is to the left?
+// we read the one to the right first, which is an incorrect result.
+// when calling it for token types, this function only works up to bit 8 (CLOSE_PAREN). Bigger is undefined.
+//		||
+//		||
+//		\/
 int	btoindex(int options)
 {
 	int	i;
@@ -25,22 +31,26 @@ int	btoindex(int options)
 	return (i);
 }
 
-int	parse(t_list *tokens, char *line, char **operators)
+int	parse_tokens(t_list *tokens, char *line, char **operators)
 {
-	if (validate_tokens(tokens, operators))
-		return (1);
 	return (0);
 }
 
-void	free_token(void *ptr)
+void	delete_token(void *ptr)
 {
 	free(((t_token *)ptr)->fragments);
 	free(((t_token *)ptr)->str);
 	free(ptr);
 }
-t_btree	*create_cmds_tree(char *line, char **operators)
+
+void	free_tokens(t_list *tokens)
 {
-	// t_btree	*cmds_tree;
+	ft_lstclear(&tokens, delete_token);
+}
+
+t_btree	*create_exec_tree(char *line, char **operators)
+{
+	t_btree		*cmds_tree;
 	t_list		*tokens;
 	t_print_d	data;
 
@@ -48,12 +58,14 @@ t_btree	*create_cmds_tree(char *line, char **operators)
 	data.operators = operators;
 	tokens = tokenize(line, operators);
 	if (!tokens)
-		return (/* perror("minishell: tokenize() failed"),  */NULL);
-	if (parse(tokens, line, operators))
-		return (/* perror("minishell: parse() failed"),  */ft_lstclear(&tokens, free_token), NULL);
-	ft_lstiter(tokens, print_tokens, &data); // REMEMBER, THIS FREES THE FRAGMENTS. COMMENT IT IF YOU NEED THEM
-	// cmds_tree = create_tree(tokens);
-	ft_lstclear(&tokens, free_token);
-	return (NULL);
+		return (ft_printf(2, "minishell: tokenize() failed\n"), NULL);
+	if (validate_tokens(tokens, operators))
+		return (ft_printf(2, "minishell: validate_tokens() failed\n"), free_tokens(tokens), NULL);
+	if (parse_tokens(tokens, line, operators))
+		return (ft_printf(2, "minishell: parse() failed\n"), free_tokens(tokens), NULL);
+	// ft_lstiter(tokens, print_tokens, &data);
+	cmds_tree = create_tree(tokens);
+	free_tokens(tokens);
+	return (cmds_tree);
 	// return (cmds_tree);
 }

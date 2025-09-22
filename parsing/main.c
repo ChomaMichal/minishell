@@ -44,7 +44,7 @@ int	main(void)
 			{
 				print_btree_pyramid(cmds_tree);
 				btree_apply_suffix(cmds_tree, delete_bnode);
-				// execute(cmds_tree, env);
+			// 	// execute(cmds_tree, env);
 			}
 		}
 		free(line);

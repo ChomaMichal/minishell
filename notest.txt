@@ -62,3 +62,10 @@
 		echo hello 10000>output1 | echo str2 20000>output2 && echo str3 30000>output3
 		echo hello 10000>output1 | echo str2 20>output2 && echo str3 30000>output3
 		echo hello 20>output1 | echo str2 20000>output2 && echo str3 30000>output3
+
+16.	Maybe make a function that does ft_strjoin() behaviour, but it works with t_fragments (star and end indices of substr)
+
+17.	When expanding "$23hello", should we expand consider "23hello" as the environment variable name? or should we
+		consider it an error, since we can't have environment variable names that start with digits? or should we
+		handle positional paremeters expansions ("$[number]")? NO :D
+	We have to make our "export" give error on names that start with digits.

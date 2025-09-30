@@ -6,19 +6,21 @@ int	fragment_double_quote(char *line, t_token *token, size_t *i)
 
 	match = ft_strchr(&line[*i + 1], '\"');
 	if (!match)
-		return (ft_printf(2, "minishell: unclosed quote `\"'\n"), 1); // LEAKS WHEN THIS CHECKS !!!!
+		return (ft_printf(2, "minishell: unclosed quote `\"'\n"), 1);
 	if (match == &line[*i + 1])
 	{
+		token->fragments[token->fragment_count].type = EMPTY;
+		token->fragment_count += 1;
 		*i += 2;
 		return (0);
 	}
 	token->fragments[token->fragment_count].start = *i + 1;
 	token->fragments[token->fragment_count].end = *i + 1 + (match - &line[*i] - 2);
+	token->fragments[token->fragment_count].starts_with_space = 0;
+	token->fragments[token->fragment_count].ends_with_space = 0;
 	token->fragments[token->fragment_count].type = DOUBLE;
 	token->fragment_count += 1;
-	// printf("start:(%zu) ==== end:(%zu)\n", *i + 1, *i + 1 + (match - &line[*i] - 2));
 	*i += 1 + (match - &line[*i]);
-	// printf("D -> incremented i to be at %c\n", line[*i]);
 	return (0);
 }
 
@@ -31,16 +33,18 @@ int	fragment_single_quote(char *line, t_token *token, size_t *i)
 		return (ft_printf(2, "minishell: unclosed quote `\''\n"), 1);
 	if (match == &line[*i + 1])
 	{
+		token->fragments[token->fragment_count].type = EMPTY;
+		token->fragment_count += 1;
 		*i += 2;
 		return (0);
 	}
 	token->fragments[token->fragment_count].start = *i + 1;
 	token->fragments[token->fragment_count].end = *i + 1 + (match - &line[*i] - 2);
+	token->fragments[token->fragment_count].starts_with_space = 0;
+	token->fragments[token->fragment_count].ends_with_space = 0;
 	token->fragments[token->fragment_count].type = SINGLE;
 	token->fragment_count += 1;
-	// printf("start:(%zu) ==== end:(%zu)\n", *i + 1, *i + 1 + (match - &line[*i] - 2));
 	*i += 1 + (match - &line[*i]);
-	// printf("S -> incremented i to be at %c\n", line[*i]);
 	return (0);
 }
 
@@ -52,6 +56,8 @@ int	fragment_unquoted(char *line, t_token *token, size_t *i, char **operators)
 	// printf("unquoted len is %zu\n", unquoted_len);
 	token->fragments[token->fragment_count].start = *i;
 	token->fragments[token->fragment_count].end = *i + unquoted_len - 1;
+	token->fragments[token->fragment_count].starts_with_space = 0;
+	token->fragments[token->fragment_count].ends_with_space = 0;
 	token->fragments[token->fragment_count].type = UNQUOTED;
 	token->fragment_count += 1;
 	*i += unquoted_len;
@@ -61,9 +67,9 @@ int	fragment_unquoted(char *line, t_token *token, size_t *i, char **operators)
 
 int	handle_fragments(char *line, char **operators, t_token *token, size_t *i)
 {
-	size_t	token_len;
+	size_t	word_len;
 
-	token_len = len_to_unquoted_delimiter(&line[*i], operators);
+	word_len = len_to_unquoted_delimiter(&line[*i], operators);
 	while(line[*i] && len_to_unquoted_delimiter(&line[*i], operators) > 0)
 	{
 		if (line[*i] == '\"')

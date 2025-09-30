@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 21:54:09 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/09/19 04:05:35 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/09/27 01:29:49 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ typedef struct	s_fragment
 	size_t	start;
 	size_t	end;
 	int		type;
+	int		starts_with_space;
+	int		ends_with_space;
 }	t_fragment;
 
 typedef struct	s_token
@@ -120,7 +122,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 int		ft_putstr_fd(char *s, int fd);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char const *s, char *delimiter);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));

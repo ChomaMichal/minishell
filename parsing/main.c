@@ -35,6 +35,7 @@ int	main(void)
 		line = readline("josef-shell-$ ");
 		if (!line)
 			break ;
+		// printf("line is:%x<<<\n", *line);
 		if (line[0])
 		{
 			add_history(line);

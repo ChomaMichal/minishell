@@ -53,18 +53,24 @@ void	print_tokens(t_print_d *data)
 		printf("token (%d) type: (WORD)\n", token_count++);
 		if (token->fragment_count == 0)
 			printf("[%s] EMPTY WORD\n", token->str);
-		while (i < token->fragment_count)
-		{
-			fragment = (token->fragments)[i];
-			len = fragment.end - fragment.start + 1;
-			write(1, "[", 1);
-			write(1, &line[fragment.start], len);
-			write(1, "]", 1);
-			if (len)
-				print_fragment_type(&fragment);
-			write(1, "\n", 1);
-			i++;
-		}
+        printf("[%s]", token->str);
+		// while (i < token->fragment_count)
+		// {
+        //     if (token->fragments[i].type == EMPTY)
+        //     {
+        //         i++;
+        //         continue ;
+        //     }
+		// 	fragment = (token->fragments)[i];
+		// 	len = fragment.end - fragment.start + 1;
+		// 	write(1, "[", 1);
+		// 	write(1, &line[fragment.start], len);
+		// 	write(1, "]", 1);
+		// 	if (len)
+		// 		print_fragment_type(&fragment);
+		// 	write(1, "\n", 1);
+		// 	i++;
+		// }
 	}
 	else if (token->options & OPERATOR)
 	{
@@ -91,7 +97,12 @@ void print_cmd(const t_btree *node)
     if (node->type == BNODE_COMMAND && node->cmd_argv)
     {
         for (int i = 0; node->cmd_argv[i]; i++)
-            printf("%s ", node->cmd_argv[i]);
+        {
+            if (node->cmd_argv[i][0])
+                printf("%s ", node->cmd_argv[i]);
+            else
+                printf("(empty string) ");
+        }
     }
     else
     {
@@ -108,8 +119,16 @@ char *get_label(const t_btree *node)
         buf[0] = '\0';
         for (int i = 0; node->cmd_argv[i]; i++)
         {
-            strcat(buf, node->cmd_argv[i]);
-            strcat(buf, " ");
+            if (node->cmd_argv[i][0] == 0)
+            {
+                strcat(buf, "(empty string)");
+                strcat(buf, " ");
+            }
+            else
+            {
+                strcat(buf, node->cmd_argv[i]);
+                strcat(buf, " ");
+            }
         }
         return buf;
     }

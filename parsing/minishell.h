@@ -18,11 +18,14 @@
 # define WORD (1 << 11)
 # define OPERATOR (1 << 12)
 # define BUILTIN (1 << 13)
+# define EMPTY_WORD (1 << 14)
+# define EXPANDED_WORD (1 << 15)
 
 // FRAGMENT TYPES
 # define SINGLE 1
 # define DOUBLE 2
 # define UNQUOTED 3
+# define EMPTY 4
 
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -50,6 +53,8 @@ void	set_len_and_op(char *line_start, char **operators,
 	size_t *substr_len, int *op_index);
 
 /* tokenize.c */
+int		add_token(t_list **head, t_token *token);
+t_token	*create_token(void);
 t_list	*tokenize(char *line, char **operators);
 
 /* tokenize_utils.c */

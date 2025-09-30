@@ -6,7 +6,7 @@ int	add_token(t_list **head, t_token *token)
 
 	node = ft_lstnew(token);
 	if (!node)
-		return (free(token), perror("malloc: add_operator_token"), 1);
+		return (perror("malloc: add_operator_token"), 1);
 	ft_lstadd_back(head, node);
 	return (0);
 }
@@ -71,7 +71,7 @@ int	handle_word(t_list **head, char *line, char **operators, size_t *i)
 	word_len = len_to_unquoted_delimiter(&line[*i], operators);
 	if (word_len == 0)
 		return (free(token), 0);
-	token->fragments = malloc(sizeof(t_fragment) * ((word_len / 2) + 1)); // RECHECK, CHANGE TO MORE CONSISTENT?
+	token->fragments = malloc(sizeof(t_fragment) * ((word_len / 2) + 1)); // CHANGE TO MORE EFFICIENT & CONSISTENT.
 	if (!token->fragments)
 		return (free(token), perror("malloc: handle_word"), 1);
 	token->str = ft_substr(&line[*i], 0, word_len);
@@ -90,7 +90,6 @@ static void	free_token(void *ptr)
 	free(ptr);
 }
 
-// TODO: change the variable line's name depending on how you use it, from the start or from the middle of the line
 t_list	*tokenize(char *line, char **operators)
 {
 	t_list		*head;

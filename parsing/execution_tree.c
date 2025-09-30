@@ -44,12 +44,17 @@ int	store_words(t_list **tokens, char **cmd_argv)
 	word_count = 0;
 	while (cur && cur->token->options & WORD)
 	{
+		if (cur->token->options & EMPTY_WORD)
+		{
+			cur = cur->next;
+			consume_token(tokens);
+			continue ;
+		}
 		word = ft_strdup(cur->token->str);
 		if (!word)
 		{
 			cmd_argv[word_count] = NULL;
-			free_split(cmd_argv);
-			return (1);
+			return (free_split(cmd_argv), 1);
 		}
 		cmd_argv[word_count++] = word;
 		cur = cur->next;

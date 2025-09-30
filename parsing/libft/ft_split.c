@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 20:53:07 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/07/08 20:36:34 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/09/27 01:29:41 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static void	clear_arr(char **arr, size_t size)
 	free(arr);
 }
 
-static size_t	len_till_delimiter(char const *s, char c)
+static size_t	len_till_delimiter(char const *s, char *delimiter)
 {
 	size_t	i;
 
 	i = 0;
-	while (*s && *s != c)
+	while (*s && !ft_strchr(delimiter, *s))
 	{
 		s++;
 		i++;
@@ -35,7 +35,8 @@ static size_t	len_till_delimiter(char const *s, char c)
 	return (i);
 }
 
-static int	one_more_string(char ***res, size_t arr_size, char const *s, char c)
+static int	one_more_string(char ***res, size_t arr_size,
+	char const *s, char *delimiter)
 {
 	char	**tmp_arr;
 	char	*sub_string;
@@ -52,7 +53,7 @@ static int	one_more_string(char ***res, size_t arr_size, char const *s, char c)
 	*res = tmp_arr;
 	if (*s == 0)
 		return (1);
-	sub_size = len_till_delimiter(s, c);
+	sub_size = len_till_delimiter(s, delimiter);
 	sub_string = malloc((sub_size + 1) * sizeof(char));
 	if (!sub_string)
 		return (clear_arr(*res, i), 0);
@@ -61,7 +62,7 @@ static int	one_more_string(char ***res, size_t arr_size, char const *s, char c)
 	return (1);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char *delimiter)
 {
 	char	**res;
 	size_t	arr_size;
@@ -70,18 +71,18 @@ char	**ft_split(char const *s, char c)
 	res = NULL;
 	while (*s)
 	{
-		if (*s != c)
+		if (!ft_strchr(delimiter, *s))
 		{
-			if (!one_more_string(&res, arr_size, s, c))
+			if (!one_more_string(&res, arr_size, s, delimiter))
 				return (NULL);
-			while (*s && *s != c)
+			while (*s && !ft_strchr(delimiter, *s))
 				s++;
 			arr_size++;
 		}
-		while (*s && *s == c)
+		while (*s && ft_strchr(delimiter, *s))
 			s++;
 	}
-	if (!one_more_string(&res, arr_size, s, c))
+	if (!one_more_string(&res, arr_size, s, delimiter))
 		return (NULL);
 	res[arr_size] = NULL;
 	return (res);

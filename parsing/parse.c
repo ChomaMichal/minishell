@@ -85,6 +85,7 @@ int	append_substr(t_list *target_node, char *str, int free_second_str)
 {
 	char	*tmp;
 
+	// printf("(%p)<<\n", str);
 	tmp = ft_strjoin(target_node->token->str, str);
 	free(target_node->token->str);
 	if (free_second_str)
@@ -204,31 +205,39 @@ int	create_field_split_tokens(t_list **head, char **split_arr)
 // 	new_token
 // }
 
+
 int	insert_field_split_tokens(t_list **field_split_head, t_list *token_node, t_list **target_node, size_t fragment_i)
 {
-	t_list	*tmp;
+	t_list	*next;
+	t_list	*last_field;
+	t_token	*new_token;
 
 	// NEXT CHECK MEANS THE EXPANDED STRING RESULTED IN ONLY SPACES (I ONLY ENTER THIS FUNCTION IF THE EXPANSION HAS SPACES),
 	// IN THIS CASE WE NEED TO HANDLE IT AS A SPLITTER OF THE WORD.
 	if (!*field_split_head)
 		return (0);
-	tmp = (token_node)->next;
-	if (!(token_node)->token->fragments[fragment_i].starts_with_space
-	|| fragment_i == 0)
+	next = (*target_node)->next;
+	if (token_node->token->fragments[fragment_i].ends_with_space
+		&& fragment_i + 1 < token_node->token->fragment_count
+		&& (*field_split_head)->token->str[0])
 	{
-		(token_node)->next = (*field_split_head)->next;
-		if (append_substr(*target_node, (*field_split_head)->token->str, 1))
+		new_token = create_token();
+		if (!new_token)
 			return (1);
-		(free((*field_split_head)->token), free(*field_split_head));
-		*field_split_head = (token_node)->next;
+		new_token->fragment_count = 1;
+		new_token->fragments = NULL;
+		new_token->options |= WORD;
+		new_token->options |= EXPANDED_WORD;
+		new_token->str = ft_strdup("");
+		if (!new_token->str)
+			return (free(new_token), 1);
+		if (add_token(field_split_head, new_token))
+			return (free(new_token->str), free(new_token), 1);
 	}
-	else if ((token_node)->token->fragments[fragment_i].starts_with_space)
-	{
-		(token_node)->next = *field_split_head;
-	}
-	*target_node = ft_lstlast(*field_split_head);
-	// printf("target_node now is (%s)\n", ((*target_node)->token->str));
-	ft_lstlast(*field_split_head)->next = tmp;
+	last_field = ft_lstlast(*field_split_head);
+	(*target_node)->next = *field_split_head;
+	last_field->next = next;
+	*target_node = last_field;
 	return (0);
 }
 
@@ -238,23 +247,36 @@ int	field_split(char *expanded, t_list *token_node, t_list **target_node, size_t
 	char	**split_arr;
 
 	head = NULL;
+	// CAREFULL, THIS FT_SPLIT RETURNS 0 STRINGS IN THE ARRAY IF WE PASS A STRING OF ONLY DELIMITERS TO IT.
+	// I EXPECTED IT TO RETURN 1 EMPTY STRING, THAT'S WHY I HAVE TO HANDLE IT SEPARATELY NEXT.
 	split_arr = ft_split(expanded, " 	");
 	if (!split_arr)
 		return (1);
-	// printf("doing field split on (%s):\n", expanded);
-	// for (int i = 0; split_arr[i]; i++)
-	// 	printf("		%i:(%s)\n",i , split_arr[i]);
-	if (create_field_split_tokens(&head, split_arr))
-		return (del_tokens(head), free_split(split_arr), 1);
+	if (!(fragment_i > 0 && fragment_i + 1 < token_node->token->fragment_count))
+		return (free_split(split_arr), 0);
+	if (!*split_arr)
+	{
+		free(split_arr);
+		split_arr = malloc(sizeof(char *) * 2);
+		split_arr[0] = ft_strdup("");
+		if (!split_arr[0])
+			return (free(split_arr), 1);
+		split_arr[1] = NULL;
+	}
+	printf(">>%s<<\n", split_arr[0]);
+	if (!(token_node)->token->fragments[fragment_i].starts_with_space
+	|| fragment_i == 0)
+	{
+		append_substr(*target_node, split_arr[0], 0);
+		if (create_field_split_tokens(&head, split_arr + 1))
+			return (del_tokens(head), free_split(split_arr), 1);
+	}
+	else
+		if (create_field_split_tokens(&head, split_arr))
+			return (del_tokens(head), free_split(split_arr), 1);
 	free_split(split_arr);
 	if (insert_field_split_tokens(&head, token_node, target_node, fragment_i))
 		return (del_tokens(head), 1);
-	printf("nodes are now:");
-	for (t_list *cur = token_node; cur; cur = cur->next)
-	{
-		printf("(%s)->", cur->token->str);
-	}
-	printf("\n");
 	return (0);
 }
 
@@ -353,6 +375,7 @@ int	expand(t_list *head, char *line)
 	node = head;
 	while (node)
 	{
+		// printf("(%s)\n", node->token->str);
 		if (node->token->options & WORD
 			&& !(node->token->options & EXPANDED_WORD))
 			{

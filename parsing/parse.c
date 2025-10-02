@@ -241,7 +241,7 @@ int	insert_field_split_tokens(t_list **field_split_head, t_list *token_node, t_l
 	return (0);
 }
 
-int	field_split(char *expanded, t_list *token_node, t_list **target_node, size_t fragment_i)
+int	field_split(char *fragment_str, char *expanded, t_list *token_node, t_list **target_node, size_t fragment_i)
 {
 	t_list	*head;
 	char	**split_arr;
@@ -252,20 +252,33 @@ int	field_split(char *expanded, t_list *token_node, t_list **target_node, size_t
 	split_arr = ft_split(expanded, " 	");
 	if (!split_arr)
 		return (1);
-	if (!(fragment_i > 0 && fragment_i + 1 < token_node->token->fragment_count))
-		return (free_split(split_arr), 0);
+	// WHEN 
+	// if (!*split_arr && !(fragment_i > 0 && fragment_i + 1 < token_node->token->fragment_count))
+	// 	return (free_split(split_arr), 0);
 	if (!*split_arr)
 	{
 		free(split_arr);
 		split_arr = malloc(sizeof(char *) * 2);
 		split_arr[0] = ft_strdup("");
 		if (!split_arr[0])
-			return (free(split_arr), 1);
+			return (free_split(split_arr), 1);
 		split_arr[1] = NULL;
 	}
-	printf(">>%s<<\n", split_arr[0]);
+	else if (split_arr[0] && !split_arr[1] && token_node->token->fragments[fragment_i].ends_with_space && fragment_i + 1 < token_node->token->fragment_count)
+	{
+		char	**tmp = malloc(sizeof(char *) * 3);
+		if (!tmp)
+			return (free(split_arr), 1);
+		tmp[0] = split_arr[0];
+		tmp[1] = ft_strdup("");
+		if (!tmp[1])
+			return (free_split(split_arr), 1);
+		tmp[2] = NULL;
+		free(split_arr);
+		split_arr = tmp;
+	}
 	if (!(token_node)->token->fragments[fragment_i].starts_with_space
-	|| fragment_i == 0)
+		|| fragment_i == 0)
 	{
 		append_substr(*target_node, split_arr[0], 0);
 		if (create_field_split_tokens(&head, split_arr + 1))
@@ -299,7 +312,7 @@ int	expand_unquoted_fragment(char *fragment_str, t_list *token_node, t_list **ta
 		!= NULL);
 	token->fragments[i].ends_with_space = (*expanded
 		&& ft_strchr(" 	", expanded[ft_strlen(expanded) - 1]));
-	if (field_split(expanded, token_node, target_node, i))
+	if (field_split(fragment_str, expanded, token_node, target_node, i))
 		return (free(expanded), 1);
 	return (free(expanded), 0);
 }
@@ -399,7 +412,7 @@ t_btree	*create_exec_tree(char *line, char **operators)
 	if (!head)
 		return (ft_printf(2, "minishell: tokenize() returned NULL\n"), NULL);
 	if (validate_tokens(head, operators))
-		return (ft_printf(2, "minishell: validate_tokens() failed\n"), del_tokens(head), NULL);
+		return (/* ft_printf(2, "minishell: validate_tokens() failed\n"),  */del_tokens(head), NULL);
 	if (expand(head, line))
 		return (ft_printf(2, "minishell: parse() failed\n"), del_tokens(head), NULL);
 	ft_lstiter(head, print_tokens, &data);

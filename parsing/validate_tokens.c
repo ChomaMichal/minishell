@@ -36,6 +36,8 @@ int	validate_and_or(t_list *cur, char **operators)
 
 int	validate_redir(t_list *cur, char **operators)
 {
+	if (!cur->next)
+		return (ft_printf(2, "minishell: syntax error near unexpected token `newline'\n"), 1);
 	if (!(cur->next->token->options & WORD))
 	{
 		ft_printf(2, "minishell: syntax error near unexpected token `%s'\n",

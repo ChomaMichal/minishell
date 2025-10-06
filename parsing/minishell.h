@@ -90,6 +90,9 @@ typedef struct s_data
 	char	**env;
 	int		rt;
 	t_ids	*pids;
+	int		infile;
+	int		outfile;
+	int		close;
 }	t_data;
 
 

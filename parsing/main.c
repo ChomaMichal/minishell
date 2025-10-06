@@ -23,19 +23,28 @@ void	delete_bnode(void *ptr)
 	free(node);
 }
 
-int	main(void)
+void	print_env(void)
+{
+	size_t	i;
+
+	i = 0;
+	while (__environ[i++])
+		printf("%s\n", __environ[i - 1]);
+}
+
+int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_btree	*cmds_tree;
 	char	*operators[10];
 
+	// print_env();
 	set_operators(operators);
 	while (1)
 	{
 		line = readline("josef-shell-$ ");
 		if (!line)
 			break ;
-		// printf("line is:%x<<<\n", *line);
 		if (line[0])
 		{
 			add_history(line);
@@ -44,8 +53,8 @@ int	main(void)
 			if (cmds_tree)
 			{
 				print_btree_pyramid(cmds_tree);
+				// execute(cmds_tree, 0);
 				btree_apply_suffix(cmds_tree, delete_bnode);
-			// 	// execute(cmds_tree, env);
 			}
 		}
 		free(line);

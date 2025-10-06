@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   pattern.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <mchoma@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 18:23:54 by mchoma            #+#    #+#             */
-/*   Updated: 2025/08/13 18:47:11 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/03 19:32:05 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stddef.h>
+
 #include <stdio.h>
 
 void	star_forward(size_t *i, size_t *j, char *match, char *str)

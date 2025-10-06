@@ -32,10 +32,16 @@
 # include <libft.h>
 # include <stdio.h>
 # include <signal.h>
+# include <sys/wait.h>
+# include <errno.h>
+# include <fcntl.h>
 
 /* TEMP print.c */
 void	print_tokens(t_print_d *data);
 void	print_btree_pyramid(const t_btree *node);
+
+/* execute.c */
+int		execute(t_btree *tree, t_bnode_type parent_type);
 
 /* parse.c */
 t_btree	*create_exec_tree(char *line, char **operators);

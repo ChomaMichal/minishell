@@ -5,7 +5,7 @@ LIBS = -lreadline -lhistory
 HEADERS = minishell.h libft/libft.h
 LIBFT = libft/libft.a
 
-SRC = main.c parse.c validate_tokens.c print.c parse_utils.c tokenize.c tokenize_utils.c fragment.c execution_tree.c
+SRC = main.c parse.c validate_tokens.c print.c parse_utils.c tokenize.c tokenize_utils.c fragment.c execution_tree.c execute.c
 
 DIR_OBJ = objects/
 
@@ -29,6 +29,9 @@ $(LIBFT):
 
 test: all
 	valgrind --leak-check=full --suppressions=readline.supp ./minishell
+
+ctest: all
+	./minishell
 
 clean:
 	rm -rf $(DIR_OBJ)

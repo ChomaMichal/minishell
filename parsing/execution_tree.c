@@ -74,7 +74,8 @@ char	**create_cmd_argv(t_list **tokens)
 	cur = *tokens;
 	while (cur && cur->token->options & WORD)
 	{
-		word_count++;
+		if (!(cur->token->options & EMPTY_WORD))
+			word_count++;
 		cur = cur->next;
 	}
 	cmd_argv = malloc(sizeof(char *) * (word_count + 1));

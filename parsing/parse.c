@@ -415,7 +415,7 @@ t_btree	*create_exec_tree(char *line, char **operators)
 		return (/* ft_printf(2, "minishell: validate_tokens() failed\n"),  */del_tokens(head), NULL);
 	if (expand(head, line))
 		return (ft_printf(2, "minishell: parse() failed\n"), del_tokens(head), NULL);
-	ft_lstiter(head, print_tokens, &data);
+	// ft_lstiter(head, print_tokens, &data);
 	exec_tree = create_tree(head);
 	del_tokens(head);
 	return (exec_tree);

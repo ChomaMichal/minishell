@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   entry.c                                            :+:      :+:    :+:   */
+/*   ft_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/06 16:15:32 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/06 19:03:33 by mchoma           ###   ########.fr       */
+/*   Created: 2025/10/06 19:02:13 by mchoma            #+#    #+#             */
+/*   Updated: 2025/10/06 19:02:25 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../parsing/libft/libft.h"
 #include "executor.h"
 
-void	execute(t_btree *tree, t_data *data)
+void	ft_command(t_btree *tree, t_data *data)
 {
-	if (tree->type == BNODE_SUBSHELL)
-		ft_subshell(tree, data);
-	else if (tree->type == BNODE_AND)
-		ft_and(tree, data);
-	else if (tree->type == BNODE_OR)
-		ft_or(tree, data);
-	else if (tree->type == BNODE_COMMAND)
-		ft_command(tree, data);
-	else if (tree->type == BNODE_PIPE)
-		ft_pipe(tree, data);
+	char	*path;
+	int		pid;
+
+	path = get_path(data->env, tree->cmd_argv[0]); 
+	if (path == NULL)
+	{
+		data->rt = 1;
+		free_split(tree->cmd_argv);
+		free(tree);
+		return ;
+	}
+	pid = fork();
+	if (pid == 0)
+		ft_execve(tree, data, path);
+	if (add_last_id(data->pids, pid))
+		data->rt = 1;
+	free(path);
+	free_split(tree->cmd_argv);
+	free(tree);
 }

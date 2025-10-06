@@ -10,6 +10,6 @@ typedef struct s_data
 {
 	char	**env;
 	int		rt;
-} t_data;
+}	t_data;
 
 #endif

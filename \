@@ -27,7 +27,6 @@
 # define UNQUOTED 3
 # define EMPTY 4
 
-# include "../ids/idlist.h"
 # include "libft/libft.h"
 # include <libft.h>
 # include <stdio.h>
@@ -80,7 +79,12 @@ int		handle_fragments(char *line, char **operators, t_token *token, size_t *i);
 /* execution_tree.c */
 t_btree	*create_tree(t_list *tokens);
 
-
+//this contains ids of the child processes that are currently running
+typedef struct s_ids
+{
+	struct s_ids	*next;
+	int				pid;
+} t_ids;
 
 
 
@@ -89,8 +93,8 @@ typedef struct s_data
 {
 	char	**env;
 	int		rt;
-	t_ids	*pids;
-}	t_data;
+	t_ids	*list
+} t_data;
 
 
 #endif

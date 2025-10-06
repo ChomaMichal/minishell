@@ -190,8 +190,8 @@ int	create_field_split_tokens(t_list **head, char **split_arr)
 			return (free(new_token->str), free(new_token), 1);
 		arr_counter++;
 	}
-	if (arr_counter >= 2)
-		(*head)->token->options |= 
+	// if (arr_counter >= 2)
+	// 	(*head)->token->options |= 
 	return (0);
 }
 
@@ -397,9 +397,9 @@ int	expand(t_list *head, char *line)
 				if (expand_word(line, node))
 					return (ft_printf(2, "malloc failed in expand_token() token: (%s)\n", node->token->str), 1);
 			}
-		if (node->token->options & WORD)
-			if (expand_stars(node))
-				return (ft_printf(2, "expand_stars() failed\n"), 1);
+		// if (node->token->options & WORD)
+		// 	if (expand_stars(node))
+		// 		return (ft_printf(2, "expand_stars() failed\n"), 1);
 		node = node->next;
 	}
 	return (0);
@@ -407,7 +407,7 @@ int	expand(t_list *head, char *line)
 
 int	redirect(t_list	*head)
 {
-	
+	return (0);
 }
 
 t_btree	*create_exec_tree(char *line, char **operators)

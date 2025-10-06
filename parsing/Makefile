@@ -1,9 +1,9 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Ilibft -g
+CFLAGS = -g
 LIBS = -lreadline -lhistory
-HEADERS = minishell.h libft/libft.h
-LIBFT = libft/libft.a
+HEADERS = minishell.h ../libft/libft.h
+LIBFT = ../libft/libft.a
 
 SRC = main.c parse.c validate_tokens.c print.c parse_utils.c tokenize.c tokenize_utils.c fragment.c execution_tree.c execute.c
 
@@ -24,7 +24,7 @@ $(DIR_OBJ):
 
 ############### LIBFT ###############
 $(LIBFT):
-	make -C libft
+	make -C ../libft
 ############### LIBFT ###############
 
 test: all
@@ -35,11 +35,11 @@ ctest: all
 
 clean:
 	rm -rf $(DIR_OBJ)
-	make clean -C libft
+	make clean -C ../libft
 
 fclean:
 	rm -rf $(DIR_OBJ) $(NAME)
-	make fclean -C libft
+	make fclean -C ../libft
 
 re: fclean all
 

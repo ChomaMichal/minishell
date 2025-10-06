@@ -1,5 +1,5 @@
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef PARSE_H
+# define PARSE_H
 
 // TOKEN OPTIONS
 # define OR (1 << 0)
@@ -27,8 +27,8 @@
 # define UNQUOTED 3
 # define EMPTY 4
 
-# include "libft/libft.h"
-# include <libft.h>
+// # include "libft/libft.h"
+# include "../libft/libft.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -36,6 +36,47 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <fcntl.h>
+
+typedef struct	s_fragment
+{
+	size_t	start;
+	size_t	end;
+	int		type;
+	int		starts_with_space;
+	int		ends_with_space;
+}	t_fragment;
+
+typedef struct	s_token
+{
+	char				*str;
+	int					options;
+	size_t				fragment_count;
+	t_fragment			*fragments;
+}	t_token;
+
+typedef	struct	s_print_d
+{
+	char	**operators;
+	t_token	*token;
+	char	*line;
+}	t_print_d;
+
+typedef enum	e_bnode_type
+{
+	BNODE_COMMAND,
+	BNODE_PIPE,
+	BNODE_AND,
+	BNODE_OR,
+	BNODE_SUBSHELL
+}	t_bnode_type;
+
+typedef struct	s_btree
+{
+	struct s_btree	*left;
+	struct s_btree	*right;
+	char			**cmd_argv;
+	t_bnode_type	type;
+}	t_btree;
 
 /* TEMP print.c */
 void	print_tokens(t_print_d *data);

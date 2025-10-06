@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_multiple_delimiters.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 20:53:07 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/10/01 20:21:09 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/06 19:40:21 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	one_more_string(char ***res, size_t arr_size,
 	return (1);
 }
 
-char	**ft_split(char const *s, char *delimiter)
+char	**ft_split_del(char const *s, char *delimiter)
 {
 	char	**res;
 	size_t	arr_size;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <mchoma@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:26:29 by mchoma            #+#    #+#             */
-/*   Updated: 2025/08/06 16:36:53 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/06 21:06:34 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,28 @@
 #include <stdio.h>
 #include <signal.h>
 #include <string.h>
+
+/* FROM JOSEF'S LIBFT */
+void	btree_apply_prefix(t_btree *root, void (*applyf)(void *));
+void	btree_apply_infix(t_btree *root, void (*applyf)(void *));
+void	btree_apply_suffix(t_btree *root, void (*applyf)(void *));
+
+int		ft_atoi(const char *nptr);
+long	ft_atoi_but_better(const char *nptr);
+
+
+int		ft_printf(int fd, const char *format, ...);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstclear(t_list **lst, void (*del)(void *));
+void	ft_lstdelone(t_list *lst, void (*del)(void *));
+void	ft_lstiter(t_list *lst, void (*f)(t_print_d *), t_print_d *data);
+t_list	*ft_lstlast(t_list *lst);
+
+char	**ft_split_dels(char const *s, char *delimiter);
+
+char	*ft_strsjoin(char const *s1, char const *s2, char const *s3);
+
+/* END "FROM" */
 
 void	ft_putstrerr(char *str);
 void	set_rt(int *rt, int num);

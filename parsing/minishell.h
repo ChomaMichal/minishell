@@ -27,10 +27,11 @@
 # define UNQUOTED 3
 # define EMPTY 4
 
-# include <readline/readline.h>
-# include <readline/history.h>
+# include "libft/libft.h"
 # include <libft.h>
 # include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <signal.h>
 # include <sys/wait.h>
 # include <errno.h>
@@ -77,5 +78,13 @@ int		handle_fragments(char *line, char **operators, t_token *token, size_t *i);
 
 /* execution_tree.c */
 t_btree	*create_tree(t_list *tokens);
+
+//this will contain envp
+typedef struct s_data
+{
+	char	**env;
+	int		rt;
+} t_data;
+
 
 #endif

@@ -1,0 +1,15 @@
+{ pkgs ? import <nixpkgs> {} }:
+
+pkgs.mkShell {
+  buildInputs = [
+    pkgs.gcc     # or clang, etc.
+    pkgs.readline
+    pkgs.ncurses  # often needed by readline
+    pkgs.pkg-config  # helps detect libraries
+  ];
+
+  # If some tooling inside the shell needs to *find* the readline .so or .so paths at runtime, you can also set:
+  shellHook = ''
+	export LD_LIBRARY_PATH=${pkgs.readline}/lib:${pkgs.ncurses}/lib
+  '';
+}

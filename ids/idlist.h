@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   entry.c                                            :+:      :+:    :+:   */
+/*   idlist.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/06 16:15:32 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/06 19:03:33 by mchoma           ###   ########.fr       */
+/*   Created: 2025/10/06 18:30:29 by mchoma            #+#    #+#             */
+/*   Updated: 2025/10/06 18:58:25 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#ifndef IDLIST_H
+# define IDLIST_H
+# include <stdlib.h>
 
-#include "../parsing/libft/libft.h"
-#include "executor.h"
-
-void	execute(t_btree *tree, t_data *data)
+//this contains ids of the child processes that are currently running
+typedef struct s_ids
 {
-	if (tree->type == BNODE_SUBSHELL)
-		ft_subshell(tree, data);
-	else if (tree->type == BNODE_AND)
-		ft_and(tree, data);
-	else if (tree->type == BNODE_OR)
-		ft_or(tree, data);
-	else if (tree->type == BNODE_COMMAND)
-		ft_command(tree, data);
-	else if (tree->type == BNODE_PIPE)
-		ft_pipe(tree, data);
-}
+	struct s_ids	*next;
+	int				pid;
+}	t_ids;
+//returns -1 on failiure and 0 on succsess doesn't free the list 
+int	add_last_id(t_ids *list, int id);
+//needs testing
+void	free_pids(t_ids **list);
+#endif

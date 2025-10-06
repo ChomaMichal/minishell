@@ -23,13 +23,13 @@ void	delete_bnode(void *ptr)
 	free(node);
 }
 
-void	print_env(void)
+void	print_env(char **envp)
 {
 	size_t	i;
 
 	i = 0;
-	while (__environ[i++])
-		printf("%s\n", __environ[i - 1]);
+	while (envp[i++])
+		printf("%s\n", envp[i - 1]);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char **envp)
 	t_btree	*cmds_tree;
 	char	*operators[10];
 
-	// print_env();
+	print_env(envp);
 	set_operators(operators);
 	while (1)
 	{

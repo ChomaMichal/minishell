@@ -190,6 +190,8 @@ int	create_field_split_tokens(t_list **head, char **split_arr)
 			return (free(new_token->str), free(new_token), 1);
 		arr_counter++;
 	}
+	if (arr_counter >= 2)
+		(*head)->token->options |= 
 	return (0);
 }
 
@@ -395,9 +397,17 @@ int	expand(t_list *head, char *line)
 				if (expand_word(line, node))
 					return (ft_printf(2, "malloc failed in expand_token() token: (%s)\n", node->token->str), 1);
 			}
+		if (node->token->options & WORD)
+			if (expand_stars(node))
+				return (ft_printf(2, "expand_stars() failed\n"), 1);
 		node = node->next;
 	}
 	return (0);
+}
+
+int	redirect(t_list	*head)
+{
+	
 }
 
 t_btree	*create_exec_tree(char *line, char **operators)
@@ -415,6 +425,8 @@ t_btree	*create_exec_tree(char *line, char **operators)
 		return (/* ft_printf(2, "minishell: validate_tokens() failed\n"),  */del_tokens(head), NULL);
 	if (expand(head, line))
 		return (ft_printf(2, "minishell: parse() failed\n"), del_tokens(head), NULL);
+	if (redirect(head))
+		return (ft_printf(2, "minishell: redirect() failed\n"), del_tokens(head), NULL);
 	// ft_lstiter(head, print_tokens, &data);
 	exec_tree = create_tree(head);
 	del_tokens(head);

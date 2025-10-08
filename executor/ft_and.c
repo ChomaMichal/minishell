@@ -17,7 +17,6 @@ void	ft_and(t_btree *tree, t_data *data)
 {
 	int		rt;
 
-
 	execute(tree->left, data);
 	rt = wait_and_get_exit_value(data->pids);
 	free_pids(&data->pids);

@@ -24,7 +24,9 @@ LIBFT = libft/ft_calloc.c\
 		libft/ft_substr.c\
 		libft/ft_isalnum.c\
 		libft/ft_isalpha.c\
-		libft/ft_digit.c
+		libft/ft_isdigit.c\
+		libft/ft_free_arr.c\
+		libft/ft_append_arr_str.c
 STAR = star/test.c\
 	   star/pattern.c
 FILES = $(EXECFILES)
@@ -57,6 +59,6 @@ com:
 	cc -Wall -Wextra $(COMMANDS) libft/*.c -g -o com
 
 star:
-	cc -Wall -Wextra $(STAR) libft/*.c -g -o sta
+	cc -Wall -Wextra $(STAR) $(LIBFT) -g -o sta
 
 .PHONY: re fclean clean all com star

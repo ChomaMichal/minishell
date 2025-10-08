@@ -26,7 +26,6 @@ static DIR	*ft_opendir(char *path, DIR **directory)
 	return (*directory);
 }
 
-//need to remove . and .. files in current directory
 char	**expand_star_append(char *match, char ***arr)
 {
 	DIR				*directory;

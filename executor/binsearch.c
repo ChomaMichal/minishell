@@ -79,8 +79,12 @@ char	*get_path(char**envp, char *command)
 {
 	if (ft_strchr(command, '/'))
 	{
-		if (access(command, X_OK) == 0)
-			return (ft_strdup(command));
+		if (access(command, F_OK) == 0)
+		{
+			if (access(command, X_OK) == 0)
+				return (ft_strdup(command));
+			ft_putstr_fd("Binary isn't executable\n", 2);
+		}
 		ft_putstr_fd("Didn't find executable binary\n", 2);
 		return (NULL);
 	}

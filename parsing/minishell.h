@@ -84,7 +84,7 @@ void	print_tokens(t_print_d *data);
 void	print_btree_pyramid(const t_btree *node);
 
 /* execute.c */
-int		execute(t_btree *tree, t_bnode_type parent_type);
+int		execute(t_btree *tree, t_data *data);
 
 /* parse.c */
 t_btree	*create_exec_tree(char *line, char **operators);
@@ -131,9 +131,7 @@ typedef struct s_data
 	char	**env;
 	int		rt;
 	t_ids	*pids;
-	int		infile;
-	int		outfile;
-	int		close;
+	char	is_pipe;
 }	t_data;
 
 

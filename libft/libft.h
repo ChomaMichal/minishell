@@ -21,6 +21,7 @@
 #include <string.h>
 
 /* FROM JOSEF'S LIBFT */
+/*
 void	btree_apply_prefix(t_btree *root, void (*applyf)(void *));
 void	btree_apply_infix(t_btree *root, void (*applyf)(void *));
 void	btree_apply_suffix(t_btree *root, void (*applyf)(void *));
@@ -39,7 +40,7 @@ t_list	*ft_lstlast(t_list *lst);
 char	**ft_split_dels(char const *s, char *delimiter);
 
 char	*ft_strsjoin(char const *s1, char const *s2, char const *s3);
-
+*/
 /* END "FROM" */
 
 void	ft_putstrerr(char *str);

@@ -6,21 +6,30 @@
 /*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 18:59:46 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/06 19:00:17 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/06 19:40:06 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing/libft/libft.h"
 #include "executor.h"
 
+//if it is not found exit with 127 
+//if found and not executable exit with 126
 void	ft_execve(t_btree *tree, t_data *data, char  *path)
 {
+	path = get_path(data->env, tree->cmd_argv[0]); 
+	if (path == NULL)
+	{
+		data->rt = 1;
+		free_split(tree->cmd_argv);
+		free(tree);
+		return ;
+	}
 	execve(path, tree->cmd_argv, data->env);
 	free(tree->cmd_argv);
 	free(tree);
 	free(path);
 	//ft_exit();
-	exit(1);
 }
 
 int		wait_and_get_exit_value(t_ids *list)

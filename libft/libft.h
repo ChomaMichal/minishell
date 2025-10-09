@@ -55,6 +55,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	*ft_strsjoin(char const *s1, char const *s2, char const *s3);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+void	ft_putstrerr(char *str);
 
 // STOP
 // int		ft_atoi(const char *nptr);

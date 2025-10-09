@@ -14,9 +14,6 @@ typedef struct s_data
 	char	**env;
 	int		rt;
 	t_ids	*pids;
-	int		infile;
-	int		outfile;
-	int		close;
 }	t_data;
 
 typedef enum	e_bnode_type
@@ -56,5 +53,8 @@ void	print_btree_pyramid(const t_btree *node);
 /* parsing/parsing.c */
 t_btree	*create_exec_tree(char *line, char **operators);
 // int		btoindex(int options);
+
+// execute
+void	execute(t_btree *tree, t_data *data);
 
 #endif

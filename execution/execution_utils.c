@@ -6,21 +6,11 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 18:59:46 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/08 12:09:19 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:58:13 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
-
-void	ft_execve(t_btree *tree, t_data *data, char  *path)
-{
-	execve(path, tree->cmd_argv, data->env);
-	free(tree->cmd_argv);
-	free(tree);
-	free(path);
-	//ft_exit();
-	exit(1);
-}
+#include "executor.h"
 
 int		wait_and_get_exit_value(t_ids *list)
 {

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_and.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 19:00:51 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/08 12:23:20 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/06 19:01:04 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "../parsing/libft/libft.h"
+#include "executor.h"
 
 void	ft_and(t_btree *tree, t_data *data)
 {

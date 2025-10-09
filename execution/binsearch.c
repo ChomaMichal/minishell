@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   binsearch.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:21:55 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/08 12:33:00 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/06 17:22:06 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "../libft/libft.h"
 
 char	*isbin(char *path, char *command)
 {
@@ -33,6 +33,19 @@ char	*isbin(char *path, char *command)
 	return (NULL);
 }
 
+void	ft_free_split(char ***split)
+{
+	int		i;
+
+	i = 0;
+	while (split && (*split) && (*split)[i])
+	{
+		free((*split)[i]);
+		i++;
+	}
+	free(*split);
+}
+
 char	*get_path_path(char**envp, char *command)
 {
 	int		i;
@@ -52,22 +65,26 @@ char	*get_path_path(char**envp, char *command)
 			{
 				path = isbin(arr[j], command);
 				if (path)
-					return (free_split(arr), path);
+					return (ft_free_split(&arr), path);
 				j++;
 			}
 		}
 		i ++;
 	}
 	return (ft_putstr_fd("Didn't find executable binary\n", 2),
-		free_split(arr), NULL);
+		ft_free_split(&arr), NULL);
 }
 
 char	*get_path(char**envp, char *command)
 {
 	if (ft_strchr(command, '/'))
 	{
-		if (access(command, X_OK) == 0)
-			return (ft_strdup(command));
+		if (access(command, F_OK) == 0)
+		{
+			if (access(command, X_OK) == 0)
+				return (ft_strdup(command));
+			ft_putstr_fd("Binary isn't executable\n", 2);
+		}
 		ft_putstr_fd("Didn't find executable binary\n", 2);
 		return (NULL);
 	}

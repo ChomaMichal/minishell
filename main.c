@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/09 18:43:42 by mchoma            #+#    #+#             */
+/*   Updated: 2025/10/09 18:46:41 by mchoma           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	set_operators(char **operators)
@@ -37,7 +49,11 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	t_btree	*cmds_tree;
 	char	*operators[10];
-
+	t_data	data;
+	
+	data.env = ft_coppyarrstr(envp);
+	data.rt = 0;
+	data.pids = NULL;
 	print_env(envp);
 	set_operators(operators);
 	while (1)
@@ -53,7 +69,7 @@ int	main(int argc, char **argv, char **envp)
 			if (cmds_tree)
 			{
 				print_btree_pyramid(cmds_tree);
-				// execute(cmds_tree, 0);
+				execute(cmds_tree, &data);
 				btree_apply_suffix(cmds_tree, delete_bnode);
 			}
 		}

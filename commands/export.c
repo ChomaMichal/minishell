@@ -1,8 +1,6 @@
 #include "commands.h"
-#include "../minishell.h"
-#include "../libft/libft.h"
 
-//check for valid strin that will be passed to this funcion
+//check for valid string that will be passed to this funcion
 static int	arg_check(char *arg)
 {
 	size_t	i;

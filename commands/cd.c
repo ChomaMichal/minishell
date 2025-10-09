@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <mchoma@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:07:28 by mchoma            #+#    #+#             */
-/*   Updated: 2025/08/06 16:39:46 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/08 11:54:36 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-#include "../libft/libft.h"
-#include <stdio.h>
+#include "commands.h"
 
 int	cd_path(t_data *data, char **path)
 {

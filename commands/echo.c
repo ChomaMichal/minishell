@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <mchoma@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 16:47:45 by mchoma            #+#    #+#             */
-/*   Updated: 2025/08/06 17:05:14 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/08 11:54:51 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
-#include "../minishell.h"
-#include "../libft/libft.h"
-
 
 int	ft_echo(t_data *data, char *str, int flag)
 {

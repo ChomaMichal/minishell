@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 18:23:54 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/03 19:32:05 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:53:56 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	star_forward(size_t *i, size_t *j, char *match, char *str)
 	else
 		((*i)) ++;
 }
-
 
 int		star_match(char *match, char *str)
 {

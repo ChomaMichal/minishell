@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:17:42 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/03 19:32:02 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:55:29 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static DIR	*ft_opendir(char *path, DIR **directory)
 	return (*directory);
 }
 
+//need to remove . and .. files in current directory
 char	**expand_star_append(char *match, char ***arr)
 {
 	DIR				*directory;

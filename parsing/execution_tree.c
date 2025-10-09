@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "parsing.h"
 
 /*
 and_or:			pipeline { "&&" | "||" pipeline }

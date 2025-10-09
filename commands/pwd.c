@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <mchoma@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 16:37:40 by mchoma            #+#    #+#             */
-/*   Updated: 2025/08/06 16:38:07 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/08 11:55:08 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
-#include "../libft/libft.h"
 
 int	ft_pwd(t_data *data)
 {

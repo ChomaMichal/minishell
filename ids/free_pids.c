@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_pids.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 18:54:24 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/06 18:57:58 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/08 12:00:36 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_pids(t_ids **list)
 	{
 		free_pids(&(*list)->next);
 		free(*list);
-		*list = NULL
+		*list = NULL;
 	}
 }
 

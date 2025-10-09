@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <mchoma@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:07:09 by mchoma            #+#    #+#             */
-/*   Updated: 2025/08/06 16:30:43 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/08 11:55:18 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
-#include "../libft/libft.h"
 
 static int	check_for_var(char ***envp, char **variable)
 {

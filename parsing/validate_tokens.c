@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "parsing.h"
 
 int	wrong_first_token(t_list *cur, char **operators)
 {

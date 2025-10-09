@@ -1,6 +1,4 @@
 #include "commands.h"
-#include "../minishell.h"
-#include "../libft/libft.h"
 
 int	ft_env(t_data *data)
 {

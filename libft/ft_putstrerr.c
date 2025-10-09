@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstrerr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <mchoma@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 16:36:08 by mchoma            #+#    #+#             */
-/*   Updated: 2025/08/06 16:36:45 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/08 10:35:23 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 void	ft_putstrerr(char *str)

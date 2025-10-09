@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_multiple_delimiters.c                     :+:      :+:    :+:   */
+/*   ft_split_dels.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 20:53:07 by josefelghna       #+#    #+#             */
-/*   Updated: 2025/10/06 19:40:21 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/08 11:09:39 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	one_more_string(char ***res, size_t arr_size,
 	return (1);
 }
 
-char	**ft_split_del(char const *s, char *delimiter)
+char	**ft_split_dels(char const *s, char *delimiter)
 {
 	char	**res;
 	size_t	arr_size;
@@ -87,21 +87,3 @@ char	**ft_split_del(char const *s, char *delimiter)
 	res[arr_size] = NULL;
 	return (res);
 }
-
-// #include <stdio.h>
-// int main(void)
-// {
-// 	char **res = ft_split("", 'x');
-// 	if (!res)
-// 		printf("allocation failed, NOOB :D\n(NULL RETURNED)\n");
-// 	else
-// 	{
-// 		for (int i = 0; res[i]; i++)
-// 		{
-// 			printf(">>%s<<\n", res[i]);
-// 			free(res[i]);
-// 		}
-// 	}
-// 	free(res);
-// 	return (0);
-// }

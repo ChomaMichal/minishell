@@ -74,7 +74,7 @@ size_t	len_to_quote_or_delimiter(char *line, char **operators);
 size_t	len_to_unquoted_delimiter(char *line, char **operators);
 
 /* TEMP print.c */
-void	print_tokens(t_print_d *data);
+// void	print_tokens(t_print_d *data);
 void	ft_lstiter(t_list *lst, void (*f)(t_print_d *), t_print_d *data);
 
 /* parse.c */

@@ -23,6 +23,7 @@ COMMANDS = commands/cd.c\
 			commands/export.c\
 			commands/pwd.c\
 			commands/unset.c\
+			commands/ft_exit.c\
 			commands/set_rt.c
 
 PARSING =parsing/execution_tree.c\

@@ -68,9 +68,11 @@ int	main(int argc, char **argv, char **envp)
 			cmds_tree = create_exec_tree(line, operators);
 			if (cmds_tree)
 			{
-				print_btree_pyramid(cmds_tree);
+				// print_btree_pyramid(cmds_tree);
 				execute(cmds_tree, &data);
 				btree_apply_suffix(cmds_tree, delete_bnode);
+				if (data.subshell == 1)
+					exit(wait_and_get_exit_value(data.pids));
 			}
 		}
 		free(line);

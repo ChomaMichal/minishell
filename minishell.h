@@ -11,9 +11,11 @@ typedef struct s_ids
 //this will contain envp
 typedef struct s_data
 {
-	char	**env;
-	int		rt;
-	t_ids	*pids;
+	char			**env;
+	int				rt;
+	t_ids			*pids;
+	struct s_btree	*head;
+	int				subshell;
 }	t_data;
 
 typedef enum	e_bnode_type
@@ -34,8 +36,6 @@ typedef struct	s_btree
 }	t_btree;
 
 # include "libft/libft.h"
-# include "ids/idlist.h"
-# include "execution/execution.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -56,4 +56,5 @@ t_btree	*create_exec_tree(char *line, char **operators);
 // execute
 void	execute(t_btree *tree, t_data *data);
 
+int		wait_and_get_exit_value(t_ids *list);
 #endif

@@ -12,7 +12,7 @@
 
 #include "commands.h"
 
-int	ft_exit(int i)
+int	ft_exit(t_data *data, char *str)
 {
-	exit(i);
+	exit(data->rt);
 }

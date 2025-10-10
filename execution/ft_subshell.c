@@ -17,9 +17,10 @@ void	ft_subshell(t_btree *tree, t_data *data)
 
 	pid = fork();
 	if (pid)
+	{
+		data->subshell = 1;
 		execute(tree->left, data);
+	}
 	else
 		add_last_id(&data->pids, pid);
-	free_arr((void ***)tree->cmd_argv);
-	free(tree);
 }

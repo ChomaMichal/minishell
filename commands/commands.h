@@ -29,7 +29,8 @@ int	ft_unset(t_data *data, char *variable);
 //takes malloced string as argument changes the env is string is correctly formated 
 //sets exit value in struct
 int	ft_export(t_data *data, char *arg);
-void	set_rt(int *i, int num);
+int	ft_exit(t_data *data, char *arg);
+void	set_rt(int *rt, int num);
 #endif
 
 

@@ -6,7 +6,7 @@
 /*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:43:42 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/10 15:28:03 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/10 19:57:32 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(int argc, char **argv, char **envp)
 	
 	data.env = ft_coppyarrstr(envp);
 	data.rt = 0;
+	data.subshell = 0;
 	data.pids = NULL;
 	// print_env(envp);
 	set_operators(operators);
@@ -68,8 +69,8 @@ int	main(int argc, char **argv, char **envp)
 			cmds_tree = create_exec_tree(line, operators);
 			if (cmds_tree)
 			{
-				// print_btree_pyramid(cmds_tree);
-				execute(cmds_tree, &data);
+				print_btree_pyramid(cmds_tree);
+				// execute(cmds_tree, &data);
 				btree_apply_suffix(cmds_tree, delete_bnode);
 				if (data.subshell == 1)
 					exit(wait_and_get_exit_value(data.pids));

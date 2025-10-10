@@ -1,5 +1,5 @@
 NAME = minishell
-CC = cc
+CC = clang
 CFLAGS = -Wall -Wextra -Werror
 LIBS = -lreadline -lhistory
 HEADERS = minishell.h libft/libft.h\

@@ -34,7 +34,7 @@ void	ft_execve(t_btree *tree, t_data *data)
 	ft_exit(data, NULL);
 }
 
-void	wrap_echo(t_btree *tree, t_data *data)
+void	echo_wrap(t_btree *tree, t_data *data)
 {
 	size_t	i;
 	int		flag;
@@ -64,15 +64,15 @@ void	cd_wrap(t_btree *tree, t_data *data)
 		ft_cd(data, tree->cmd_argv[1]);
 }
 
-void	cd_export(t_btree *tree, t_data *data)
+void	export_wrap(t_btree *tree, t_data *data)
 {
 	if (!tree->cmd_argv[1])
-		ft_export(data, ft_strdup(""));
+		ft_export(data, "");
 	else
 		ft_export(data, tree->cmd_argv[1]);
 }
 
-void	cd_unset(t_btree *tree, t_data *data)
+void	unset_wrap(t_btree *tree, t_data *data)
 {
 	if (!tree->cmd_argv[1])
 		ft_unset(data, ft_strdup(""));
@@ -85,59 +85,38 @@ void	env_wrap(t_btree *tree, t_data *data)
 	ft_env(data);
 }
 
-void	export_wrap(t_btree *tree, t_data *data)
-{
-
-}
-
-void	unset_wrap(t_btree *tree, t_data *data)
-{
-
-}
-
-void	echo_wrap(t_btree *tree, t_data *data)
-{
-
-}
-
 void	pwd_wrap(t_btree *tree, t_data *data)
-{
-
-}
-
-
-void	env_pwd(t_btree *tree, t_data *data)
 {
 	ft_pwd(data);
 }
 
 
-
 int	is_buildin(t_btree *tree, t_data *data)
 {
+	/*
 	if (tree->cmd_argv[0] == NULL)
 	{
 		ft_putstrerr("null passed to cmd_argv\n");
 		return 0;
 	}
-	if (ft_strncmp(tree->cmd_argv[0], "cd", 3))
+	*/
+	if (ft_strncmp(tree->cmd_argv[0], "cd", 3) == 0)
 		return (cd_wrap(tree, data), 1);
-	if (ft_strncmp(tree->cmd_argv[0], "pwd", 4))
+	if (ft_strncmp(tree->cmd_argv[0], "pwd", 4) == 0)
 		return (pwd_wrap(tree, data), 1);
-	if (ft_strncmp(tree->cmd_argv[0], "echo", 5))
+	if (ft_strncmp(tree->cmd_argv[0], "echo", 5) == 0)
 		return (echo_wrap(tree, data), 1);
-	if (ft_strncmp(tree->cmd_argv[0], "env", 4))
+	if (ft_strncmp(tree->cmd_argv[0], "env", 4) == 0)
 		return (env_wrap(tree, data), 1);
-	if (ft_strncmp(tree->cmd_argv[0], "unset", 6))
+	if (ft_strncmp(tree->cmd_argv[0], "unset", 6) == 0)
 		return (unset_wrap(tree, data), 1);
-	if (ft_strncmp(tree->cmd_argv[0], "export", 7))
+	if (ft_strncmp(tree->cmd_argv[0], "export", 7) == 0)
 		return (export_wrap(tree, data), 1);
-	if (ft_strncmp(tree->cmd_argv[0], "export", 7))
+	if (ft_strncmp(tree->cmd_argv[0], "export", 7)== 0)
 		return (export_wrap(tree, data), 1);
-	if (ft_strncmp(tree->cmd_argv[0], "exit", 5))
+	if (ft_strncmp(tree->cmd_argv[0], "exit", 5) == 0)
 		return (export_wrap(tree, data), 1);
-		
-
+	return (0);
 }
 
 
@@ -146,6 +125,8 @@ void	ft_command(t_btree *tree, t_data *data)
 	int		pid;
 
 	
+	if (is_buildin(tree, data) == 1)
+		return;
 	pid = fork();
 	if (pid == 0)
 		ft_execve(tree, data);

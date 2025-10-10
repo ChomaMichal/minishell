@@ -1,8 +1,9 @@
 #ifndef PARSE_H
 # define PARSE_H
 
-# include "../minishell.h"
 
+#include "../minishell.h"
+#include <stddef.h>
 // TOKEN OPTIONS
 # define OR (1 << 0)
 # define PIPE (1 << 1)

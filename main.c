@@ -6,7 +6,7 @@
 /*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:43:42 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/09 18:46:41 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/10 15:28:03 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ int	main(int argc, char **argv, char **envp)
 	data.env = ft_coppyarrstr(envp);
 	data.rt = 0;
 	data.pids = NULL;
-	print_env(envp);
+	// print_env(envp);
 	set_operators(operators);
 	while (1)
 	{
-		line = readline("josef-shell-$ ");
+		line = readline("<>minishell<>");
 		if (!line)
 			break ;
 		if (line[0])

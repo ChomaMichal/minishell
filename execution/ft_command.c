@@ -6,12 +6,13 @@
 /*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 19:02:13 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/09 19:01:49 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/10 15:35:44 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../parsing/libft/libft.h"
 #include "executor.h"
 #include "../commands/commands.h"
+#include "../libft/libft.h"
+char	*ft_strdup(const char *s);
 
 //todo implement build ins
 //if it is not found exit with 127 
@@ -36,7 +37,7 @@ void	ft_execve(t_btree *tree, t_data *data)
 	//ft_exit();
 }
 
-void	ft_echo(t_btree *tree, t_data *data)
+void	echo_wrap(t_btree *tree, t_data *data)
 {
 	size_t	i;
 	int		flag;
@@ -97,10 +98,6 @@ void	unset_wrap(t_btree *tree, t_data *data)
 
 }
 
-void	echo_wrap(t_btree *tree, t_data *data)
-{
-
-}
 
 void	pwd_wrap(t_btree *tree, t_data *data)
 {
@@ -132,7 +129,8 @@ int	is_buildin(t_btree *tree, t_data *data)
 		return (unset_wrap(tree, data), 1);
 	if (ft_strncmp(tree->cmd_argv[0], "export", 7))
 		return (export_wrap(tree, data), 1);
-
+	if (ft_strncmp(tree->cmd_argv[0], "exit", 5))
+		return (ft_exit(0));
 		
 		
 
@@ -147,7 +145,7 @@ void	ft_command(t_btree *tree, t_data *data)
 	pid = fork();
 	if (pid == 0)
 		ft_execve(tree, data);
-	if (add_last_id(data->pids, pid))
+	if (add_last_id(&data->pids, pid))
 		data->rt = 1;
 	free_split(tree->cmd_argv);
 	free(tree);

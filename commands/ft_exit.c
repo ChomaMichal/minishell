@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   entry.c                                            :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/06 16:15:32 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/10 14:45:05 by mchoma           ###   ########.fr       */
+/*   Created: 2025/10/10 15:33:57 by mchoma            #+#    #+#             */
+/*   Updated: 2025/10/10 15:34:34 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
+#include "commands.h"
 
-void	execute(t_btree *tree, t_data *data)
+int	ft_exit(int i)
 {
-	if (tree == NULL)
-		return ;
-	else if (tree->type == BNODE_SUBSHELL)
-		ft_subshell(tree, data);
-	else if (tree->type == BNODE_AND)
-		ft_and(tree, data);
-	else if (tree->type == BNODE_OR)
-		ft_or(tree, data);
-	else if (tree->type == BNODE_COMMAND)
-		ft_command(tree, data);
-	else if (tree->type == BNODE_PIPE)
-		ft_pipe(tree, data);
+	exit(i);
 }

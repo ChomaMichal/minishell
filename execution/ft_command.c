@@ -29,8 +29,6 @@ void	ft_execve(t_btree *tree, t_data *data)
 		free(tree);
 		return ;
 	}
-	if (data->subshell == 1)
-		close (STDIN_FILENO);
 	execve(path, tree->cmd_argv, data->env);
 	free(path);
 	ft_exit(data, NULL);

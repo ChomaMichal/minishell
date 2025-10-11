@@ -72,6 +72,8 @@ void	ft_pipe(t_btree *tree, t_data *data)
 		fprintf(stderr, "error add_last_id\n");
 		return ;//error handle
 	}
+	close (fd [0]);
+	close (fd [1]);
 	data->rt = wait_and_get_exit_value(data->pids);
 	free_pids(&data->pids);
 }

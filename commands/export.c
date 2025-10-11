@@ -41,16 +41,16 @@ int	ft_export(t_data *data, char *arg)
 	if (arg_check(arg) == 0)
 	{
 		data->rt = 1;
-		return (free(arg), ft_putstr_fd("bash: export: '", 2),
+		return (ft_putstr_fd("bash: export: '", 2),
 			ft_putstr_fd(arg, 2), ft_putstr_fd("': not a valid identifier", 2),
 			set_rt(&data->rt, 1), 0);
 	}
 	var = ft_substr(arg, 0, (size_t)(ft_strchr(arg, '=') - arg));
 	if (var == NULL)
-		return (free(arg), set_rt(&data->rt, 1), 0);
+		return (set_rt(&data->rt, 1), 0);
 	i = 0;
 	ft_unset(data, var);
 	if (ft_append_arr_str(&data->env, arg) == NULL)
-		return (free(arg), set_rt(&data->rt, 1), 0); //error
+		return (set_rt(&data->rt, 1), 0); //error
 	return (set_rt(&data->rt, 0), 1);
 }

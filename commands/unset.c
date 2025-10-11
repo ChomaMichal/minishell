@@ -43,10 +43,10 @@ int		ft_unset(t_data *data, char *variable)
 	// printf("%lu == len of new\n", j);
 	tmp = ft_strjoin(variable, "=");
 	if (tmp == NULL)
-		return (free(variable), set_rt(&data->rt, 1), 0);
+		return (set_rt(&data->rt, 1), 0);
 	new = ft_calloc(sizeof(char*), ft_arrlen((void **)data->env) - j + 1);
 	if (new == NULL)
-		return (free(tmp), free(variable), set_rt(&data->rt, 1), 0);
+		return (free(tmp), set_rt(&data->rt, 1), 0);
 	j = 0;
 	while ((data->env)[i])
 	{
@@ -62,7 +62,7 @@ int		ft_unset(t_data *data, char *variable)
 	}
 	free(data->env);
 	data->env = new;
-	return (free(variable), free(tmp), set_rt(&data->rt, 0), 1);
+	return (free(tmp), set_rt(&data->rt, 0), 1);
 }
 
 

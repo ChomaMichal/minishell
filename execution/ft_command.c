@@ -90,6 +90,12 @@ void	pwd_wrap(t_btree *tree, t_data *data)
 	ft_pwd(data);
 }
 
+void	exit_wrap(t_btree *tree, t_data *data)
+{
+	ft_exit(data, tree->cmd_argv[0]);
+}
+
+
 
 int	is_buildin(t_btree *tree, t_data *data)
 {
@@ -112,10 +118,8 @@ int	is_buildin(t_btree *tree, t_data *data)
 		return (unset_wrap(tree, data), 1);
 	if (ft_strncmp(tree->cmd_argv[0], "export", 7) == 0)
 		return (export_wrap(tree, data), 1);
-	if (ft_strncmp(tree->cmd_argv[0], "export", 7)== 0)
-		return (export_wrap(tree, data), 1);
 	if (ft_strncmp(tree->cmd_argv[0], "exit", 5) == 0)
-		return (export_wrap(tree, data), 1);
+		return (exit_wrap(tree, data), 1);
 	return (0);
 }
 
@@ -124,7 +128,6 @@ void	ft_command(t_btree *tree, t_data *data)
 {
 	int		pid;
 
-	
 	if (is_buildin(tree, data) == 1)
 		return;
 	pid = fork();
@@ -132,4 +135,9 @@ void	ft_command(t_btree *tree, t_data *data)
 		ft_execve(tree, data);
 	if (add_last_id(&data->pids, pid))
 		data->rt = 1;
+	if (data->subshell == 1)
+	{
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
+	}
 }

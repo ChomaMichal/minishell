@@ -16,14 +16,19 @@ int		wait_and_get_exit_value(t_ids *list)
 {
 	int	rt;
 
+	if (list == NULL)
+		return (0);
 	if (list->next == NULL)
 	{
-		waitpid(list->pid, &rt, 0);
+		fprintf(stderr, "%i pid\n", waitpid(list->pid, &rt, 0));
+		perror("");
 		if (WIFSIGNALED(rt))
 			return (WTERMSIG(rt) + 128);
 		WEXITSTATUS(rt);
 		return (WEXITSTATUS(rt));
 	}
+	if (list->pid == -1)
+		return (wait_and_get_exit_value(list->next));
 	waitpid(list->pid, NULL, 0);
 	return (wait_and_get_exit_value(list->next));
 }

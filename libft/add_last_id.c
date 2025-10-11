@@ -31,5 +31,5 @@ int	add_last_id(t_ids **list, int id)
 		(*list)->next->pid = id;
 		return (0);
 	}
-	return (add_last_id(&(*list)->next, id));
+	return (add_last_id(&((*list)->next), id));
 }

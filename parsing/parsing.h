@@ -1,9 +1,9 @@
 #ifndef PARSE_H
 # define PARSE_H
 
+# include "../minishell.h"
+# include <dirent.h>
 
-#include "../minishell.h"
-#include <stddef.h>
 // TOKEN OPTIONS
 # define OR (1 << 0)
 # define PIPE (1 << 1)
@@ -30,6 +30,12 @@
 # define UNQUOTED 3
 # define EMPTY 4
 
+static DIR	*ft_opendir(char *path, DIR **directory)
+{
+	*directory = opendir(path);
+	return (*directory);
+}
+
 typedef struct	s_fragment
 {
 	size_t	start;
@@ -41,10 +47,11 @@ typedef struct	s_fragment
 
 typedef struct	s_token
 {
-	char				*str;
-	int					options;
-	size_t				fragment_count;
-	t_fragment			*fragments;
+	char		*str;
+	int			options;
+	size_t		fragment_count;
+	t_fragment	*fragments;
+	size_t		fragment_i;
 }	t_token;
 
 typedef struct	s_list
@@ -75,7 +82,6 @@ size_t	len_to_quote_or_delimiter(char *line, char **operators);
 size_t	len_to_unquoted_delimiter(char *line, char **operators);
 
 /* TEMP print.c */
-// void	print_tokens(t_print_d *data);
 void	ft_lstiter(t_list *lst, void (*f)(t_print_d *), t_print_d *data);
 
 /* parse.c */
@@ -103,6 +109,9 @@ int		fragment_double_quote(char *line, t_token *token, size_t *i);
 int		fragment_single_quote(char *line, t_token *token, size_t *i);
 int		fragment_unquoted(char *line, t_token *token, size_t *i, char **operators);
 int		handle_fragments(char *line, char **operators, t_token *token, size_t *i);
+
+/* filename_expansion.c */
+char	**expand_star_append(char *match, char ***arr);
 
 /* execution_tree.c */
 t_btree	*create_tree(t_list *tokens);

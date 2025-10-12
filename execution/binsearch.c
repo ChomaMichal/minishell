@@ -43,7 +43,9 @@ void	ft_free_split(char ***split)
 		free((*split)[i]);
 		i++;
 	}
-	free(*split);
+	if (split)
+		free(*split);
+	*split = NULL;
 }
 
 char *get_env_path(char **envp)
@@ -75,10 +77,8 @@ char	*get_path_path(char**envp, char *command)
 	while (arr && arr[j])
 	{
 		path = isbin(arr[j], command);
-		if (path && access(path,X_OK) == 0)
+		if (path && access(path,F_OK) == 0)
 			return (ft_free_split(&arr), path);
-		else
-			tmp = path;
 		j++;
 	}
 	return (ft_free_split(&arr), tmp);

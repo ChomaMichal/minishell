@@ -86,7 +86,8 @@ int	main(int argc, char **argv, char **envp)
 				// print_btree_pyramid(cmds_tree);
 				data.head = cmds_tree;
 				execute(cmds_tree, &data);
-				btree_apply_suffix(cmds_tree, delete_bnode);
+				btree_apply_suffix(data.head, delete_bnode);
+				data.head = NULL;
 				data.rt = wait_and_get_exit_value(data.pids);
 			}
 			rl_on_new_line();

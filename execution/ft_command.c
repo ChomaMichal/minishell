@@ -28,9 +28,7 @@ void	ft_execve(t_btree *tree, t_data *data)
 	if (path == NULL)
 	{
 		data->rt = 1;
-		free_split(tree->cmd_argv);
-		free(tree);
-		return ;
+		ft_exit(data, "126");
 	}
 	execve(path, tree->cmd_argv, data->env);
 	free(path);

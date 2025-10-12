@@ -38,9 +38,12 @@ void	delete_bnode(void *ptr)
 {
 	t_btree	*node;
 
-	node = (t_btree *)ptr;
-	free_split(node->cmd_argv);
-	free(node);
+	if (ptr)
+	{
+		node = (t_btree *)ptr;
+		free_split(node->cmd_argv);
+		free(node);
+	}
 }
 
 void	print_env(char **envp)
@@ -65,6 +68,7 @@ int	main(int argc, char **argv, char **envp)
 	data.rt = 0;
 	data.subshell = 0;
 	data.pids = NULL;
+	data.head = NULL;
 	// print_env(envp);
 	set_operators(operators);
 	signal(SIGINT, signal_parent_sigint);
@@ -89,6 +93,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		free(line);
 	}
-	printf("exit\n");
+	ft_exit(&data, NULL);
 	return (0);
 }

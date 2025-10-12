@@ -27,12 +27,22 @@ typedef enum	e_bnode_type
 	BNODE_SUBSHELL
 }	t_bnode_type;
 
+//if append == 0 truncate 
+//if append == 1 append
+typedef struct s_redir
+{
+	char	*in;
+	char	*out;
+	int		append;
+}	t_redir;
+
 typedef struct	s_btree
 {
 	struct s_btree	*left;
 	struct s_btree	*right;
 	char			**cmd_argv;
 	t_bnode_type	type;
+	t_redir			redir;
 }	t_btree;
 
 # include "libft/libft.h"
@@ -58,5 +68,5 @@ void	execute(t_btree *tree, t_data *data);
 
 int		wait_and_get_exit_value(t_ids *list);
 void	delete_bnode(void *ptr);
-void	singal1(int sig);
+int		ft_exit(t_data *data, char *arg);
 #endif

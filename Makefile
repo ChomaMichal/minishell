@@ -36,7 +36,8 @@ PARSING = parsing/execution_tree.c\
 		parsing/ft_lstlast.c\
 		parsing/ft_lstnew.c\
 		parsing/parsing_utils.c\
-		parsing/tokenize_utils.c
+		parsing/tokenize_utils.c\
+		parsing/filename_expansion.c
 
 EXECUTE = execution/binsearch.c\
 		  execution/entry.c\
@@ -71,7 +72,7 @@ $(TEST_OBJ_DIR)%.o: %.c
 	mkdir -p $(dir $@)
 	$(CC) -Wall -Wextra -g -c $< -o $@
 
-runt:
+runt: test
 	valgrind --leak-check=full --suppressions=readline.supp ./test
 
 ctest: all

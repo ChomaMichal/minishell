@@ -168,7 +168,7 @@ char	*create_expanded_fragment(char *fragment_str, char **target_str)
 	return (safe_strjoin(target_str, &fragment_str[start], 0));
 }
 
-int	create_field_split_tokens(t_list **head, char **split_arr)
+int	create_field_split_tokens(t_list **head, char **split_arr, size_t fragment_i, t_list *token_node)
 {
 	t_token	*new_token;
 	size_t	arr_counter;
@@ -180,7 +180,8 @@ int	create_field_split_tokens(t_list **head, char **split_arr)
 		if (!new_token)
 			return (1);
 		new_token->fragment_count = 1;
-		new_token->fragments = NULL;
+		new_token->fragment_i = fragment_i;
+		new_token->fragments = token_node->token->fragments; // MAKE FRAGMENTS FOR THIS AND MAKE IT UQNUOTED FRAGMENTS, SO WHEN YOU PASS IT TO FILENAME_EXPANSION IT KNOWS THAT IT CAME FROM AN UNQUOTED EXPANSION
 		new_token->options |= WORD;
 		new_token->options |= EXPANDED_WORD;
 		new_token->str = ft_strdup(split_arr[arr_counter]);
@@ -194,19 +195,6 @@ int	create_field_split_tokens(t_list **head, char **split_arr)
 	// 	(*head)->token->options |= 
 	return (0);
 }
-
-// int	handle_splitter_expansion(t_list **target_node)
-// {
-// 	t_token	*new_token;
-
-// 	new_token = create_token();
-// 	if (!new_token)
-// 		return (1);
-// 	new_token->fragment_count = 1;
-// 	new_token->fragments = ;
-// 	new_token
-// }
-
 
 int	insert_field_split_tokens(t_list **field_split_head, t_list *token_node, t_list **target_node, size_t fragment_i)
 {
@@ -227,9 +215,10 @@ int	insert_field_split_tokens(t_list **field_split_head, t_list *token_node, t_l
 		if (!new_token)
 			return (1);
 		new_token->fragment_count = 1;
-		new_token->fragments = NULL;
+		new_token->fragments = token_node->token->fragments;
 		new_token->options |= WORD;
 		new_token->options |= EXPANDED_WORD;
+		new_token->fragment_i = fragment_i;
 		new_token->str = ft_strdup("");
 		if (!new_token->str)
 			return (free(new_token), 1);
@@ -283,11 +272,11 @@ int	field_split(char *fragment_str, char *expanded, t_list *token_node, t_list *
 		|| fragment_i == 0)
 	{
 		append_substr(*target_node, split_arr[0], 0);
-		if (create_field_split_tokens(&head, split_arr + 1))
+		if (create_field_split_tokens(&head, split_arr + 1, fragment_i, token_node))
 			return (del_tokens(head), free_split(split_arr), 1);
 	}
 	else
-		if (create_field_split_tokens(&head, split_arr))
+		if (create_field_split_tokens(&head, split_arr, fragment_i, token_node))
 			return (del_tokens(head), free_split(split_arr), 1);
 	free_split(split_arr);
 	if (insert_field_split_tokens(&head, token_node, target_node, fragment_i))
@@ -337,6 +326,7 @@ int	expand_fragment(char *line, t_list *token_node, t_list **target_node, size_t
 	int		res;
 	char	*fragment_str;
 
+	res = 1;
 	token = token_node->token;
 	fragment_str = ft_substr(line, token->fragments[i].start,
 		token->fragments[i].end - token->fragments[i].start + 1);
@@ -383,31 +373,133 @@ int	expand_word(char *line, t_list *target_node)
 	return (0);
 }
 
-int	expand(t_list *head, char *line)
+void	insert_expanded_filenames(t_list **files_list, t_list **node)
+{
+	free((*node)->token->fragments);
+	// free((*node)->token->str);
+	// free((*node)->token);
+	ft_lstlast(*files_list)->next = (*node)->next;
+	(*node)->token = (*files_list)->token;
+	(*node)->next = (*files_list)->next;
+	// free(*files_list);
+}
+
+int	expand_filename(t_list **node, size_t fragment_i)
+{
+	char	**files_arr;
+	t_list	*files_list;
+
+	files_arr = NULL;
+	files_list = NULL;
+	files_arr = expand_star_append((*node)->token->str, &files_arr);
+	if (!files_arr)
+		return (printf("expand_star_append() returned NULL"), 0);
+	if (create_field_split_tokens(&files_list, files_arr, fragment_i, *node))
+		return (free_split(files_arr), ft_lstclear(&files_list, del_token), 1);
+	free_split(files_arr);
+	insert_expanded_filenames(&files_list, node);
+	return (0);
+}
+
+int	filename_expansion(t_list **head, char *line)
 {
 	t_list	*node;
 
-	node = head;
+	node = *head;
 	while (node)
 	{
-		// printf("(%s)\n", node->token->str);
-		if (node->token->options & WORD
-			&& !(node->token->options & EXPANDED_WORD))
+		if (node->token->options & WORD && node->token->fragments[0].type == UNQUOTED) // THIS MIGHT NEED TO BE CHANGED, READ THE MANUAL, SEARCH FOR UNQUOTED '*'
+		{
+			// printf("fragment_i is (%zi) --- for token (%s), it's type is (%d)\n", node->token->fragment_i, node->token->str, node->token->fragments[node->token->fragment_i].type);
+			// if (node->token->options & EXPANDED_WORD && node->token->fragments && node->token->fragments[node->token->fragment_i].type != UNQUOTED)
+			// 	;
+			// else if (ft_strchr(node->token->str, '*') == NULL)
+			// 	;
+			// else if (expand_filename(&node, node->token->fragment_i))
+			// 	return (1);
+			if (ft_strchr(node->token->str, '*'))
 			{
-				if (expand_word(line, node))
-					return (ft_printf(2, "malloc failed in expand_token() token: (%s)\n", node->token->str), 1);
+				if (expand_filename(&node, node->token->fragment_i))
+					return (1);
 			}
-		// if (node->token->options & WORD)
-		// 	if (expand_stars(node))
-		// 		return (ft_printf(2, "expand_stars() failed\n"), 1);
+		}
 		node = node->next;
 	}
 	return (0);
 }
 
+int	expand(t_list **head, char *line)
+{
+	t_list	*node;
+
+	node = *head;
+	while (node)
+	{
+		if (node->token->options & WORD
+			&& !(node->token->options & EXPANDED_WORD))
+			{
+				if (expand_word(line, node))
+					return (ft_printf(2, "expand_token() failed: (%s)\n", node->token->str), 1);
+			}
+		node = node->next;
+	}
+	// if (filename_expansion(head, line))
+	// 	return (ft_printf(2, "expand_filename() failed\n"), 1);
+	return (0);
+}
+
 int	redirect(t_list	*head)
 {
+	
 	return (0);
+}
+
+int	token_count = 0;
+static void	print_tokens(t_print_d *data)
+{
+	char		**operators;
+	t_token		*token;
+	char		*line;
+	t_fragment	fragment;
+	size_t		i;
+	size_t		len;
+
+	i = 0;
+	operators = data->operators;
+	token = data->token;
+	line = data->line;
+	if (token->options & WORD)
+	{
+		printf("token (%d) type: (WORD)\n", token_count++);
+		if (token->fragment_count == 0)
+			printf("[%s] EMPTY WORD\n", token->str);
+        printf("[%s]", token->str);
+		// while (i < token->fragment_count)
+		// {
+        //     if (token->fragments[i].type == EMPTY)
+        //     {
+        //         i++;
+        //         continue ;
+        //     }
+		// 	fragment = (token->fragments)[i];
+		// 	len = fragment.end - fragment.start + 1;
+		// 	write(1, "[", 1);
+		// 	write(1, &line[fragment.start], len);
+		// 	write(1, "]", 1);
+		// 	if (len)
+		// 		print_fragment_type(&fragment);
+		// 	write(1, "\n", 1);
+		// 	i++;
+		// }
+	}
+	else if (token->options & OPERATOR)
+	{
+		printf("token (%d) type: (OPERATOR)\n", token_count++);		
+		printf("[%s]\n", operators[btoindex(token->options)]);
+	}
+	// print_bits(token->options, 0);
+	printf("\n\n");
+	// free(token->fragments);
 }
 
 t_btree	*create_exec_tree(char *line, char **operators)
@@ -423,7 +515,7 @@ t_btree	*create_exec_tree(char *line, char **operators)
 		return (ft_printf(2, "minishell: tokenize() returned NULL\n"), NULL);
 	if (validate_tokens(head, operators))
 		return (/* ft_printf(2, "minishell: validate_tokens() failed\n"),  */del_tokens(head), NULL);
-	if (expand(head, line))
+	if (expand(&head, line))
 		return (ft_printf(2, "minishell: parse() failed\n"), del_tokens(head), NULL);
 	if (redirect(head))
 		return (ft_printf(2, "minishell: redirect() failed\n"), del_tokens(head), NULL);

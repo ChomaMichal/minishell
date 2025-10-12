@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binsearch.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:21:55 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/06 17:22:06 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/12 22:38:22 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*isbin(char *path, char *command)
 	free(tmp);
 	if (binpath)
 	{
-		if (access(binpath, F_OK))
+		if (access(binpath, F_OK) == 0)
 			return (binpath);
 	}
 	free(binpath);
@@ -43,7 +43,9 @@ void	ft_free_split(char ***split)
 		free((*split)[i]);
 		i++;
 	}
-	free(*split);
+	if (split)
+		free(*split);
+	*split = NULL;
 }
 
 char *get_env_path(char **envp)
@@ -75,10 +77,9 @@ char	*get_path_path(char**envp, char *command)
 	while (arr && arr[j])
 	{
 		path = isbin(arr[j], command);
-		if (path && access(path,X_OK) == 0)
+		if (path && access(path, X_OK) == 0)
 			return (ft_free_split(&arr), path);
-		else
-			tmp = path;
+		tmp = path;
 		j++;
 	}
 	return (ft_free_split(&arr), tmp);

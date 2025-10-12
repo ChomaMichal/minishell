@@ -8,7 +8,7 @@ HEADERS = minishell.h libft/libft.h\
 SRC = main.c btree_apply.c print.c \
 		libft/ft_append_arr_str.c libft/ft_arrlen.c libft/ft_atoi.c libft/ft_calloc.c libft/ft_copyarr.c \
 		libft/ft_free_arr.c libft/ft_free_split.c libft/ft_get_env_value.c libft/ft_isalnum.c libft/ft_isalpha.c libft/ft_isdigit.c \
-		libft/ft_printf.c libft/ft_printf_utils.c libft/ft_putstr_fd.c libft/ft_putstrerr.c libft/ft_split_dels.c \
+		libft/ft_itoa.c libft/ft_printf.c libft/ft_printf_utils.c libft/ft_putstr_fd.c libft/ft_putstrerr.c libft/ft_split_dels.c \
 		libft/ft_split.c libft/ft_strchr.c libft/ft_strdup.c libft/ft_strjoin.c libft/ft_strjoinf1.c libft/ft_strlcpy.c \
 		libft/ft_strlen.c libft/ft_strncmp.c libft/ft_strnstr.c libft/ft_strsjoin.c libft/ft_substr.c \
 		libft/ft_write_types.c libft/ft_write_types2.c\

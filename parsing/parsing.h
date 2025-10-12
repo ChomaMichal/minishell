@@ -85,7 +85,7 @@ size_t	len_to_unquoted_delimiter(char *line, char **operators);
 void	ft_lstiter(t_list *lst, void (*f)(t_print_d *), t_print_d *data);
 
 /* parse.c */
-t_btree	*create_exec_tree(char *line, char **operators);
+t_btree	*create_exec_tree(char *line, char **operators, t_data *data);
 int		btoindex(int options);
 
 /* validate_tokens.c */

@@ -56,7 +56,7 @@ void	del_tokens(t_list *tokens)
 	ft_lstclear(&tokens, del_token);
 }
 
-char	*create_env_var_value(char *str, size_t *start)
+char	*create_env_var_value(char *str, size_t *start, t_data *data)
 {
 	size_t	j;
 	char	*key;
@@ -65,6 +65,8 @@ char	*create_env_var_value(char *str, size_t *start)
 	j = 0;
 	if (str[j] == '$')
 		return (*start += 1, ft_strdup("$$"));
+	if (str[j] == "?")
+		return (printf("here\n"), *start += 1, ft_itoa(data->rt));
 	if (str[j] == 0 || (!ft_isalpha(str[j]) && str[j] != '_'))
 		return (ft_strdup("$"));
 	while (ft_isalnum(str[j]) || str[j] == '_')
@@ -73,11 +75,8 @@ char	*create_env_var_value(char *str, size_t *start)
 	key = ft_substr(str, 0, j);
 	if (!key)
 		return (NULL);
-	value = getenv(key);
+	value = ft_get_env_value(data->env, key);
 	free(key);
-	if (!value)
-		return (ft_strdup(""));
-	value = ft_strdup(value);
 	return (value);
 }
 
@@ -110,7 +109,7 @@ char	*safe_strjoin(char **str1, char *str2, int free_second_str)
 	return (*str1);
 }
 
-int	expand_double_quoted_fragment(char *fragment_str, t_list *target_node)
+int	expand_double_quoted_fragment(char *fragment_str, t_list *target_node, t_data *data)
 {
 	char	*env_var_value;
 	size_t	start;
@@ -126,7 +125,7 @@ int	expand_double_quoted_fragment(char *fragment_str, t_list *target_node)
 			if (append_substr(target_node, &fragment_str[start], 0))
 				return (1);
 			start = i + 1;
-			env_var_value = create_env_var_value(&fragment_str[start], &start);
+			env_var_value = create_env_var_value(&fragment_str[start], &start, data);
 			if (!env_var_value)
 				return (1);
 			if (append_substr(target_node, env_var_value, 1))
@@ -139,7 +138,7 @@ int	expand_double_quoted_fragment(char *fragment_str, t_list *target_node)
 	return (append_substr(target_node, &fragment_str[start], 0));
 }
 
-char	*create_expanded_fragment(char *fragment_str, char **target_str)
+char	*create_expanded_fragment(char *fragment_str, char **target_str, t_data *data)
 {
 	char	*env_var_value;
 	size_t	start;
@@ -155,7 +154,7 @@ char	*create_expanded_fragment(char *fragment_str, char **target_str)
 			if (!safe_strjoin(target_str, &fragment_str[start], 0))
 				return (NULL);
 			start = i + 1;
-			env_var_value = create_env_var_value(&fragment_str[start], &start);
+			env_var_value = create_env_var_value(&fragment_str[start], &start, data);
 			if (!env_var_value)
 				return (NULL);
 			if (!safe_strjoin(target_str, env_var_value, 1))
@@ -284,7 +283,7 @@ int	field_split(char *fragment_str, char *expanded, t_list *token_node, t_list *
 	return (0);
 }
 
-int	expand_unquoted_fragment(char *fragment_str, t_list *token_node, t_list **target_node, size_t i)
+int	expand_unquoted_fragment(char *fragment_str, t_list *token_node, t_list **target_node, size_t i, t_data *data)
 {
 	t_token	*token;
 	char	*expanded;
@@ -293,7 +292,7 @@ int	expand_unquoted_fragment(char *fragment_str, t_list *token_node, t_list **ta
 	expanded = ft_strdup("");
 	if (!expanded)
 		return (1);
-	expanded = create_expanded_fragment(fragment_str, &expanded);
+	expanded = create_expanded_fragment(fragment_str, &expanded, data);
 	if (!expanded)
 		return (1);
 	if (!ft_strchr(expanded, ' ') && !ft_strchr(expanded, '	'))
@@ -320,7 +319,7 @@ int	expand_single_quoted_fragment(char *fragment_str, t_list *target_node)
 	return (0);
 }
 
-int	expand_fragment(char *line, t_list *token_node, t_list **target_node, size_t i)
+int	expand_fragment(char *line, t_list *token_node, t_list **target_node, size_t i, t_data *data)
 {
 	t_token	*token;
 	int		res;
@@ -337,14 +336,14 @@ int	expand_fragment(char *line, t_list *token_node, t_list **target_node, size_t
 	if (token->fragments[i].type == SINGLE)
 		res = expand_single_quoted_fragment(fragment_str, *target_node);
 	else if (token->fragments[i].type == DOUBLE)
-		res = expand_double_quoted_fragment(fragment_str, *target_node);
+		res = expand_double_quoted_fragment(fragment_str, *target_node, data);
 	else if (token->fragments[i].type == UNQUOTED)
-		res = expand_unquoted_fragment(fragment_str, token_node, target_node, i);
+		res = expand_unquoted_fragment(fragment_str, token_node, target_node, i, data);
 	free(fragment_str);
 	return (res);
 }
 
-int	expand_word(char *line, t_list *target_node)
+int	expand_word(char *line, t_list *target_node, t_data *data)
 {
 	size_t	fragment_i;
 	t_list	*token_node;
@@ -363,7 +362,7 @@ int	expand_word(char *line, t_list *target_node)
 			continue ;
 		}
 		// print_fragment_str(line, token_node->token, fragment_i);
-		if(expand_fragment(line, token_node, &target_node, fragment_i))
+		if(expand_fragment(line, token_node, &target_node, fragment_i, data))
 			return (1);
 		fragment_i++;
 	}
@@ -428,7 +427,7 @@ int	filename_expansion(t_list **head, char *line)
 	return (0);
 }
 
-int	expand(t_list **head, char *line)
+int	expand(t_list **head, char *line, t_data *data)
 {
 	t_list	*node;
 
@@ -438,7 +437,7 @@ int	expand(t_list **head, char *line)
 		if (node->token->options & WORD
 			&& !(node->token->options & EXPANDED_WORD))
 			{
-				if (expand_word(line, node))
+				if (expand_word(line, node, data))
 					return (ft_printf(2, "expand_token() failed: (%s)\n", node->token->str), 1);
 			}
 		node = node->next;
@@ -502,24 +501,24 @@ static void	print_tokens(t_print_d *data)
 	// free(token->fragments);
 }
 
-t_btree	*create_exec_tree(char *line, char **operators)
+t_btree	*create_exec_tree(char *line, char **operators, t_data *data)
 {
 	t_btree		*exec_tree;
 	t_list		*head;
-	t_print_d	data;
+	t_print_d	print_data;
 
-	data.line = line;
-	data.operators = operators;
+	print_data.line = line;
+	print_data.operators = operators;
 	head = tokenize(line, operators);
 	if (!head)
 		return (ft_printf(2, "minishell: tokenize() returned NULL\n"), NULL);
 	if (validate_tokens(head, operators))
 		return (/* ft_printf(2, "minishell: validate_tokens() failed\n"),  */del_tokens(head), NULL);
-	if (expand(&head, line))
+	if (expand(&head, line, data))
 		return (ft_printf(2, "minishell: parse() failed\n"), del_tokens(head), NULL);
 	if (redirect(head))
 		return (ft_printf(2, "minishell: redirect() failed\n"), del_tokens(head), NULL);
-	// ft_lstiter(head, print_tokens, &data);
+	// ft_lstiter(head, print_tokens, &print_data);
 	exec_tree = create_tree(head);
 	del_tokens(head);
 	return (exec_tree);

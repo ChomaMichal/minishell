@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:43:42 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/12 21:23:20 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/12 22:09:29 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ int	main(int argc, char **argv, char **envp)
 		if (line[0])
 		{
 			add_history(line);
-			cmds_tree = create_exec_tree(line, operators);
+			cmds_tree = create_exec_tree(line, operators, &data);
 			if (cmds_tree)
 			{
-				// print_btree_pyramid(cmds_tree);
+				print_btree_pyramid(cmds_tree);
 				data.head = cmds_tree;
-				execute(cmds_tree, &data);
+				// execute(cmds_tree, &data);
 				btree_apply_suffix(cmds_tree, delete_bnode);
 				data.rt = wait_and_get_exit_value(data.pids);
 			}

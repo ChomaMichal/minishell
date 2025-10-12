@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:26:29 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/08 18:11:07 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/12 22:24:44 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*ft_get_env_value(char **arr, char *key);
 int		ft_isalnum(int str);
 int		ft_isalpha(int c);
 int		ft_isdigit(int str);
+char	*ft_itoa(int n);
 int		ft_printf(int fd, const char *format, ...);
 size_t	ft_putstr_fd(char *s, int fd);
 void	ft_putstrerr(char *str);

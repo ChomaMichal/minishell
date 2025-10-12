@@ -113,7 +113,7 @@ void	pwd_wrap(t_btree *tree, t_data *data)
 
 void	exit_wrap(t_btree *tree, t_data *data)
 {
-	ft_exit(data, tree->cmd_argv[0]);
+	ft_exit(data, tree->cmd_argv[1]);
 	add_last_id(&data->pids, -1);
 }
 

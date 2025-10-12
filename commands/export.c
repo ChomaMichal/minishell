@@ -40,7 +40,7 @@ int	ft_export(t_data *data, char *arg)
 	{
 		data->rt = 1;
 		return (ft_putstr_fd("bash: export: '", 2),
-			ft_putstr_fd(arg, 2), ft_putstr_fd("': not a valid identifier", 2),
+			ft_putstr_fd(arg, 2), ft_putstr_fd("': not a valid identifier\n", 2),
 			set_rt(&data->rt, 1), 0);
 	}
 	if (ft_strchr(arg, '='))

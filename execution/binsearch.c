@@ -77,13 +77,11 @@ char	*get_path_path(char**envp, char *command)
 	while (arr && arr[j])
 	{
 		path = isbin(arr[j], command);
-		fprintf(stderr, "%s-->path\n", path);
 		if (path && access(path, X_OK) == 0)
 			return (ft_free_split(&arr), path);
 		tmp = path;
 		j++;
 	}
-	fprintf(stderr, "%s-->tmp\n", tmp);
 	return (ft_free_split(&arr), tmp);
 }
 

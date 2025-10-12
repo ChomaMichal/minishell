@@ -48,6 +48,7 @@ typedef struct	s_fragment
 typedef struct	s_token
 {
 	char		*str;
+	t_redir		redir;
 	int			options;
 	size_t		fragment_count;
 	t_fragment	*fragments;

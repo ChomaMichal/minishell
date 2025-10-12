@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 15:33:57 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/10 15:34:34 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/12 22:46:35 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	ft_exit(t_data *data, char *str)
 		i  = ft_atoi(str);
 	else 
 		i = data->rt;
-	if (data->head != NULL)
-		btree_apply_suffix(data->head, delete_bnode);
+	// if (data->head != NULL)
+	// 	btree_apply_suffix(data->head, delete_bnode);
 	free_arr((void ***)&data->env);
 	exit(i);
 }

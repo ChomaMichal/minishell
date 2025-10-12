@@ -65,8 +65,8 @@ char	*create_env_var_value(char *str, size_t *start, t_data *data)
 	j = 0;
 	if (str[j] == '$')
 		return (*start += 1, ft_strdup("$$"));
-	if (str[j] == "?")
-		return (printf("here\n"), *start += 1, ft_itoa(data->rt));
+	if (str[j] == '?')
+		return (*start += 1, ft_itoa(data->rt));
 	if (str[j] == 0 || (!ft_isalpha(str[j]) && str[j] != '_'))
 		return (ft_strdup("$"));
 	while (ft_isalnum(str[j]) || str[j] == '_')
@@ -449,7 +449,52 @@ int	expand(t_list **head, char *line, t_data *data)
 
 int	redirect(t_list	*head)
 {
-	
+	t_list	*node;
+	t_redir	redir;
+	t_token	*target_command;
+
+	redir.append = 0;
+	redir.in = NULL;
+	redir.out = NULL;
+	target_command = NULL;
+	node = head;
+	while (node)
+	{
+		if (node->token->options & HERE_DOC)
+		{
+			redir.append = 1;
+			redir.in = ft_strdup(node->next->token->str);
+			redir.out = NULL;
+			node = node->next;
+		}
+		else if (node->token->options & OUTPUT_REDIR_APPEND)
+		{
+			redir.append = 1;
+			redir.in = NULL;
+			redir.out = ft_strdup(node->next->token->str);
+			node = node->next;
+		}
+		else if (node->token->options & INPUT_REDIR)
+		{
+			redir.append = 0;
+			redir.in = ft_strdup(node->next->token->str);
+			redir.out = NULL;
+			node = node->next;
+		}
+		else if (node->token->options & OUTPUT_REDIR)
+		{
+			redir.append = 0;
+			redir.in = NULL;
+			redir.out = ft_strdup(node->next->token->str);
+			node = node->next;
+		}
+		else if (node->token->options & WORD && target_command == NULL)
+		{
+			target_command = node->token;
+			node->token->redir = redir;
+		}
+		node = node->next;
+	}
 	return (0);
 }
 

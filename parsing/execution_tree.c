@@ -111,7 +111,7 @@ t_btree	*parse_command(t_list **tokens)
 			return (ft_printf(2, "malloc failed in make_bnode(): parse_command()\n"), NULL);
 		node->cmd_argv = create_cmd_argv(tokens);
 		if (!node->cmd_argv)
-			return (ft_printf(2, "malloc failed in create_cmd_argv\n"), NULL);
+			return (ft_printf(2, "malloc failed in create_cmd_argv()\n"), NULL);
 		return (node);
 	}
 	return (ft_printf(2, "Error: Unexpected token\n"), NULL);

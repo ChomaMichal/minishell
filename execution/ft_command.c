@@ -6,12 +6,13 @@
 /*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 19:02:13 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/12 14:33:34 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/12 17:22:19 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "executor.h"
 #include "../commands/commands.h"
 #include "../libft/libft.h"
+#include <signal.h>
 
 //todo implement build ins
 //if it is not found exit with 127 
@@ -21,6 +22,8 @@ void	ft_execve(t_btree *tree, t_data *data)
 {
 	char	*path;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 	path = get_path(data->env, tree->cmd_argv[0]);
 	if (path == NULL)
 	{
@@ -96,12 +99,14 @@ void	unset_wrap(t_btree *tree, t_data *data)
 
 void	env_wrap(t_btree *tree, t_data *data)
 {
+	tree = NULL;
 	ft_env(data);
 	add_last_id(&data->pids, -1);
 }
 
 void	pwd_wrap(t_btree *tree, t_data *data)
 {
+	tree = NULL;
 	ft_pwd(data);
 	add_last_id(&data->pids, -1);
 }
@@ -150,12 +155,12 @@ void	ft_command(t_btree *tree, t_data *data)
 	pid = fork();
 	if (pid == 0)
 		ft_execve(tree, data);
-	if (add_last_id(&data->pids, pid))
+	else if (add_last_id(&data->pids, pid))
 		data->rt = 1;
 	if (data->subshell == 1)
 	{
 		close(STDIN_FILENO);
 		close(STDOUT_FILENO);
-		exit (wait_and_get_exit_value(data->pids));
+		exit(wait_and_get_exit_value(data->pids));
 	}
 }

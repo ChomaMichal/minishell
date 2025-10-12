@@ -6,11 +6,12 @@
 /*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:43:42 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/10 19:57:32 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/12 17:21:33 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
 
 void	set_operators(char **operators)
 {
@@ -24,6 +25,13 @@ void	set_operators(char **operators)
 	operators[7] = "(";
 	operators[8] = ")";
 	operators[9] = NULL;
+}
+
+void	signal_parent_sigint(int sig)
+{
+	write(STDIN_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 void	delete_bnode(void *ptr)
@@ -51,12 +59,15 @@ int	main(int argc, char **argv, char **envp)
 	char	*operators[10];
 	t_data	data;
 	
+	argc = 0;
+	argv  = NULL;
 	data.env = ft_coppyarrstr(envp);
 	data.rt = 0;
 	data.subshell = 0;
 	data.pids = NULL;
 	// print_env(envp);
 	set_operators(operators);
+	signal(SIGINT, signal_parent_sigint);
 	while (1)
 	{
 		line = readline("<>minishell<>");

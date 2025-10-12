@@ -34,7 +34,6 @@ static int	arg_check(char *arg)
 
 int	ft_export(t_data *data, char *arg)
 {
-	char	**new;
 	char	*var;
 
 	if (arg_check(arg) == 0)

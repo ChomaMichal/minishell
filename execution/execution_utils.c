@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 18:59:46 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/09 18:58:13 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/12 17:13:57 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int		wait_and_get_exit_value(t_ids *list)
 		return (wait_and_get_exit_value(list->next));
 	if (list->next == NULL)
 	{
-		fprintf(stderr, "%i pid\n", waitpid(list->pid, &rt, 0));
-		perror("");
+		waitpid(list->pid, &rt, 0);
 		if (WIFSIGNALED(rt))
 			return (WTERMSIG(rt) + 128);
 		WEXITSTATUS(rt);

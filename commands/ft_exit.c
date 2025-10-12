@@ -15,8 +15,12 @@
 
 int	ft_exit(t_data *data, char *str)
 {
+	int	i;
+
 	if (data->head != NULL)
 		btree_apply_suffix(data->head, delete_bnode);
 	free_arr((void ***)&data->env);
-	exit(data->rt);
+	i  = ft_atoi(str);
+	free(str);
+	exit(i);
 }

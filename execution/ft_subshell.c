@@ -18,6 +18,8 @@ void	ft_subshell(t_btree *tree, t_data *data)
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		free_pids(&data->pids);
 		data->subshell = 1;
 		execute(tree->left, data);

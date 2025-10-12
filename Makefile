@@ -13,8 +13,6 @@ SRC = main.c btree_apply.c print.c \
 		libft/ft_strlen.c libft/ft_strncmp.c libft/ft_strnstr.c libft/ft_strsjoin.c libft/ft_substr.c \
 		libft/ft_write_types.c libft/ft_write_types2.c\
 		libft/add_last_id.c libft/free_pids.c
-		# execution/binsearch.c execution/entry.c execution/execution_utils.c execution/ft_and.c execution/ft_command.c execution/ft_or.c execution/ft_pipe.c
-
 
 COMMANDS = commands/cd.c\
 			commands/com_main.c\
@@ -26,7 +24,7 @@ COMMANDS = commands/cd.c\
 			commands/ft_exit.c\
 			commands/set_rt.c
 
-PARSING =parsing/execution_tree.c\
+PARSING = parsing/execution_tree.c\
 		parsing/fragment.c\
 		parsing/parsing.c\
 		parsing/tokenize.c\
@@ -50,9 +48,11 @@ EXECUTE = execution/binsearch.c\
 		  execution/ft_subshell.c
 
 OBJ_DIR = objects/
+TEST_OBJ_DIR = test_objects/
 
 ALL_SRC = $(SRC) $(COMMANDS) $(PARSING) $(EXECUTE)
 OBJ = $(patsubst %.c,$(OBJ_DIR)%.o,$(ALL_SRC))
+TEST_OBJ = $(patsubst %.c,$(TEST_OBJ_DIR)%.o,$(ALL_SRC))
 
 all: $(NAME)
 
@@ -62,8 +62,14 @@ $(NAME): $(OBJ)
 $(OBJ_DIR)%.o: %.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
-test:
-	$(CC) $(LIBS) -Wall -Wextra -g $(ALL_SRC) -o test
+
+# ---- TEST BUILD ----
+test: $(TEST_OBJ)
+	$(CC) $(CFLAGS) $(LIBS) $^ -o test
+
+$(TEST_OBJ_DIR)%.o: %.c
+	mkdir -p $(dir $@)
+	$(CC) -Wall -Wextra -g -c $< -o $@
 
 runt:
 	valgrind --leak-check=full --suppressions=readline.supp ./test
@@ -72,11 +78,12 @@ ctest: all
 	./minishell
 
 clean:
-	rm -rf $(OBJ_DIR)
+	rm -rf $(OBJ_DIR) $(TEST_OBJ_DIR)
 
 fclean: clean
-	rm -rf $(MINISHELL)
+	rm -f $(NAME) test
 
 re: fclean all
 
-.PHONY: all clean fclean re test runt
+.PHONY: all clean fclean re test runt ctest
+

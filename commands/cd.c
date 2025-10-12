@@ -44,7 +44,6 @@ int	cd_path(t_data *data, char **path)
 
 int	ft_cd(t_data *data, char *path)
 {
-	char	*str;
 	size_t	i;
 
 	if (*path != '/')

@@ -18,6 +18,8 @@ void	ft_putstrerr(char *str);
 
 void	read_pipe(t_btree *tree, t_data *data, int *fd)
 {
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	close(STDIN_FILENO);
 	data->subshell = 1;
 	dup2(fd[0], STDIN_FILENO);
@@ -29,6 +31,8 @@ void	read_pipe(t_btree *tree, t_data *data, int *fd)
 
 void	write_pipe(t_btree *tree, t_data *data, int *fd)
 {
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	close(STDOUT_FILENO);
 	data->subshell = 1;
 	dup2(fd[1], STDOUT_FILENO);

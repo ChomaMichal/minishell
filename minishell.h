@@ -58,4 +58,5 @@ void	execute(t_btree *tree, t_data *data);
 
 int		wait_and_get_exit_value(t_ids *list);
 void	delete_bnode(void *ptr);
+void	singal1(int sig);
 #endif

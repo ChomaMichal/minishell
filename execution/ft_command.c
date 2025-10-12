@@ -27,7 +27,17 @@ void	ft_execve(t_btree *tree, t_data *data)
 	path = get_path(data->env, tree->cmd_argv[0]);
 	if (path == NULL)
 	{
-		data->rt = 1;
+		ft_putstrerr("Binary ");
+		ft_putstrerr(tree->cmd_argv[0]);
+		ft_putstrerr(" not found\n");
+		ft_exit(data, "127");
+	}
+	if (access(path, X_OK) != 0)
+	{
+		ft_putstrerr("Binary ");
+		ft_putstrerr(path);
+		ft_putstrerr(" not executable\n");
+		free(path);
 		ft_exit(data, "126");
 	}
 	execve(path, tree->cmd_argv, data->env);

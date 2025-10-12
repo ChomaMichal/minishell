@@ -26,7 +26,7 @@ char	*isbin(char *path, char *command)
 	free(tmp);
 	if (binpath)
 	{
-		if (access(binpath, X_OK) == 0)
+		if (access(binpath, F_OK))
 			return (binpath);
 	}
 	free(binpath);
@@ -46,33 +46,41 @@ void	ft_free_split(char ***split)
 	free(*split);
 }
 
-char	*get_path_path(char**envp, char *command)
+char *get_env_path(char **envp)
 {
 	int		i;
+
+	i = 0;
+	while(envp[i])
+	{
+		if (ft_strnstr(envp[i], "PATH=", 5))
+			return (envp[i]);
+	}
+	return (NULL);
+}
+
+char	*get_path_path(char**envp, char *command)
+{
 	int		j;
 	char	**arr;
 	char	*path;
+	char	*tmp;
 
 	arr = NULL;
-	i = 0;
-	while (envp[i])
+	tmp = get_env_path(envp);
+	arr = ft_split(tmp + 5, ':');
+	tmp = NULL;
+	j = 0;
+	while (arr && arr[j])
 	{
-		if (ft_strnstr(envp[i], "PATH=", 5))
-		{
-			arr = ft_split(envp[i] + 5, ':');
-			j = 0;
-			while (arr && arr[j])
-			{
-				path = isbin(arr[j], command);
-				if (path)
-					return (ft_free_split(&arr), path);
-				j++;
-			}
-		}
-		i ++;
+		path = isbin(arr[j], command);
+		if (path && access(path,X_OK) == 0)
+			return (ft_free_split(&arr), path);
+		else
+			tmp = path;
+		j++;
 	}
-	return (ft_putstr_fd("Didn't find executable binary\n", 2),
-		ft_free_split(&arr), NULL);
+	return (ft_free_split(&arr), tmp);
 }
 
 char	*get_path(char**envp, char *command)
@@ -80,11 +88,7 @@ char	*get_path(char**envp, char *command)
 	if (ft_strchr(command, '/'))
 	{
 		if (access(command, F_OK) == 0)
-		{
-			if (access(command, X_OK) == 0)
-				return (ft_strdup(command));
-			ft_putstr_fd("Binary isn't executable\n", 2);
-		}
+			return (ft_strdup(command));
 		ft_putstr_fd("Didn't find executable binary\n", 2);
 		return (NULL);
 	}

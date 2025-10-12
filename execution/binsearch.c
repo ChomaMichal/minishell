@@ -55,6 +55,7 @@ char *get_env_path(char **envp)
 	{
 		if (ft_strnstr(envp[i], "PATH=", 5))
 			return (envp[i]);
+		i ++;
 	}
 	return (NULL);
 }

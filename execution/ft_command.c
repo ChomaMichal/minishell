@@ -32,17 +32,12 @@ void	ft_execve(t_btree *tree, t_data *data)
 		ft_putstrerr(" not found\n");
 		ft_exit(data, "127");
 	}
-	if (access(path, X_OK) != 0)
-	{
-		ft_putstrerr("Binary ");
-		ft_putstrerr(path);
-		ft_putstrerr(" not executable\n");
-		free(path);
-		ft_exit(data, "126");
-	}
 	execve(path, tree->cmd_argv, data->env);
+	ft_putstrerr("Binary ");
+	ft_putstrerr(path);
+	ft_putstrerr(" not executable\n");
 	free(path);
-	ft_exit(data, NULL);
+	ft_exit(data, "126");
 }
 
 #include <stdio.h>

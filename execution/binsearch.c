@@ -26,7 +26,7 @@ char	*isbin(char *path, char *command)
 	free(tmp);
 	if (binpath)
 	{
-		if (access(binpath, F_OK))
+		if (access(binpath, F_OK) == 0)
 			return (binpath);
 	}
 	free(binpath);
@@ -77,10 +77,13 @@ char	*get_path_path(char**envp, char *command)
 	while (arr && arr[j])
 	{
 		path = isbin(arr[j], command);
-		if (path && access(path,F_OK) == 0)
+		fprintf(stderr, "%s-->path\n", path);
+		if (path && access(path, X_OK) == 0)
 			return (ft_free_split(&arr), path);
+		tmp = path;
 		j++;
 	}
+	fprintf(stderr, "%s-->tmp\n", tmp);
 	return (ft_free_split(&arr), tmp);
 }
 

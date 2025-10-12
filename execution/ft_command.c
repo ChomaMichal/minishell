@@ -6,7 +6,7 @@
 /*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 19:02:13 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/09 19:01:49 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/12 14:33:34 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "executor.h"
@@ -34,6 +34,8 @@ void	ft_execve(t_btree *tree, t_data *data)
 	ft_exit(data, NULL);
 }
 
+#include <stdio.h>
+
 void	echo_wrap(t_btree *tree, t_data *data)
 {
 	size_t	i;
@@ -42,18 +44,27 @@ void	echo_wrap(t_btree *tree, t_data *data)
 
 	flag = 0;
 	i = 1;
-	if (tree->cmd_argv[i] && ft_strncmp(tree->cmd_argv[1], "-n", 3)
+	if (tree->cmd_argv[i] && ft_strncmp(tree->cmd_argv[1], "-n", 3) == 0
 		&& ++flag)
 		i++;
+	str = ft_strdup(tree->cmd_argv[i]);
+	if (str == NULL)
+		return ; //error handle
+	i ++;
 	while (tree->cmd_argv[i])
 	{
+		str = ft_strjoinf1(str, " ");
+		if (str == NULL)
+			return ;//error handle
 		str = ft_strjoinf1(str, tree->cmd_argv[i]);
 		if (str == NULL)
 			return ;//error handle
+
 		i ++;
 	}
 	ft_echo(data, str, flag);
-	
+	free(str);
+	add_last_id(&data->pids, -1);
 }
 
 void	cd_wrap(t_btree *tree, t_data *data)
@@ -62,6 +73,7 @@ void	cd_wrap(t_btree *tree, t_data *data)
 		ft_cd(data, ft_strdup(""));
 	else
 		ft_cd(data, tree->cmd_argv[1]);
+	add_last_id(&data->pids, -1);
 }
 
 void	export_wrap(t_btree *tree, t_data *data)
@@ -70,6 +82,7 @@ void	export_wrap(t_btree *tree, t_data *data)
 		ft_export(data, "");
 	else
 		ft_export(data, tree->cmd_argv[1]);
+	add_last_id(&data->pids, -1);
 }
 
 void	unset_wrap(t_btree *tree, t_data *data)
@@ -78,21 +91,25 @@ void	unset_wrap(t_btree *tree, t_data *data)
 		ft_unset(data, ft_strdup(""));
 	else
 		ft_unset(data, tree->cmd_argv[1]);
+	add_last_id(&data->pids, -1);
 }
 
 void	env_wrap(t_btree *tree, t_data *data)
 {
 	ft_env(data);
+	add_last_id(&data->pids, -1);
 }
 
 void	pwd_wrap(t_btree *tree, t_data *data)
 {
 	ft_pwd(data);
+	add_last_id(&data->pids, -1);
 }
 
 void	exit_wrap(t_btree *tree, t_data *data)
 {
 	ft_exit(data, tree->cmd_argv[0]);
+	add_last_id(&data->pids, -1);
 }
 
 

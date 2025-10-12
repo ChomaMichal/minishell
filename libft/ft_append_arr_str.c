@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:43:52 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/08 10:29:34 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/12 14:40:13 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char **ft_append_arr_str(char ***arr, char *str)
 	char	**new;
 	
 	i = 0;
+	if (str == NULL)
+		return (*arr);
 	while (arr && *arr && (*arr)[i])
 		i++;
 	new = ft_calloc(i + 2, sizeof(char*));

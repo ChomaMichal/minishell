@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 19:02:13 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/12 17:22:19 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/13 19:54:39 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "executor.h"
 #include "../commands/commands.h"
 #include "../libft/libft.h"
@@ -18,10 +19,33 @@
 //if it is not found exit with 127 
 //if found and not executable exit with 126
 
+// static void	test_red(t_btree *tree)
+// {
+// 	int		fd[2];
+
+// 	fd[0] = 0;
+// 	fd[1] = 1;
+// 	if (tree->redir.in)
+// 	{
+// 		fd[0] = open(tree->redir.in, O_RDONLY);
+// 		if (fd[0] > 0)
+// 			printf("open failed in ft_execve()\n");
+// 		dup2(fd[0], 0);
+// 	}
+// 	if (tree->redir.out)
+// 	{
+// 		if (tree->redir.append)
+// 			fd[1] = open(tree->redir.out, O_WRONLY | O_CREAT | O_APPEND, 0777);
+// 		else
+// 			fd[1] = open(tree->redir.out, O_WRONLY | O_CREAT, 0777);
+// 		dup2(fd[1], 1);
+// 	}
+// }
 void	ft_execve(t_btree *tree, t_data *data)
 {
 	char	*path;
 
+	// test_red(tree);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
 	path = get_path(data->env, tree->cmd_argv[0]);

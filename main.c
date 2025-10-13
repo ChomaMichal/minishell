@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:43:42 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/12 22:42:50 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/13 20:28:30 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	delete_bnode(void *ptr)
 	{
 		node = (t_btree *)ptr;
 		free_split(node->cmd_argv);
+		free(node->redir.in);
+		free(node->redir.out);
 		free(node);
 	}
 }
@@ -61,7 +63,9 @@ int	main(int argc, char **argv, char **envp)
 	t_btree	*cmds_tree;
 	char	*operators[10];
 	t_data	data;
-	
+	int		line_count;
+
+	line_count = 0;
 	argc = 0;
 	argv  = NULL;
 	data.env = ft_coppyarrstr(envp);
@@ -79,8 +83,9 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (line[0])
 		{
+			line_count++;
 			add_history(line);
-			cmds_tree = create_exec_tree(line, operators, &data);
+			cmds_tree = create_exec_tree(line, operators, &data, &line_count);
 			if (cmds_tree)
 			{
 				// print_btree_pyramid(cmds_tree);

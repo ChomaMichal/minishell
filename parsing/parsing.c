@@ -447,57 +447,6 @@ int	expand(t_list **head, char *line, t_data *data)
 	return (0);
 }
 
-int	redirect(t_list	*head)
-{
-	t_list	*node;
-	t_redir	redir;
-	t_token	*target_command;
-
-	redir.append = 0;
-	redir.in = NULL;
-	redir.out = NULL;
-	target_command = NULL;
-	node = head;
-	while (node)
-	{
-		if (node->token->options & HERE_DOC)
-		{
-			redir.append = 1;
-			redir.in = ft_strdup(node->next->token->str);
-			redir.out = NULL;
-			node = node->next;
-		}
-		else if (node->token->options & OUTPUT_REDIR_APPEND)
-		{
-			redir.append = 1;
-			redir.in = NULL;
-			redir.out = ft_strdup(node->next->token->str);
-			node = node->next;
-		}
-		else if (node->token->options & INPUT_REDIR)
-		{
-			redir.append = 0;
-			redir.in = ft_strdup(node->next->token->str);
-			redir.out = NULL;
-			node = node->next;
-		}
-		else if (node->token->options & OUTPUT_REDIR)
-		{
-			redir.append = 0;
-			redir.in = NULL;
-			redir.out = ft_strdup(node->next->token->str);
-			node = node->next;
-		}
-		else if (node->token->options & WORD && target_command == NULL)
-		{
-			target_command = node->token;
-			node->token->redir = redir;
-		}
-		node = node->next;
-	}
-	return (0);
-}
-
 int	token_count = 0;
 static void	print_tokens(t_print_d *data)
 {
@@ -546,7 +495,7 @@ static void	print_tokens(t_print_d *data)
 	// free(token->fragments);
 }
 
-t_btree	*create_exec_tree(char *line, char **operators, t_data *data)
+t_btree	*create_exec_tree(char *line, char **operators, t_data *data, int *line_count)
 {
 	t_btree		*exec_tree;
 	t_list		*head;
@@ -561,10 +510,8 @@ t_btree	*create_exec_tree(char *line, char **operators, t_data *data)
 		return (/* ft_printf(2, "minishell: validate_tokens() failed\n"),  */del_tokens(head), NULL);
 	if (expand(&head, line, data))
 		return (ft_printf(2, "minishell: parse() failed\n"), del_tokens(head), NULL);
-	if (redirect(head))
-		return (ft_printf(2, "minishell: redirect() failed\n"), del_tokens(head), NULL);
 	// ft_lstiter(head, print_tokens, &print_data);
-	exec_tree = create_tree(head);
+	exec_tree = create_tree(head, line_count);
 	del_tokens(head);
 	return (exec_tree);
 }

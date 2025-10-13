@@ -121,7 +121,6 @@ int	add_here_node(t_here_doc **here_list, char *delimiter, t_btree *bnode)
 	return (0);
 }
 
-int glob_i = 0;
 int	create_redirections(t_list **tokens, t_btree *node, t_here_doc **here_list)
 {
 	t_list	*cur;
@@ -242,28 +241,28 @@ t_btree	*parse_and_or(t_list **tokens, t_here_doc **here_list)
 	return (left);
 }
 
-int	open_here_docs(t_here_doc *here_list, int *line_count)
-{
-	t_here_doc	*cur;
-	char		*line;
-	int			here_fd;
+// int	open_here_docs(t_here_doc *here_list, int *line_count)
+// {
+// 	t_here_doc	*cur;
+// 	char		*line;
+// 	int			here_fd;
 
-	cur = here_list;
-	here_fd = open(, O_WRONLY | O_CREAT | O_EXCL, 0666); // Maybe change file name because of confilcts (is ".tmp" a common name?).
-	while (cur)
-	{
-		while (1)
-		{
-			line = readline(">");
-			if (!line)
-			{
-				ft_printf(2, "bash: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", *line_count, cur->delimiter);
-				break ;
-			}
-			*line_count += 1;
-		}
-	}
-}
+// 	cur = here_list;
+// 	here_fd = open(, O_WRONLY | O_CREAT | O_EXCL, 0666); // Maybe change file name because of confilcts (is ".tmp" a common name?).
+// 	while (cur)
+// 	{
+// 		while (1)
+// 		{
+// 			line = readline(">");
+// 			if (!line)
+// 			{
+// 				ft_printf(2, "bash: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", *line_count, cur->delimiter);
+// 				break ;
+// 			}
+// 			*line_count += 1;
+// 		}
+// 	}
+// }
 
 // BIG ISSUE FOUND: WHAT HAPPENS WHEN MALLOC FAILS DEEP INSIDE ONE OF THESE FUNCTIONS?? YOU RETURN NULL, WHICH IS A VALID RETURN VALUE??
 
@@ -274,8 +273,8 @@ t_btree	*create_tree(t_list *tokens, int *line_count)
 
 	here_list = NULL;
 	tree = parse_and_or(&tokens, &here_list);
-	if (open_here_docs(&here_list, line_count))
-		return (printf("run_here_doc() failed\n"), NULL);
+	// if (open_here_docs(&here_list, line_count))
+	// 	return (printf("run_here_doc() failed\n"), NULL);
 	// printf("redirect input to (%s) and output to (%s)\n", tree->redir.in, tree->redir.out);
 	return (tree);
 }

@@ -77,7 +77,7 @@ typedef	struct	s_print_d
 
 /* ft_lst */
 t_list	*ft_lstnew(t_token *token);
-void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstadd_back(t_list **lst, t_list *nw);
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 t_list	*ft_lstlast(t_list *lst);
@@ -93,7 +93,7 @@ size_t	len_to_unquoted_delimiter(char *line, char **operators);
 void	ft_lstiter(t_list *lst, void (*f)(t_print_d *), t_print_d *data);
 
 /* parse.c */
-t_btree	*create_exec_tree(char *line, char **operators, t_data *data);
+t_btree	*create_exec_tree(char *line, char **operators, t_data *data, int *linecoutn);
 int		btoindex(int options);
 
 /* validate_tokens.c */

@@ -21,5 +21,3 @@ jobs:
       run: nix-shell
     - name: compile
       run: make test
-    -name: testing
-      run: 

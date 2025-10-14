@@ -2,7 +2,7 @@
 
 pkgs.mkShell {
   buildInputs = [
-	pkgs.make
+	pkgs.gnuMake
 	pkgs.clang
     pkgs.readline
     pkgs.ncurses  # often needed by readline

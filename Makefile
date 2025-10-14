@@ -68,6 +68,9 @@ $(OBJ_DIR)%.o: %.c
 test: $(TEST_OBJ)
 	$(CC) $(CFLAGS) $(LIBS) $^ -o test
 
+testj :
+	make test -j `nproc`
+
 $(TEST_OBJ_DIR)%.o: %.c
 	mkdir -p $(dir $@)
 	$(CC) -Wall -Wextra -g -c $< -o $@
@@ -86,5 +89,5 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re test runt ctest
+.PHONY: all clean fclean re test runt ctest testj
 

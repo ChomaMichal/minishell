@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: MINISHELL
 
 on:
   push:
@@ -13,8 +13,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: configure
-      run: sudo apt install nix 
-        nix-shell
-    - name: make test
+    - name: Install NIX
+      uses: cachix/install-nix-action@v26
+    - name: Nixshell
+      run: nix-shell
+    - name: compile
       run: make test
+    -name: testing
+      run: 

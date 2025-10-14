@@ -13,11 +13,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Install NIX
-      uses: cachix/install-nix-action@v26
-      with:
-          nix_path: nixpkgs=channel:nixos-unstable
-    - name: Nixshell
-      run: nix-shell
     - name: compile
       run: make test

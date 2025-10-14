@@ -79,11 +79,8 @@ int 	echo_maker(t_btree *tree, t_data *data)
 
 	flag = 0;
 	i = 1;
-	printf("%s\n", tree->cmd_argv[1]);
-	if (tree->cmd_argv[1] != NULL)
+	if (tree->cmd_argv[1] != 0)
 	{
-		printf("%s\n", tree->cmd_argv[1]);
-		printf("%lu == i \n", i);
 		if (ft_strncmp(tree->cmd_argv[i], "-n", 3) == 0
 			&& ++flag)
 			i++;

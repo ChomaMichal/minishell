@@ -19,35 +19,40 @@
 //if it is not found exit with 127 
 //if found and not executable exit with 126
 
-// static void	test_red(t_btree *tree)
-// {
-// 	int		fd[2];
+static int	redirection(t_btree *tree)
+{
+	int		in;
+	int		out;
 
-// 	fd[0] = 0;
-// 	fd[1] = 1;
-// 	if (tree->redir.in)
-// 	{
-// 		fd[0] = open(tree->redir.in, O_RDONLY);
-// 		if (fd[0] > 0)
-// 			printf("open failed in ft_execve()\n");
-// 		dup2(fd[0], 0);
-// 	}
-// 	if (tree->redir.out)
-// 	{
-// 		if (tree->redir.append)
-// 			fd[1] = open(tree->redir.out, O_WRONLY | O_CREAT | O_APPEND, 0777);
-// 		else
-// 			fd[1] = open(tree->redir.out, O_WRONLY | O_CREAT, 0777);
-// 		dup2(fd[1], 1);
-// 	}
-// }
+	if (tree->redir.in)
+	{
+		in = open(tree->redir.in, O_RDONLY);
+		if (in > 0)
+			return (ft_putstrerr("failed to open file in redirection\n"), -1);
+		dup2(in, STDIN_FILENO);
+	}
+	if (tree->redir.out)
+	{
+		if (tree->redir.append)
+			out = open(tree->redir.out, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		else
+			out = open(tree->redir.out, O_WRONLY | O_CREAT, 0777);
+		if (out == -1)
+			return (ft_putstrerr("failed to open file in redirection\n"), -1);
+		dup2(out, STDOUT_FILENO);
+	}
+	return (0);
+}
 void	ft_execve(t_btree *tree, t_data *data)
 {
 	char	*path;
+	int		out;
+	int		in;
 
-	// test_red(tree);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
+	if (redirection(tree))
+		ft_exit(data, "1");
 	path = get_path(data->env, tree->cmd_argv[0]);
 	if (path == NULL)
 	{
@@ -66,7 +71,7 @@ void	ft_execve(t_btree *tree, t_data *data)
 
 #include <stdio.h>
 
-void	echo_wrap(t_btree *tree, t_data *data)
+int 	echo_maker(t_btree *tree, t_data *data)
 {
 	size_t	i;
 	int		flag;
@@ -74,68 +79,163 @@ void	echo_wrap(t_btree *tree, t_data *data)
 
 	flag = 0;
 	i = 1;
-	if (tree->cmd_argv[i] && ft_strncmp(tree->cmd_argv[1], "-n", 3) == 0
-		&& ++flag)
-		i++;
-	str = ft_strdup(tree->cmd_argv[i]);
-	if (str == NULL)
-		return ; //error handle
-	i ++;
+	printf("%s\n", tree->cmd_argv[1]);
+	if (tree->cmd_argv[1] != NULL)
+	{
+		printf("%s\n", tree->cmd_argv[1]);
+		printf("%lu == i \n", i);
+		if (ft_strncmp(tree->cmd_argv[i], "-n", 3) == 0
+			&& ++flag)
+			i++;
+	}
 	while (tree->cmd_argv[i])
 	{
 		str = ft_strjoinf1(str, " ");
 		if (str == NULL)
-			return ;//error handle
+			return 1;//error handle
 		str = ft_strjoinf1(str, tree->cmd_argv[i]);
 		if (str == NULL)
-			return ;//error handle
+			return 1;//error handle
 
 		i ++;
 	}
-	ft_echo(data, str, flag);
-	free(str);
-	add_last_id(&data->pids, -1);
+	return (ft_echo(data, str, flag), free(str), add_last_id(&data->pids, -1));
 }
+
+void	echo_wrap(t_btree *tree, t_data *data)
+{
+	int		pid;
+
+	pid = -1;
+	if (tree->redir.in || tree->redir.out)
+	{
+		pid = fork();
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
+		redirection(tree);
+	}
+	if (pid <= 0)
+		echo_maker(tree, data);
+	if (pid == 0)
+		ft_exit(data, NULL);
+	if (pid   != 0)
+		add_last_id(&data->pids, pid);
+}
+
 
 void	cd_wrap(t_btree *tree, t_data *data)
 {
-	if (!tree->cmd_argv[1])
-		ft_cd(data, ft_strdup(""));
-	else
-		ft_cd(data, tree->cmd_argv[1]);
-	add_last_id(&data->pids, -1);
+	int		pid;
+
+	pid = -1;
+	if (tree->redir.in || tree->redir.out)
+	{
+		pid = fork();
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
+		redirection(tree);
+	}
+	if (pid <= 0)
+	{
+		if (!tree->cmd_argv[1])
+			ft_cd(data, ft_strdup(""));
+		else
+			ft_cd(data, tree->cmd_argv[1]);
+	}
+	if (pid == 0)
+		ft_exit(data, NULL);
+	if (pid   != 0)
+		add_last_id(&data->pids, pid);
 }
 
 void	export_wrap(t_btree *tree, t_data *data)
 {
-	if (!tree->cmd_argv[1])
-		ft_export(data, "");
-	else
-		ft_export(data, tree->cmd_argv[1]);
-	add_last_id(&data->pids, -1);
+	int		pid;
+
+	pid = -1;
+	if (tree->redir.in || tree->redir.out)
+	{
+		pid = fork();
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
+		redirection(tree);
+	}
+	if (pid <= 0)
+	{
+		if (!tree->cmd_argv[1])
+			ft_export(data, "");
+		else
+			ft_export(data, tree->cmd_argv[1]);
+	}
+	if (pid == 0)
+		ft_exit(data, NULL);
+	if (pid   != 0)
+		add_last_id(&data->pids, pid);
 }
 
 void	unset_wrap(t_btree *tree, t_data *data)
 {
-	if (!tree->cmd_argv[1])
-		ft_unset(data, ft_strdup(""));
-	else
-		ft_unset(data, tree->cmd_argv[1]);
-	add_last_id(&data->pids, -1);
+	int		pid;
+
+	pid = -1;
+	if (tree->redir.in || tree->redir.out)
+	{
+		pid = fork();
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
+		redirection(tree);
+	}
+	if (pid <= 0)
+	{
+		if (!tree->cmd_argv[1])
+			ft_unset(data, ft_strdup(""));
+		else
+			ft_unset(data, tree->cmd_argv[1]);
+	}
+	if (pid == 0)
+		ft_exit(data, NULL);
+	if (pid   != 0)
+		add_last_id(&data->pids, pid);
 }
 
 void	env_wrap(t_btree *tree, t_data *data)
 {
-	tree = NULL;
-	ft_env(data);
-	add_last_id(&data->pids, -1);
+	int		pid;
+
+	pid = -1;
+	if (tree->redir.in || tree->redir.out)
+	{
+		pid = fork();
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
+		redirection(tree);
+	}
+	if (pid <= 0)
+		ft_env(data);
+	if (pid == 0)
+		ft_exit(data, NULL);
+	if (pid   != 0)
+		add_last_id(&data->pids, pid);
 }
 
 void	pwd_wrap(t_btree *tree, t_data *data)
 {
-	tree = NULL;
-	ft_pwd(data);
-	add_last_id(&data->pids, -1);
+	int		pid;
+
+	pid = -1;
+	if (tree->redir.in || tree->redir.out)
+	{
+		pid = fork();
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
+		redirection(tree);
+	}
+	if (pid <= 0)
+		ft_pwd(data);
+	if (pid == 0)
+		ft_exit(data, NULL);
+	if (pid   != 0)
+		add_last_id(&data->pids, pid);
 }
 
 void	exit_wrap(t_btree *tree, t_data *data)

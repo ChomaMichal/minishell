@@ -2,7 +2,8 @@
 
 pkgs.mkShell {
   buildInputs = [
-	pkgs.clang_12
+	pkgs.make
+	pkgs.clang
     pkgs.readline
     pkgs.ncurses  # often needed by readline
     pkgs.pkg-config  # helps detect libraries

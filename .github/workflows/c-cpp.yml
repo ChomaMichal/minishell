@@ -16,6 +16,6 @@ jobs:
     - name: Install dependencies
       run: |
          sudo apt-get update
-         sudo apt-get install -y build-essentials clang libreadline-dev
+         sudo apt-get install -y build-essential clang libreadline-dev
     - name: compile
       run: make test

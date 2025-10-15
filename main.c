@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:43:42 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/13 20:28:30 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:36:43 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,26 @@ void	set_operators(char **operators)
 	operators[7] = "(";
 	operators[8] = ")";
 	operators[9] = NULL;
+}
+
+void	free_here_docs(t_here_doc **here_list)
+{
+	t_here_doc	*cur;
+	t_here_doc	*next;
+
+	if (!*here_list)
+		return ;
+	cur = *here_list;
+	while (cur)
+	{
+		free(cur->delimiter);
+		if (cur->file_name && access(cur->file_name, F_OK) == 0)
+			unlink(cur->file_name);
+		free(cur->file_name);
+		next = cur->next;
+		free(cur);
+		cur = next;
+	}
 }
 
 void	signal_parent_sigint(int sig)
@@ -48,55 +68,54 @@ void	delete_bnode(void *ptr)
 	}
 }
 
-void	print_env(char **envp)
+void	init_parse_data(t_parse_data *d)
 {
-	size_t	i;
+	d->here_list = NULL;
+	d->line_count = 0;
+	d->cmds_tree = NULL;
+	d->line = NULL;
+	set_operators(d->operators);
+}
 
-	i = 0;
-	while (envp[i++])
-		printf("%s\n", envp[i - 1]);
+void	init_data(t_data *data, int argc, char **argv, char **envp)
+{
+	data->env = ft_coppyarrstr(envp);
+	data->rt = 0;
+	data->subshell = 0;
+	data->pids = NULL;
+	data->head = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	t_btree	*cmds_tree;
-	char	*operators[10];
-	t_data	data;
-	int		line_count;
+	t_parse_data	d;
+	t_data			data;
 
-	line_count = 0;
-	argc = 0;
-	argv  = NULL;
-	data.env = ft_coppyarrstr(envp);
-	data.rt = 0;
-	data.subshell = 0;
-	data.pids = NULL;
-	data.head = NULL;
-	// print_env(envp);
-	set_operators(operators);
+	init_parse_data(&d);
+	init_data(&data, envp, argc, argv);
 	signal(SIGINT, signal_parent_sigint);
 	while (1)
 	{
-		line = readline("<>minishell<>");
-		if (!line)
+		d.line = readline("<>minishell<>");
+		if (!d.line)
 			break ;
-		if (line[0])
+		if (d.line[0] && ++d.line_count)
 		{
-			line_count++;
-			add_history(line);
-			cmds_tree = create_exec_tree(line, operators, &data, &line_count);
-			if (cmds_tree)
+			
+			add_history(d.line);
+			d.cmds_tree = create_exec_tree(&d, &data);
+			if (d.cmds_tree)
 			{
 				// print_btree_pyramid(cmds_tree);
-				data.head = cmds_tree;
-				execute(cmds_tree, &data);
-				btree_apply_suffix(cmds_tree, delete_bnode);
+				data.head = d.cmds_tree;
+				execute(d.cmds_tree, &data);
+				free_here_docs(&d.here_list);
+				btree_apply_suffix(d.cmds_tree, delete_bnode);
 				data.rt = wait_and_get_exit_value(data.pids);
 			}
 			rl_on_new_line();
 		}
-		free(line);
+		free(d.line);
 	}
 	ft_exit(&data, NULL);
 	return (0);

@@ -61,13 +61,6 @@ typedef struct	s_list
 	struct s_list	*next;
 }	t_list;
 
-typedef struct	s_here_doc
-{
-	char				*delimiter;
-	t_btree				*bnode;
-	struct s_here_doc	*next;
-}	t_here_doc;
-
 typedef	struct	s_print_d
 {
 	char	**operators;
@@ -93,7 +86,7 @@ size_t	len_to_unquoted_delimiter(char *line, char **operators);
 void	ft_lstiter(t_list *lst, void (*f)(t_print_d *), t_print_d *data);
 
 /* parse.c */
-t_btree	*create_exec_tree(char *line, char **operators, t_data *data, int *linecoutn);
+t_btree	*create_exec_tree(t_parse_data *d, t_data *data);
 int		btoindex(int options);
 
 /* validate_tokens.c */
@@ -122,6 +115,6 @@ int		handle_fragments(char *line, char **operators, t_token *token, size_t *i);
 char	**expand_star_append(char *match, char ***arr);
 
 /* execution_tree.c */
-t_btree	*create_tree(t_list *tokens, int *line_count);
+t_btree	*create_tree(t_list *tokens, int *line_count, t_here_doc **here_list);
 
 #endif

@@ -84,7 +84,6 @@ int	append_substr(t_list *target_node, char *str, int free_second_str)
 {
 	char	*tmp;
 
-	// printf("(%p)<<\n", str);
 	tmp = ft_strjoin(target_node->token->str, str);
 	free(target_node->token->str);
 	if (free_second_str)
@@ -138,7 +137,7 @@ int	expand_double_quoted_fragment(char *fragment_str, t_list *target_node, t_dat
 	return (append_substr(target_node, &fragment_str[start], 0));
 }
 
-char	*create_expanded_fragment(char *fragment_str, char **target_str, t_data *data)
+char	*create_expanded_fragment(char *fragment_str, char **target_str, t_data *data, t_list *token_node, size_t fragment_i)
 {
 	char	*env_var_value;
 	size_t	start;
@@ -154,7 +153,10 @@ char	*create_expanded_fragment(char *fragment_str, char **target_str, t_data *da
 			if (!safe_strjoin(target_str, &fragment_str[start], 0))
 				return (NULL);
 			start = i + 1;
-			env_var_value = create_env_var_value(&fragment_str[start], &start, data);
+			if (fragment_str[start] == 0 && !(fragment_i + 1 == token_node->token->fragment_count))
+				env_var_value = ft_strdup("");
+			else
+				env_var_value = create_env_var_value(&fragment_str[start], &start, data);
 			if (!env_var_value)
 				return (NULL);
 			if (!safe_strjoin(target_str, env_var_value, 1))
@@ -292,7 +294,7 @@ int	expand_unquoted_fragment(char *fragment_str, t_list *token_node, t_list **ta
 	expanded = ft_strdup("");
 	if (!expanded)
 		return (1);
-	expanded = create_expanded_fragment(fragment_str, &expanded, data);
+	expanded = create_expanded_fragment(fragment_str, &expanded, data, token_node, i);
 	if (!expanded)
 		return (1);
 	if (!ft_strchr(expanded, ' ') && !ft_strchr(expanded, '	'))
@@ -495,23 +497,23 @@ static void	print_tokens(t_print_d *data)
 	// free(token->fragments);
 }
 
-t_btree	*create_exec_tree(char *line, char **operators, t_data *data, int *line_count)
+t_btree	*create_exec_tree(t_parse_data *d, t_data *data)
 {
 	t_btree		*exec_tree;
 	t_list		*head;
 	t_print_d	print_data;
 
-	print_data.line = line;
-	print_data.operators = operators;
-	head = tokenize(line, operators);
+	print_data.line = d->line;
+	print_data.operators = d->operators;
+	head = tokenize(d->line, d->operators);
 	if (!head)
 		return (ft_printf(2, "minishell: tokenize() returned NULL\n"), NULL);
-	if (validate_tokens(head, operators))
-		return (/* ft_printf(2, "minishell: validate_tokens() failed\n"),  */del_tokens(head), NULL);
-	if (expand(&head, line, data))
+	if (validate_tokens(head, d->operators))
+		return (ft_printf(2, "minishell: validate_tokens() failed\n"), del_tokens(head), NULL);
+	if (expand(&head, d->line, data))
 		return (ft_printf(2, "minishell: parse() failed\n"), del_tokens(head), NULL);
 	// ft_lstiter(head, print_tokens, &print_data);
-	exec_tree = create_tree(head, line_count);
+	exec_tree = create_tree(head, d->line_count, d->here_list);
 	del_tokens(head);
 	return (exec_tree);
 }

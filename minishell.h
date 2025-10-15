@@ -9,6 +9,15 @@ typedef struct s_ids
 }	t_ids;
 
 //this will contain envp
+typedef struct	s_parse_data
+{
+	char		*line;
+	char		*operators[10];
+	int			*line_count;
+	t_here_doc	*here_list;
+	t_btree		*cmds_tree;
+}	t_parse_data;
+
 typedef struct s_data
 {
 	char			**env;
@@ -45,6 +54,14 @@ typedef struct	s_btree
 	t_redir			redir;
 }	t_btree;
 
+typedef struct	s_here_doc
+{
+	char				*delimiter;
+	t_btree				*bnode;
+	char				*file_name;
+	struct s_here_doc	*next;
+}	t_here_doc;
+
 # include "libft/libft.h"
 # include <stdio.h>
 # include <readline/readline.h>
@@ -60,7 +77,7 @@ void	btree_apply_suffix(t_btree *root, void (*applyf)(void *));
 void	print_btree_pyramid(const t_btree *node);
 
 /* parsing/parsing.c */
-t_btree	*create_exec_tree(char *line, char **operators, t_data *data, int *linecoutn);
+t_btree	*create_exec_tree(t_parse_data *d, t_data *data);
 // int		btoindex(int options);
 
 // execute

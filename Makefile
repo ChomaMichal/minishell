@@ -70,7 +70,7 @@ test: $(TEST_OBJ)
 	$(CC) $(CFLAGS) $(LIBS) $^ -o test
 
 testj :
-	make test -j `nproc`
+	make runt -j `nproc`
 
 $(TEST_OBJ_DIR)%.o: %.c
 	mkdir -p $(dir $@)

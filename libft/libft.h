@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:26:29 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/12 22:24:44 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/16 21:31:41 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@
 # include <signal.h>
 # include <string.h>
 # include <stdint.h>
-
-/* FROM JOSEF'S LIBFT */
-// void	btree_apply_prefix(t_btree *root, void (*applyf)(void *));
-// void	btree_apply_infix(t_btree *root, void (*applyf)(void *));
-// void	btree_apply_suffix(t_btree *root, void (*applyf)(void *));
 
 char	**ft_append_arr_str(char ***arr, char *str);
 size_t	ft_arrlen(void **arr);
@@ -41,6 +36,7 @@ int		ft_isalnum(int str);
 int		ft_isalpha(int c);
 int		ft_isdigit(int str);
 char	*ft_itoa(int n);
+void	*ft_memmove(void *dest, const void *src, size_t n);
 int		ft_printf(int fd, const char *format, ...);
 size_t	ft_putstr_fd(char *s, int fd);
 void	ft_putstrerr(char *str);
@@ -56,6 +52,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	*ft_strsjoin(char const *s1, char const *s2, char const *s3);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+<<<<<<< HEAD
 void	ft_putstrerr(char *str);
 
 // STOP
@@ -100,5 +97,8 @@ void	ft_putstrerr(char *str);
 // // frees all pointers in
 // array and the pointer of the master array and sets it to NULL
 // void	free_arr(void ***arr);
+=======
+void	palloc_err(void);
+>>>>>>> 1f834e0 (IN PROGRESS: cleaning)
 
 #endif

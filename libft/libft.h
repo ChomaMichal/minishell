@@ -66,7 +66,6 @@ void	ft_putstrerr(char *str);
 
 // char	**ft_split_dels(char const *s, char *delimiter);
 
-
 // /* END "FROM" */
 
 // void	set_rt(int *rt, int num);
@@ -98,7 +97,8 @@ void	ft_putstrerr(char *str);
 // void	ft_putchar_fd(char c, int fd);
 // void	ft_putnbr_fd(int n, int fd);
 // // takes adress null terminated pointer to array of malloced pointers 
-// // frees all pointers in array and the pointer of the master array and sets it to NULL
+// // frees all pointers in
+// array and the pointer of the master array and sets it to NULL
 // void	free_arr(void ***arr);
 
 #endif

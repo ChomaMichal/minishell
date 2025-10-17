@@ -30,6 +30,7 @@ static int	redirection(t_btree *tree)
 		if (in > 0)
 			return (ft_putstrerr("failed to open file in redirection\n"), -1);
 		dup2(in, STDIN_FILENO);
+		close(in);
 	}
 	if (tree->redir.out)
 	{
@@ -40,6 +41,7 @@ static int	redirection(t_btree *tree)
 		if (out == -1)
 			return (ft_putstrerr("failed to open file in redirection\n"), -1);
 		dup2(out, STDOUT_FILENO);
+		close(out);
 	}
 	return (0);
 }
@@ -80,22 +82,20 @@ int 	echo_maker(t_btree *tree, t_data *data)
 	flag = 0;
 	i = 1;
 	str = NULL;
-	
 	if ((tree->cmd_argv)[i] != 0)
-	{
-		if (ft_strncmp(tree->cmd_argv[i], "-n", 3) == 0
-			&& ++flag)
+		if (ft_strncmp(tree->cmd_argv[i], "-n", 3) == 0 && ++flag)
 			i++;
-	}
 	while (tree->cmd_argv[i])
 	{
-		str = ft_strjoinf1(str, " ");
-		if (str == NULL)
-			return 1;//error handle
+		if (!(i == 1 || (i == 2 && flag == 1)))
+		{
+			str = ft_strjoinf1(str, " ");
+			if (str == NULL)
+				return 1;//error handle
+		}
 		str = ft_strjoinf1(str, tree->cmd_argv[i]);
 		if (str == NULL)
 			return 1;//error handle
-
 		i ++;
 	}
 	return (ft_echo(data, str, flag), free(str), add_last_id(&data->pids, -1));
@@ -109,9 +109,12 @@ void	echo_wrap(t_btree *tree, t_data *data)
 	if (tree->redir.in || tree->redir.out)
 	{
 		pid = fork();
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_IGN);
-		redirection(tree);
+		if (pid == 0)
+		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_IGN);
+			redirection(tree);
+		}
 	}
 	if (pid <= 0)
 		echo_maker(tree, data);
@@ -155,9 +158,12 @@ void	export_wrap(t_btree *tree, t_data *data)
 	if (tree->redir.in || tree->redir.out)
 	{
 		pid = fork();
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_IGN);
-		redirection(tree);
+		if (pid == 0)
+		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_IGN);
+			redirection(tree);
+		}
 	}
 	if (pid <= 0)
 	{

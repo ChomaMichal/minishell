@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_and.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 19:00:51 by mchoma            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/10/17 15:04:52 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/idlist.h"
+=======
+/*   Updated: 2025/10/17 17:05:14 by jel-ghna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../libft/libft.h"
+>>>>>>> 04e8b82 (TODO: execution tree cleanup)
 #include "executor.h"
 
 void	ft_and(t_btree *tree, t_data *data)

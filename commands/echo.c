@@ -20,5 +20,8 @@ int	ft_echo(t_data *data, char *str, int flag)
 	if (str != NULL && flag == 1)
 		if (printf("%s\n", str) == -1)
 			return (set_rt(&data->rt, 1), 1);
+	if (flag == 0)
+		if (printf("\n") == -1)
+			return (set_rt(&data->rt, 1), 1);
 	return (set_rt(&data->rt, 0), 0);
 }

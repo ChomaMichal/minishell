@@ -13,6 +13,6 @@ pkgs.mkShell {
   # If some tooling inside the shell needs to *find* the readline .so or .so paths at runtime, you can also set:
   shellHook = ''
 	export LD_LIBRARY_PATH=${pkgs.readline}/lib:${pkgs.ncurses}/lib
-	alias vgt="valgrind --track-fds=all --leak-check=full --trace-children=yes  --suppressions=readline.supp ./test"
+	alias vgt="valgrind --track-fds=all --leak-check=full --trace-children=yes  --suppressions=supp.supp ./test"
   '';
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:16:38 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/17 15:18:22 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/20 19:31:44 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	redirection(t_btree *tree)
 	if (tree->redir.in)
 	{
 		in = open(tree->redir.in, O_RDONLY);
-		if (in > 0)
+		if (in < 0)
 			return (ft_putstrerr("failed to open file in redirection\n"), -1);
 		dup2(in, STDIN_FILENO);
 		close(in);

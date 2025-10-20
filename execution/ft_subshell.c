@@ -23,9 +23,9 @@ void	ft_subshell(t_btree *tree, t_data *data)
 		free_pids(&data->pids);
 		data->subshell = 1;
 		execute(tree->left, data);
-		btree_apply_suffix(data->head, delete_bnode);
-		exit(1);
+		ft_exit(data, NULL);
 	}
 	else
 		add_last_id(&data->pids, pid);
+	data->rt = wait_and_get_exit_value(data->pids);
 }

@@ -15,7 +15,6 @@ SRC = main.c btree_apply.c print.c \
 		libft/add_last_id.c libft/free_pids.c
 
 COMMANDS = commands/cd.c\
-			commands/com_main.c\
 			commands/echo.c\
 			commands/env.c\
 			commands/export.c\
@@ -46,6 +45,8 @@ EXECUTE = execution/binsearch.c\
 		  execution/ft_command.c\
 		  execution/ft_or.c\
 		  execution/ft_pipe.c\
+		  execution/command_buildins.c\
+		  execution/command_buildins2.c\
 		  execution/ft_subshell.c
 
 OBJ_DIR = objects/

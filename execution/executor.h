@@ -14,6 +14,7 @@
 # define EXECUTOR_H
 # include "../minishell.h"
 # include "../libft/libft.h"
+# include "../libft/idlist.h"
 
 char	*get_path(char**envp, char *command);
 void	ft_execve(t_btree *tree, t_data *data);

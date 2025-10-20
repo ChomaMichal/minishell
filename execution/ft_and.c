@@ -12,7 +12,7 @@
 
 #include "../libft/idlist.h"
 #include "executor.h"
-void	ft_or(t_btree *tree, t_data *data)
+void	ft_and(t_btree *tree, t_data *data)
 {
 	int		rt;
 	int		subshell;

@@ -32,6 +32,7 @@ typedef enum	e_bnode_type
 typedef struct s_redir
 {
 	char	*in;
+	char	*here;
 	char	*out;
 	int		append;
 }	t_redir;

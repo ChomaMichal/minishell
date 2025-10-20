@@ -65,6 +65,7 @@ typedef struct	s_here_doc
 {
 	char				*delimiter;
 	t_btree				*bnode;
+	char				*file_name;
 	struct s_here_doc	*next;
 }	t_here_doc;
 

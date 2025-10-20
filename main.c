@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **envp)
 
 	line_count = 0;
 	argc = 0;
-	argv  = NULL;
+	// argv  = NULL;
 	data.env = ft_coppyarrstr(envp);
 	data.rt = 0;
 	data.subshell = 0;
@@ -92,6 +92,7 @@ int	main(int argc, char **argv, char **envp)
 				data.head = cmds_tree;
 				execute(cmds_tree, &data);
 				btree_apply_suffix(cmds_tree, delete_bnode);
+				data.head = NULL;
 				data.rt = wait_and_get_exit_value(data.pids);
 			}
 			rl_on_new_line();

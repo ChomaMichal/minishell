@@ -27,6 +27,7 @@ void	read_pipe(t_btree *tree, t_data *data, int *fd)
 	close(fd[1]);
 	free_pids(&data->pids);
 	execute(tree->right, data);
+	ft_exit(data, NULL);
 }
 
 void	write_pipe(t_btree *tree, t_data *data, int *fd)
@@ -40,12 +41,13 @@ void	write_pipe(t_btree *tree, t_data *data, int *fd)
 	close(fd[1]);
 	free_pids(&data->pids);
 	execute(tree->left, data);
+	ft_exit(data, NULL);
 }
 
 void	ft_pipe(t_btree *tree, t_data *data)
 {
 	int		fd[2];
-	int		pid;
+	int		pid[2];
 
 	if (pipe(fd))
 	{
@@ -53,18 +55,14 @@ void	ft_pipe(t_btree *tree, t_data *data)
 		data->rt = 1;
 		return ;
 	}
-	pid = fork();
-	if (pid == 0)
+	pid[0] = fork();
+	if (pid[0] == 0)
 		read_pipe(tree, data, fd);
-	if (add_last_id(&data->pids, pid))
-		fprintf(stderr, "error add_last_id\n");
-	pid = fork();
-	if (pid == 0)
+	pid[1] = fork();
+	if (pid[1] == 0)
 		write_pipe(tree, data, fd);
-	if (add_last_id(&data->pids, pid))
-		fprintf(stderr, "error add_last_id\n");
 	close (fd [0]);
 	close (fd [1]);
-	data->rt = wait_and_get_exit_value(data->pids);
-	free_pids(&data->pids);
+	waitpid(pid[0], &data->rt, 0);
+	waitpid(pid[1], &data->rt, 0);
 }

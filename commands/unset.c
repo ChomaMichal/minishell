@@ -51,13 +51,13 @@ void	coppy_env_spc(t_data *data, char *variable, int j, char **new)
 
 int	ft_unset(t_data *data, char *variable)
 {
-	size_t	i;
+	// size_t	i;
 	size_t	j;
 	char	*tmp;
 	char	**new;
 
 	j = check_for_var(&data->env, &variable);
-	i = 0;
+	// i = 0;
 	tmp = ft_strjoin(variable, "=");
 	if (tmp == NULL)
 		return (set_rt(&data->rt, 1), 0);

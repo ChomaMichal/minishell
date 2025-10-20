@@ -25,7 +25,6 @@ void	read_pipe(t_btree *tree, t_data *data, int *fd)
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	free_pids(&data->pids);
 	execute(tree->right, data);
 	ft_exit(data, NULL);
 }
@@ -39,7 +38,6 @@ void	write_pipe(t_btree *tree, t_data *data, int *fd)
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	free_pids(&data->pids);
 	execute(tree->left, data);
 	ft_exit(data, NULL);
 }

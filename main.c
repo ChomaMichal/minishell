@@ -29,6 +29,9 @@ void	set_operators(char **operators)
 
 void	signal_parent_sigint(int sig)
 {
+	int		i;
+
+	i = sig;
 	write(STDIN_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_redisplay();

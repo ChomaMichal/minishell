@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../parsing/libft/libft.h"
+#include "../libft/idlist.h"
 #include "executor.h"
 
 void	ft_and(t_btree *tree, t_data *data)

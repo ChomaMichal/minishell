@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/21 15:13:07 by mchoma            #+#    #+#             */
+/*   Updated: 2025/10/21 15:13:08 by mchoma           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -67,7 +79,14 @@ t_btree	*create_exec_tree(char *line, char **operators, t_data *data, int *linec
 // execute
 void	execute(t_btree *tree, t_data *data);
 
+//utils
 int		wait_and_get_exit_value(t_ids *list);
 void	delete_bnode(void *ptr);
 int		ft_exit(t_data *data, char *arg);
+void	set_operators(char **operators);
+void	delete_bnode(void *ptr);
+void	print_env(char **envp);
+void	cleanup(t_data *data);
+int		init_main(t_data *data, char **envp, int *line_count, char **operators);
+
 #endif

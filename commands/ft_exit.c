@@ -21,8 +21,10 @@ int	ft_exit(t_data *data, char *str)
 		i = ft_atoi(str);
 	else
 		i = data->rt;
-	if (data->head != NULL)
+	if (data->head != NULL && data->subshell == 1)
 		btree_apply_suffix(data->head, delete_bnode);
+	else if (data->head != NULL && data->subshell == 0)
+		btree_apply_suffix(data->head, delete_bnode_unlink);
 	free_arr((void ***)&data->env);
 	exit(i);
 }

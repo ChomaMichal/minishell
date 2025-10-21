@@ -46,7 +46,10 @@ void	delete_bnode(void *ptr)
 		free_split(node->cmd_argv);
 		free(node->redir.in);
 		free(node->redir.out);
-		// free(node->redir.here); //initialize heredock in creating of the struct
+		if (node->redir.here)
+			unlink(node->redir.here);
+		free(node->redir.here);
+		node->redir.here = NULL;
 		free(node);
 	}
 }

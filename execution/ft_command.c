@@ -25,10 +25,18 @@ int	redirection(t_btree *tree)
 	int		in;
 	int		out;
 
+	if (tree->redir.here)
+	{
+		in = open(tree->redir.here, O_RDONLY);
+		if (in == -1)
+			return (ft_putstrerr("failed to open heredock in redirection\n"), -1);
+		dup2(in, STDIN_FILENO);
+		close(in);
+	}
 	if (tree->redir.in)
 	{
 		in = open(tree->redir.in, O_RDONLY);
-		if (in < 0)
+		if (in == -1)
 			return (ft_putstrerr("failed to open file in redirection\n"), -1);
 		dup2(in, STDIN_FILENO);
 		close(in);

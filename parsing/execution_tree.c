@@ -31,6 +31,7 @@ t_btree	*make_bnode(t_bnode_type type, t_btree *left, t_btree *right)
 	node->redir.append = 0;
 	node->redir.in = NULL;
 	node->redir.out = NULL;
+	node->redir.here = NULL;
 	node->type = type;
 	node->left = left;
 	node->right = right;

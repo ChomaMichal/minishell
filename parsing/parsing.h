@@ -22,7 +22,8 @@
 # define OPERATOR (1 << 12)
 # define BUILTIN (1 << 13)
 # define EMPTY_WORD (1 << 14)
-# define EXPANDED_WORD (1 << 15)
+# define REDIR_WORD (1 << 15)
+# define EXPANDED_WORD (1 << 16)
 
 // FRAGMENT TYPES
 # define SINGLE 1
@@ -74,6 +75,7 @@ typedef struct s_expansion_data
 	t_list			*token_node;
 	t_list			*target_node;
 	size_t			i;
+	int				is_redir_word;
 }	t_expansion_data;
 
 /* ft_lst */
@@ -89,14 +91,14 @@ t_btree	*parse(t_parse_data *d);
 int		btoindex(int options);
 
 /* tokenize.c */
-t_list	*tokenize(char *line, char **operators);
+t_list	*tokenize(t_parse_data *d);
 /* utils */
 size_t	count_fragments(char *line, ssize_t word_len, char **operators);
 void	skip_spaces(char *line, size_t *i);
 ssize_t	len_to_quote_or_delimiter(char *line, char **operators);
 ssize_t	len_to_unquoted_delimiter(char *line, char **operators);
 int		add_token(t_list **head, t_token *token);
-t_token	*create_token(void);
+t_token	*create_token(int is_redir_word);
 
 /* validate_tokens.c */
 int		validate_tokens(t_list *tokens, char **operators);

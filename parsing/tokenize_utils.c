@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 15:59:58 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/17 19:05:15 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/21 23:37:19 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,62 @@ size_t	count_fragments(char *line, ssize_t word_len, char **operators)
 {
 	size_t	count;
 	ssize_t	i;
+	char	*found;
 
 	count = 0;
-	i = -1;
-	while (++i < word_len)
+	i = 0;
+	while (i < word_len)
 	{
-		if (line[i] == '\"' && ft_strchr(&line[i + 1], '\"'))
+		if (line[i] == '\"')
 		{
 			count++;
-			i += (ft_strchr(&line[i + 1], '\"') - &line[i]);
+			found = ft_strchr(&line[i + 1], '\"');
+			if (!found)
+				return (count);
+			i += found - (line + 1);
 		}
-		else if (line[i] == '\'' && ft_strchr(&line[i + 1], '\''))
+		else if (line[i] == '\'')
 		{
 			count++;
-			i += (ft_strchr(&line[i + 1], '\'') - &line[i]);
+			found = ft_strchr(&line[i + 1], '\'');
+			if (!found)
+				return (count);
+			i += found - (line + 1);
 		}
 		else
 		{
 			count++;
 			i += len_to_quote_or_delimiter(&line[i], operators);
 		}
+		i++;
 	}
+	
+	i = -1;
+	while (++i < word_len)
+	{
+		// printf("reading (%c) index (%zi)\n", line[i], i);
+		if (line[i] == '\"' && ft_strchr(&line[i + 1], '\"'))
+		{
+			printf("if (\")\n");
+			count++;
+			i += (ft_strchr(&line[i + 1], '\"') - &line[i]);
+		}
+		else if (line[i] == '\'' && ft_strchr(&line[i + 1], '\''))
+		{
+			printf("if (\')\n");
+			count++;
+			i += (ft_strchr(&line[i + 1], '\'') - &line[i]);
+		}
+		else
+		{
+			count++;
+			printf("else\n");
+			// printf("added %zi to i from else\ndelimiter is %c\n", len_to_quote_or_delimiter(&line[i], operators), line[i + len_to_quote_or_delimiter(&line[i], operators)]);
+			i += len_to_quote_or_delimiter(&line[i], operators);
+		}
+		// printf("i is now %zi\n", i);
+	}
+	printf("counted %zi fragments\n", count);
 	return (count);
 }
 

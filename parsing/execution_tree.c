@@ -310,8 +310,7 @@ int	open_here_docs(t_here_doc **here_list, int *line_count)
 }
 
 // BIG ISSUE FOUND: WHAT HAPPENS WHEN MALLOC FAILS DEEP INSIDE ONE OF THESE FUNCTIONS?? YOU RETURN NULL, WHICH IS A VALID RETURN VALUE??
-
-t_btree	*create_exec_tree(t_parse_data *d) //t_list *tokens, int *line_count, t_here_doc **here_list)
+t_btree	*create_exec_tree(t_parse_data *d)
 {
 	t_btree	*tree;
 	t_list	*tokens;

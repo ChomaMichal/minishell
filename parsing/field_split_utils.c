@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 00:18:14 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/18 01:31:03 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/21 22:40:20 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	create_split_tokens(t_list **head, char **split_arr, t_expansion_data *xd)
 	arr_counter = 0;
 	while (split_arr[arr_counter++])
 	{
-		new_token = create_token();
+		new_token = create_token(0);
 		if (!new_token)
 			return (1);
 		new_token->fragment_count = 1;
@@ -47,6 +47,8 @@ int	create_split_tokens(t_list **head, char **split_arr, t_expansion_data *xd)
 		// ft_memmove(new_token->fragments, xd->token_node->token->fragments,
 		// 	sizeof(t_fragment));
 		new_token->options = new_token->options | WORD | EXPANDED_WORD;
+		if (xd->is_redir_word)
+			new_token->options |= REDIR_WORD;
 		new_token->str = ft_strdup(split_arr[arr_counter - 1]);
 		if (!new_token->str)
 			return (free(new_token->fragments), free(new_token), 1);
@@ -73,7 +75,7 @@ int	insert_split_tokens(t_list **field_split_head, t_list *token_node,
 		&& fragment_i + 1 < token_node->token->fragment_count
 		&& (*field_split_head)->token->str[0])
 	{
-		new_token = create_token();
+		new_token = create_token(0);
 		if (!new_token)
 			return (1);
 		if (set_token(new_token, token_node, fragment_i, field_split_head))

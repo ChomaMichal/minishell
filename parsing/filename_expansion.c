@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:26:33 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/21 20:16:31 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/21 21:33:53 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	create_files_tokens(t_list **head, char **split_arr, size_t fragment_i, t_li
 	arr_counter = 0;
 	while (split_arr[arr_counter++])
 	{
-		new_token = create_token();
+		new_token = create_token(0);
 		if (!new_token)
 			return (1);
 		new_token->fragment_count = 1;

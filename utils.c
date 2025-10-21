@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 15:08:59 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/21 19:31:24 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/21 21:01:43 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ int	init_main(t_data *data, char **envp, t_parse_data *d)
 	data->pids = NULL;
 	data->head = NULL;
 	signal(SIGINT, signal_parent_sigint);
+	signal(SIGQUIT, SIG_IGN);
 	return (0);
 }

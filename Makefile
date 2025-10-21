@@ -5,7 +5,7 @@ LIBS = -lreadline -lhistory
 HEADERS = minishell.h libft/libft.h\
 		parsing/parsing.h commands/commands.h ids/ids.h execution/execution.h
 
-SRC = main.c btree_apply.c print.c \
+SRC = utils.c main.c btree_apply.c print.c \
 		libft/ft_append_arr_str.c libft/ft_arrlen.c libft/ft_atoi.c libft/ft_calloc.c libft/ft_copyarr.c \
 		libft/ft_free_arr.c libft/ft_free_split.c libft/ft_get_env_value.c libft/ft_isalnum.c libft/ft_isalpha.c libft/ft_isdigit.c \
 		libft/ft_itoa.c libft/ft_printf.c libft/ft_printf_utils.c libft/ft_putstr_fd.c libft/ft_putstrerr.c libft/ft_split_dels.c \

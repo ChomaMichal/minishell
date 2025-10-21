@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:43:42 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/21 15:21:00 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/21 20:56:32 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,20 @@ void	print_env(char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	char	*operators[10];
-	t_data	data;
-	int		line_count;
+	t_data			data;
+	t_parse_data	d;
 
-	if (init_main(&data, envp, &line_count, operators))
+	if (init_main(&data, envp, &d))
 		return (ft_putstrerr("Malloc fail in initialization\n"), 1);
 	while (1)
 	{
-		line = readline("<>minishell<>");
-		if (line && line[0] && ++line_count)
+		d.line = readline("<>minishell<>");
+		if (!d.line)
+			break ;
+		if (d.line[0] && ++d.line_count)
 		{
-			add_history(line);
-			data.head = create_exec_tree(line, operators, &data, &line_count);
+			add_history(d.line);
+			data.head = parse(&d);
 			if (data.head)
 			{
 				execute(data.head, &data);
@@ -44,7 +44,7 @@ int	main(int argc, char **argv, char **envp)
 			}
 			rl_on_new_line();
 		}
-		free(line);
+		free(d.line);
 	}
 	ft_exit(&data, NULL);
 	return (0);

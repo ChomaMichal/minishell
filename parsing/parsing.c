@@ -47,9 +47,12 @@ static void	print_tokens(t_print_d *data)
 	line = data->line;
 	if (token->options & WORD)
 	{
-		printf("token (%d) type: (WORD)\n", token_count++);
-		if (token->fragment_count == 0)
-			printf("[%s] EMPTY WORD\n", token->str);
+		printf("token (%d) type: (WORD)", token_count++);
+		if (token->options & EMPTY_WORD)
+			printf(" [%s] EMPTY WORD", token->str);
+		if (token->options & REDIR_WORD)
+			printf(" (REDIRECTION WORD)");
+		printf("\n");
         printf("[%s]", token->str);
 		// while (i < token->fragment_count)
 		// {
@@ -85,7 +88,7 @@ t_btree	*parse(t_parse_data *d)
 
 	print_data.line = d->line;
 	print_data.operators = d->operators;
-	d->tokens = tokenize(d->line, d->operators);
+	d->tokens = tokenize(d);
 	if (!d->tokens)
 		return (ft_printf(2, "minishell: tokenize() returned NULL\n"),
 		NULL);
@@ -95,7 +98,7 @@ t_btree	*parse(t_parse_data *d)
 	if (expand(d))
 		return (ft_printf(2, "minishell: expand() failed\n"),
 		del_tokens(d->tokens), NULL);
-	// ft_lstiter(d->tokens, print_tokens, &print_data);
+	ft_lstiter(d->tokens, print_tokens, &print_data);
 	d->exec_tree = create_exec_tree(d);
 	del_tokens(d->tokens);
 	return (d->exec_tree);

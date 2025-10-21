@@ -5,6 +5,7 @@ static void	set_xd(t_expansion_data *xd, t_parse_data *d, t_list *target_node)
 	xd->d = d;
 	xd->i = 0;
 	xd->token_node = target_node;
+	xd->is_redir_word = (target_node->token->options & REDIR_WORD);
 	xd->target_node = target_node;
 }
 

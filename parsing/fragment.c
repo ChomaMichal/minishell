@@ -9,6 +9,7 @@ static int	fragment_quoted(char *line, t_token *token, size_t *i, char quote)
 		return (ft_printf(2, "minishell: unclosed quote `%c'\n", quote), 1);
 	if (match == &line[*i + 1])
 	{
+		printf("writing to fragments[%zi]\n", token->fragment_count);
 		token->fragments[token->fragment_count].type = EMPTY;
 		token->fragment_count += 1;
 		*i += 2;

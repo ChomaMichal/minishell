@@ -1,17 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/21 15:13:07 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/21 15:13:08 by mchoma           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+typedef struct s_list t_list;
 
 //this contains ids of the child processes that are currently running
 typedef struct s_ids
@@ -20,7 +10,6 @@ typedef struct s_ids
 	int				pid;
 }	t_ids;
 
-//this will contain envp
 typedef struct s_data
 {
 	char			**env;
@@ -58,6 +47,25 @@ typedef struct	s_btree
 	t_redir			redir;
 }	t_btree;
 
+typedef struct	s_here_doc
+{
+	char				*delimiter;
+	t_btree				*bnode;
+	char				*file_name;
+	struct s_here_doc	*next;
+}	t_here_doc;
+
+typedef struct	s_parse_data
+{
+	char		*line;
+	char		*operators[10];
+	t_list		*tokens;
+	int			*line_count;
+	t_here_doc	*here_list;
+	t_btree		*exec_tree;
+	t_data		*data;
+}	t_parse_data;
+
 # include "libft/libft.h"
 # include <stdio.h>
 # include <readline/readline.h>
@@ -73,7 +81,7 @@ void	btree_apply_suffix(t_btree *root, void (*applyf)(void *));
 void	print_btree_pyramid(const t_btree *node);
 
 /* parsing/parsing.c */
-t_btree	*create_exec_tree(char *line, char **operators, t_data *data, int *linecoutn);
+t_btree	*parse(t_parse_data *d);
 // int		btoindex(int options);
 
 // execute
@@ -88,6 +96,6 @@ void	delete_bnode(void *ptr);
 void	delete_bnode_unlink(void *ptr);
 void	print_env(char **envp);
 void	cleanup(t_data *data);
-int		init_main(t_data *data, char **envp, int *line_count, char **operators);
+int		init_main(t_data *data, char **envp, t_parse_data *d);
 
 #endif

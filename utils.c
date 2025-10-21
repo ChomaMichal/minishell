@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 15:08:59 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/21 15:20:34 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/21 21:01:43 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "minishell.h"
+
 #include <signal.h>
+#include "minishell.h"
 
 void	signal_parent_sigint(int sig)
 {
@@ -82,9 +83,15 @@ void	cleanup(t_data *data)
 	data->rt = wait_and_get_exit_value(data->pids);
 }
 
-int	init_main(t_data *data, char **envp, int *line_count, char **operators)
+int	init_main(t_data *data, char **envp, t_parse_data *d)
 {
-	set_operators(operators);
+	d->here_list = NULL;
+	d->line_count = 0;
+	d->exec_tree = NULL;
+	d->tokens = NULL;
+	d->line = NULL;
+	d->data = data;
+	set_operators(d->operators);
 	data->env = ft_coppyarrstr(envp);
 	if (data->env == NULL)
 		return (-1);
@@ -93,6 +100,6 @@ int	init_main(t_data *data, char **envp, int *line_count, char **operators)
 	data->pids = NULL;
 	data->head = NULL;
 	signal(SIGINT, signal_parent_sigint);
-	*line_count = 0;
+	signal(SIGQUIT, SIG_IGN);
 	return (0);
 }

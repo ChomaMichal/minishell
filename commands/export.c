@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 19:00:46 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/12 14:39:22 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/21 21:46:53 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	ft_export(t_data *data, char *arg)
 {
 	char	*var;
 
+	var = NULL;
 	if (arg_check(arg) == 0)
 	{
 		data->rt = 1;
@@ -54,5 +55,5 @@ int	ft_export(t_data *data, char *arg)
 		ft_unset(data, arg);
 	if (ft_append_arr_str(&data->env, ft_strdup(arg)) == NULL)
 		return (free(var), set_rt(&data->rt, 1), 0);
-	return (set_rt(&data->rt, 0), 1);
+	return (free(var), set_rt(&data->rt, 0), 1);
 }

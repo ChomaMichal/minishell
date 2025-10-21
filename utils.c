@@ -54,9 +54,30 @@ void	delete_bnode(void *ptr)
 	}
 }
 
+void	delete_bnode_unlink(void *ptr)
+{
+	t_btree	*node;
+
+	if (ptr)
+	{
+		node = (t_btree *)ptr;
+		free_split(node->cmd_argv);
+		free(node->redir.in);
+		free(node->redir.out);
+		if (node->redir.here)
+			unlink(node->redir.here);
+		free(node->redir.here);
+		node->redir.here = NULL;
+		free(node);
+	}
+}
+
 void	cleanup(t_data *data)
 {
-	btree_apply_suffix(data->head, delete_bnode);
+	if (data->subshell == 1)
+		btree_apply_suffix(data->head, delete_bnode);
+	if (data->subshell == 0)
+		btree_apply_suffix(data->head, delete_bnode_unlink);
 	data->head = NULL;
 	data->rt = wait_and_get_exit_value(data->pids);
 }

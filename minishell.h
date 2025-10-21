@@ -85,6 +85,7 @@ void	delete_bnode(void *ptr);
 int		ft_exit(t_data *data, char *arg);
 void	set_operators(char **operators);
 void	delete_bnode(void *ptr);
+void	delete_bnode_unlink(void *ptr);
 void	print_env(char **envp);
 void	cleanup(t_data *data);
 int		init_main(t_data *data, char **envp, int *line_count, char **operators);

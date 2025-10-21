@@ -61,14 +61,6 @@ typedef struct	s_list
 	struct s_list	*next;
 }	t_list;
 
-typedef struct	s_here_doc
-{
-	char				*delimiter;
-	t_btree				*bnode;
-	char				*file_name;
-	struct s_here_doc	*next;
-}	t_here_doc;
-
 typedef	struct	s_print_d
 {
 	char	**operators;
@@ -76,53 +68,80 @@ typedef	struct	s_print_d
 	char	*line;
 }	t_print_d;
 
+typedef struct s_expansion_data
+{
+	t_parse_data	*d;
+	t_list			*token_node;
+	t_list			*target_node;
+	size_t			i;
+}	t_expansion_data;
+
 /* ft_lst */
+void	ft_lstiter(t_list *lst, void (*f)(t_print_d *), t_print_d *data); // DELETE THIS <<
 t_list	*ft_lstnew(t_token *token);
 void	ft_lstadd_back(t_list **lst, t_list *nw);
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 t_list	*ft_lstlast(t_list *lst);
 
-/* tokenize_utils.c */
-int		is_blank(char c);
-void	skip_blank(char *line, size_t *i);
-size_t	len_to_delimiter(char *line, char **operators);
-size_t	len_to_quote_or_delimiter(char *line, char **operators);
-size_t	len_to_unquoted_delimiter(char *line, char **operators);
-
-/* TEMP print.c */
-void	ft_lstiter(t_list *lst, void (*f)(t_print_d *), t_print_d *data);
-
 /* parse.c */
-t_btree	*create_exec_tree(char *line, char **operators, t_data *data, int *linecoutn);
+t_btree	*parse(t_parse_data *d);
 int		btoindex(int options);
+
+/* tokenize.c */
+t_list	*tokenize(char *line, char **operators);
+/* utils */
+size_t	count_fragments(char *line, ssize_t word_len, char **operators);
+void	skip_spaces(char *line, size_t *i);
+ssize_t	len_to_quote_or_delimiter(char *line, char **operators);
+ssize_t	len_to_unquoted_delimiter(char *line, char **operators);
+int		add_token(t_list **head, t_token *token);
+t_token	*create_token(void);
 
 /* validate_tokens.c */
 int		validate_tokens(t_list *tokens, char **operators);
-	
-/* parse_utils.c */
-int		create_operators(char ***operators);
-void	free_split(char **arr);
-int		is_operator(char *cur_char, char **operators);
-void	print_line_arr(char **line_arr);
-void	set_len_and_op(char *line_start, char **operators,
-	size_t *substr_len, int *op_index);
+/* utils */
+int		wrong_first_token(t_list *cur, char **operators);
+int		validate_word(t_list *cur);
+int		validate_open_paren(t_list *cur, long *paren_count, char **operators);
+int		validate_close_paren(t_list *cur, long *paren_count);
 
-/* tokenize.c */
-int		add_token(t_list **head, t_token *token);
-t_token	*create_token(void);
-t_list	*tokenize(char *line, char **operators);
+/* expand.c */
+int		expand(t_parse_data *d);
 
-/* fragment.c */
-int		fragment_double_quote(char *line, t_token *token, size_t *i);
-int		fragment_single_quote(char *line, t_token *token, size_t *i);
-int		fragment_unquoted(char *line, t_token *token, size_t *i, char **operators);
-int		handle_fragments(char *line, char **operators, t_token *token, size_t *i);
+/* expand_fragment.c */
+int		expand_fragment(t_expansion_data *xd);
+/* utils */
+char	*create_var_val(char *str, size_t *start, t_expansion_data *xd);
+char	*safe_strjoin(char **str1, char *str2, int free_second_str);
+int		append_substr(t_list *target_node, char *str, int free_second_str);
+
+/* field_split.c */
+int		field_split(char *fragment_str, char *expanded, t_expansion_data *xd);
+int		create_split_tokens(t_list **head, char **split_arr,
+	t_expansion_data *xd);
+/* utils */
+int		create_split_tokens(t_list **head, char **split_arr, t_expansion_data *xd);
+int		insert_split_tokens(t_list **field_split_head, t_list *token_node,
+	t_list **target_node, size_t fragment_i);
 
 /* filename_expansion.c */
-char	**expand_star_append(char *match, char ***arr);
+int		filename_expansion(t_list **head, char *line);
 
 /* execution_tree.c */
-t_btree	*create_tree(t_list *tokens, int *line_count);
+t_btree	*create_exec_tree(t_parse_data *d);
+
+
+
+
+/* parsing_utils.c */
+void	del_tokens(t_list *tokens);
+int		is_operator(char *cur_char, char **operators);
+void	set_len_and_op(char *line_start, char **operators,
+	size_t *substr_len, int *op_index);
+// void	print_line_arr(char **line_arr);
+
+/* fragment.c */
+int		handle_fragments(char *line, char **operators, t_token *token, size_t *i);
 
 #endif

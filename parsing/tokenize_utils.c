@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 15:59:58 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/21 23:37:19 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:54:02 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,34 @@ static int	is_delimiter(char *line, char **operators)
 	return (0);
 }
 
+int	count_double_quote(size_t *count, ssize_t *i, ssize_t word_len, char *line)
+{
+	*count += 1;
+	*i += 1;
+	while (*i < word_len && line[*i] != '\"')
+		*i += 1;
+	if (*i == word_len)
+		return (printf("counted %zi fragments\n", *count), 1);
+	*i += 1;
+	return (0);
+}
+
+int	count_single_quote(size_t *count, ssize_t *i, ssize_t word_len, char *line)
+{
+	*count += 1;
+	*i += 1;
+	while (*i < word_len && line[*i] != '\'')
+		*i += 1;
+	if (*i == word_len)
+		return (printf("counted %zi fragments\n", *count), 1);
+	*i += 1;
+	return (0);
+}
+
 size_t	count_fragments(char *line, ssize_t word_len, char **operators)
 {
 	size_t	count;
 	ssize_t	i;
-	char	*found;
 
 	count = 0;
 	i = 0;
@@ -41,55 +64,21 @@ size_t	count_fragments(char *line, ssize_t word_len, char **operators)
 	{
 		if (line[i] == '\"')
 		{
-			count++;
-			found = ft_strchr(&line[i + 1], '\"');
-			if (!found)
+			if (count_double_quote(&count, &i, word_len, line))
 				return (count);
-			i += found - (line + 1);
-		}
+					}
 		else if (line[i] == '\'')
 		{
-			count++;
-			found = ft_strchr(&line[i + 1], '\'');
-			if (!found)
-				return (count);
-			i += found - (line + 1);
+			if (count_single_quote(&count, &i, word_len, line))
+				return (count);			
 		}
 		else
 		{
 			count++;
 			i += len_to_quote_or_delimiter(&line[i], operators);
 		}
-		i++;
 	}
-	
-	i = -1;
-	while (++i < word_len)
-	{
-		// printf("reading (%c) index (%zi)\n", line[i], i);
-		if (line[i] == '\"' && ft_strchr(&line[i + 1], '\"'))
-		{
-			printf("if (\")\n");
-			count++;
-			i += (ft_strchr(&line[i + 1], '\"') - &line[i]);
-		}
-		else if (line[i] == '\'' && ft_strchr(&line[i + 1], '\''))
-		{
-			printf("if (\')\n");
-			count++;
-			i += (ft_strchr(&line[i + 1], '\'') - &line[i]);
-		}
-		else
-		{
-			count++;
-			printf("else\n");
-			// printf("added %zi to i from else\ndelimiter is %c\n", len_to_quote_or_delimiter(&line[i], operators), line[i + len_to_quote_or_delimiter(&line[i], operators)]);
-			i += len_to_quote_or_delimiter(&line[i], operators);
-		}
-		// printf("i is now %zi\n", i);
-	}
-	printf("counted %zi fragments\n", count);
-	return (count);
+	return (printf("counted %zi fragments\n", count), count);
 }
 
 void	skip_spaces(char *line, size_t *i)

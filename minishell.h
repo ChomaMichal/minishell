@@ -28,16 +28,6 @@ typedef enum	e_bnode_type
 	BNODE_SUBSHELL
 }	t_bnode_type;
 
-//if append == 0 truncate 
-//if append == 1 append
-// typedef struct s_redir
-// {
-// 	char	*in;
-// 	char	*here;
-// 	char	*out;
-// 	int		append;
-// }	t_redir;
-
 typedef enum	e_redir_type
 {
 	REDIR_OUT,
@@ -60,7 +50,6 @@ typedef struct	s_btree
 	char			**cmd_argv;
 	t_bnode_type	type;
 	t_redir_list	*redir_list;
-	// t_redir			redir;
 }	t_btree;
 
 typedef struct	s_here_doc
@@ -73,13 +62,13 @@ typedef struct	s_here_doc
 
 typedef struct	s_parse_data
 {
-	char		*line;
-	char		*operators[10];
-	t_list		*tokens;
-	int			line_count;
-	t_here_doc	*here_list;
-	t_btree		*exec_tree;
-	t_data		*data;
+	char			*line;
+	char			*operators[10];
+	t_list			*tokens;
+	unsigned long	line_count;
+	t_here_doc		*here_list;
+	t_btree			*exec_tree;
+	t_data			*data;
 }	t_parse_data;
 
 # include "libft/libft.h"

@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:26:33 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/21 21:33:53 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/22 18:31:35 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ int	create_files_tokens(t_list **head, char **split_arr, size_t fragment_i, t_li
 		ft_memmove(new_token->fragments, token_node->token->fragments,
 			sizeof(t_fragment));
 		new_token->options = new_token->options | WORD | EXPANDED_WORD;
+		if (token_node->token->options & REDIR_WORD)
+			new_token->options |= REDIR_WORD;
 		new_token->str = ft_strdup(split_arr[arr_counter - 1]);
 		if (!new_token->str)
 			return (free(new_token->fragments), free(new_token), 1);

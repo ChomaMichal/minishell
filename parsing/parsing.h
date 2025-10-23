@@ -23,7 +23,8 @@
 # define BUILTIN (1 << 13)
 # define EMPTY_WORD (1 << 14)
 # define REDIR_WORD (1 << 15)
-# define EXPANDED_WORD (1 << 16)
+# define HERE_DEL_WORD (1 << 16)
+# define EXPANDED_WORD (1 << 17)
 
 // FRAGMENT TYPES
 # define SINGLE 1
@@ -49,7 +50,6 @@ typedef struct	s_fragment
 typedef struct	s_token
 {
 	char		*str;
-	t_redir		redir;
 	int			options;
 	size_t		fragment_count;
 	t_fragment	*fragments;
@@ -133,7 +133,11 @@ int		filename_expansion(t_list **head, char *line);
 /* execution_tree.c */
 t_btree	*create_exec_tree(t_parse_data *d);
 
-
+/* redirections.c */
+void	clear_redir_list(t_redir_list **redir_list);
+void	clear_here_list(t_here_doc **here_list);
+int		create_redirections(t_list **tokens, t_btree *bnode, t_here_doc **here_list);
+int		open_write_here_docs(t_here_doc **here_list, t_parse_data *d);
 
 
 /* parsing_utils.c */

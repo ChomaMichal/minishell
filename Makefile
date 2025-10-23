@@ -34,6 +34,7 @@ PARSING = parsing/execution_tree.c\
 		parsing/ft_lst.c\
 		parsing/parsing_utils.c\
 		parsing/parsing.c\
+		parsing/redirections.c\
 		parsing/tokenize_utils_2.c\
 		parsing/tokenize_utils.c\
 		parsing/tokenize.c\

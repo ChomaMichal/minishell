@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:26:29 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/12 22:24:44 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/23 06:37:11 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	*ft_strsjoin(char const *s1, char const *s2, char const *s3);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_putstrerr(char *str);
+void	palloc_err(void);
 
 // STOP
 // int		ft_atoi(const char *nptr);

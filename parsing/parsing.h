@@ -50,6 +50,7 @@ typedef struct	s_fragment
 typedef struct	s_token
 {
 	char		*str;
+	char		*redir_word;
 	int			options;
 	size_t		fragment_count;
 	t_fragment	*fragments;
@@ -139,13 +140,11 @@ void	clear_here_list(t_here_doc **here_list);
 int		create_redirections(t_list **tokens, t_btree *bnode, t_here_doc **here_list);
 int		open_write_here_docs(t_here_doc **here_list, t_parse_data *d);
 
-
 /* parsing_utils.c */
 void	del_tokens(t_list *tokens);
 int		is_operator(char *cur_char, char **operators);
 void	set_len_and_op(char *line_start, char **operators,
 	size_t *substr_len, int *op_index);
-// void	print_line_arr(char **line_arr);
 
 /* fragment.c */
 int		handle_fragments(char *line, char **operators, t_token *token, size_t *i);

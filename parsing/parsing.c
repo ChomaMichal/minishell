@@ -49,7 +49,7 @@ static void	print_tokens(t_print_d *data)
 	{
 		printf("token (%d) type: (WORD)", token_count++);
 		if (token->options & EMPTY_WORD)
-			printf(" [%s] EMPTY WORD", token->str);
+			printf(" [EMPTY WORD] ");
 		if (token->options & REDIR_WORD)
 			printf(" (REDIRECTION WORD)");
 		printf("\n");

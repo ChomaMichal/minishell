@@ -32,6 +32,8 @@ t_btree	*make_bnode(t_bnode_type type, t_btree *left, t_btree *right)
 	node->type = type;
 	node->left = left;
 	node->right = right;
+	node->ambig = NULL;
+	node->empty_cmd = 0;
 	return (node);
 }
 
@@ -45,15 +47,14 @@ int	store_words(t_list **tokens, char **cmd_argv)
 	word_count = 0;
 	while (cur && (cur->token->options & WORD || cur->token->options & REDIR_OP))
 	{
-		if (cur->token->options & EMPTY_WORD)
+		if (cur->token->options & EMPTY_WORD || cur->token->options & REDIR_WORD)
 		{
 			cur = cur->next;
-			// consume_token(tokens);
 			continue ;
 		}
 		if (cur->token->options & REDIR_OP)
 		{
-			cur = cur->next->next; // MAYBE WE CAN HANDLE AMBIGUOUS REDIRECTIONS HERE??
+			cur = cur->next->next;
 			continue ;
 		}
 		word = ft_strdup(cur->token->str);
@@ -64,7 +65,6 @@ int	store_words(t_list **tokens, char **cmd_argv)
 		}
 		cmd_argv[word_count++] = word;
 		cur = cur->next;
-		// consume_token(tokens);
 	}
 	cmd_argv[word_count] = NULL;
 	return (0);
@@ -107,6 +107,8 @@ t_btree	*parse_command_args(t_list **tokens, t_here_doc **here_list)
 	bnode->cmd_argv = create_cmd_argv(tokens);
 	if (!bnode->cmd_argv)
 		return (ft_printf(2, "malloc failed in create_cmd_argv()\n"), NULL);
+	if (bnode->cmd_argv[0] == NULL)
+		bnode->empty_cmd = 1;
 	if (create_redirections(tokens, bnode, here_list))
 		return (ft_printf(2, "create_redirections() failed\n"), free_split(bnode->cmd_argv), NULL);
 	while (cur && (cur->token->options & WORD || cur->token->options & REDIR_OP))

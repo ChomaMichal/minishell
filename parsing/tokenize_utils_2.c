@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 21:42:35 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/23 03:11:06 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/23 11:11:10 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_token	*create_token(int is_redir_word)
 	else if (is_redir_word)
 		token->options |= REDIR_WORD;
 	token->str = NULL;
+	token->redir_word = NULL;
 	token->fragment_i = 0;
 	return (token);
 }

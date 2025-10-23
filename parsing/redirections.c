@@ -90,6 +90,25 @@ void	clear_redir_list(t_redir_list **redir_list)
 	*redir_list = NULL;
 }
 
+int	is_ambiguous_redir(t_list *tokens)
+{
+	t_list	*cur;
+	size_t	expand_count;
+
+	expand_count = 0;
+	cur = tokens;
+	if (cur->token->options & EMPTY_WORD)
+		return (1);
+	while (cur && cur->token->options & REDIR_WORD)
+	{
+		expand_count++;
+		cur = cur->next;
+	}
+	if (expand_count > 1)
+		return (1);
+	return (0);
+}
+
 int	create_redirections(t_list **tokens, t_btree *bnode, t_here_doc **here_list)
 {
 	t_list	*cur;
@@ -100,6 +119,12 @@ int	create_redirections(t_list **tokens, t_btree *bnode, t_here_doc **here_list)
 	{
 		if (cur->token->options & REDIR_OP)
 		{
+			if (is_ambiguous_redir(cur->next))
+			{
+				bnode->ambig = ft_strdup(cur->token->redir_word);
+				if (!bnode->ambig)
+					return (printf("ft_strdup failed on bnode->ambig\n"), 1);
+			}
 			if (add_redir_node(&bnode->redir_list, cur->token->options,
 				cur->next->token->str))
 				return (printf("add_redir_node() failed\n"), 1);

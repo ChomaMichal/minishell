@@ -6,12 +6,13 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:00:31 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/23 03:34:18 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/23 08:33:33 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/idlist.h"
 #include "executor.h"
+#include "../commands/commands.h"
 
 int	echo_maker(t_btree *tree, t_data *data)
 {

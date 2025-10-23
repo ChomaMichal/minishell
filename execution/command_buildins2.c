@@ -6,13 +6,13 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:17:42 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/23 03:34:32 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/23 08:33:45 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../commands/commands.h"
 #include "../libft/libft.h"
 #include "../libft/idlist.h"
+#include "../commands/commands.h"
 
 void	env_wrap(t_btree *tree, t_data *data)
 {

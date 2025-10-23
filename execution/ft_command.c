@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:16:38 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/21 21:03:48 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/23 07:31:58 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,36 +22,45 @@
 
 int	redirection(t_btree *tree)
 {
-	int		in;
-	int		out;
+	int				in;
+	int				out;
+	t_redir_list	*cur;
 
-	if (tree->redir.here)
+	in = -1;
+	out = -1;
+	cur = tree->redir_list;
+	while (cur)
 	{
-		in = open(tree->redir.here, O_RDONLY);
-		if (in == -1)
-			return (ft_putstrerr("failed to open heredock in redirection\n"), -1);
-		dup2(in, STDIN_FILENO);
-		close(in);
+		if (cur->type == REDIR_HERE || cur->type == REDIR_IN)
+		{
+			if (in > -1)
+				close(in);
+			in = open(cur->file_name, O_RDONLY);
+			if (in == -1)
+				return (ft_printf(2, "open failed in redirection() REDIR_HERE|REDIR_IN\n"), -1);
+		}
+		else if (cur->type == REDIR_OUT)
+		{
+			if (out > -1)
+				close(out);
+			out = open(cur->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+			if (out == -1)
+				return (ft_printf(2, "open failed in redirection() REDIR_OUT\n"), -1);
+		}
+		else if (cur->type == REDIR_OUT_APP)
+		{
+			if (out > -1)
+				close(out);
+			out = open(cur->file_name, O_WRONLY | O_CREAT | O_APPEND, 0777);
+			if (out == -1)
+				return (ft_printf(2, "open failed in redirection() REDIR_OUT_APP\n"), -1);
+		}
+		cur = cur->next;
 	}
-	if (tree->redir.in)
-	{
-		in = open(tree->redir.in, O_RDONLY);
-		if (in == -1)
-			return (ft_putstrerr("failed to open file in redirection\n"), -1);
+	if (in > -1)
 		dup2(in, STDIN_FILENO);
-		close(in);
-	}
-	if (tree->redir.out)
-	{
-		if (tree->redir.append)
-			out = open(tree->redir.out, O_WRONLY | O_CREAT | O_APPEND, 0777);
-		else
-			out = open(tree->redir.out, O_WRONLY | O_CREAT, 0777);
-		if (out == -1)
-			return (ft_putstrerr("failed to open file in redirection\n"), -1);
+	if (out > -1)
 		dup2(out, STDOUT_FILENO);
-		close(out);
-	}
 	return (0);
 }
 

@@ -95,6 +95,28 @@ char	**create_cmd_argv(t_list **tokens)
 	return (cmd_argv);
 }
 
+t_btree	*parse_command_args(t_list **tokens, t_here_doc **here_list)
+{
+	t_list	*cur;
+	t_btree	*bnode;
+
+	cur = *tokens;
+	bnode = make_bnode(BNODE_COMMAND, NULL, NULL);
+	if (!bnode)
+		return (ft_printf(2, "malloc failed in make_bnode(): parse_command()\n"), NULL);
+	bnode->cmd_argv = create_cmd_argv(tokens);
+	if (!bnode->cmd_argv)
+		return (ft_printf(2, "malloc failed in create_cmd_argv()\n"), NULL);
+	if (create_redirections(tokens, bnode, here_list))
+		return (ft_printf(2, "create_redirections() failed\n"), free_split(bnode->cmd_argv), NULL);
+	while (cur && (cur->token->options & WORD || cur->token->options & REDIR_OP))
+	{
+		cur = cur->next;
+		consume_token(tokens);
+	}
+	return (bnode);
+}
+
 t_btree	*parse_command(t_list **tokens, t_here_doc **here_list)
 {
 	t_list	*cur;
@@ -114,22 +136,7 @@ t_btree	*parse_command(t_list **tokens, t_here_doc **here_list)
 		return (make_bnode(BNODE_SUBSHELL, bnode, NULL));
 	}
 	else if (cur->token->options & WORD || cur->token->options & REDIR_OP)
-	{
-		bnode = make_bnode(BNODE_COMMAND, NULL, NULL);
-		if (!bnode)
-			return (ft_printf(2, "malloc failed in make_bnode(): parse_command()\n"), NULL);
-		bnode->cmd_argv = create_cmd_argv(tokens);
-		if (!bnode->cmd_argv)
-			return (ft_printf(2, "malloc failed in create_cmd_argv()\n"), NULL);
-		if (create_redirections(tokens, bnode, here_list))
-			return (ft_printf(2, "create_redirections() failed\n"), free_split(bnode->cmd_argv), NULL);
-		while (cur && (cur->token->options & WORD || cur->token->options & REDIR_OP))
-		{
-			cur = cur->next;
-			consume_token(tokens);
-		}
-		return (bnode);
-	}
+		return (parse_command_args(tokens, here_list));
 	return (ft_printf(2, "Error: Unexpected token\n"), NULL);
 }
 

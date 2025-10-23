@@ -36,7 +36,20 @@ static t_redir_list	*redir_list_last(t_redir_list *node)
 	return (cur);
 }
 
-int	add_redir_node(t_redir_list **redir_list, t_redir_type type, char *file_name)
+t_redir_type	get_redir_type(int options)
+{
+	if (options & OUTPUT_REDIR)
+		return (REDIR_OUT);
+	else if (options & OUTPUT_REDIR_APPEND)
+		return (REDIR_OUT_APP);
+	else if (options & INPUT_REDIR)
+		return (REDIR_IN);
+	else if (options & HERE_DOC)
+		return (REDIR_HERE);
+	return (0);
+}
+
+int	add_redir_node(t_redir_list **redir_list, int options, char *file_name)
 {
 	t_redir_list	*new_node;
 	t_redir_list	*cur;
@@ -44,8 +57,8 @@ int	add_redir_node(t_redir_list **redir_list, t_redir_type type, char *file_name
 	new_node = malloc(sizeof(t_redir_list));
 	if (!new_node)
 		return (1);
-	new_node->type = type;
-	if (file_name)
+	new_node->type = get_redir_type(options);
+	if (!(options & HERE_DOC))
 	{
 		new_node->file_name = ft_strdup(file_name);
 		if (!new_node->file_name)
@@ -82,38 +95,20 @@ int	create_redirections(t_list **tokens, t_btree *bnode, t_here_doc **here_list)
 	t_list	*cur;
 
 	cur = *tokens;
-	bnode->redir_list = NULL;
-	while (cur && (cur->token->options & WORD || cur->token->options & REDIR_OP))
+	while (cur && (cur->token->options & WORD
+		|| cur->token->options & REDIR_OP))
 	{
 		if (cur->token->options & REDIR_OP)
 		{
+			if (add_redir_node(&bnode->redir_list, cur->token->options,
+				cur->next->token->str))
+				return (printf("add_redir_node() failed\n"), 1);
 			if (cur->token->options & HERE_DOC)
-			{
-				if (add_redir_node(&bnode->redir_list, REDIR_HERE, NULL))
-					return (printf("add_redir_node() failed\n"), 1);
 				if (add_here_node(here_list, cur->next->token->str, bnode))
 					return (printf("add_here_node() failed in create_redirections()\n"), 1);
-			}
-			else if (cur->token->options & OUTPUT_REDIR_APPEND)
-			{
-				if (add_redir_node(&bnode->redir_list, REDIR_OUT_APP, cur->next->token->str))
-					return (printf("add_redir_node() failed OUT_APP\n"), 1);
-			}
-			else if (cur->token->options & INPUT_REDIR)
-			{
-				if (add_redir_node(&bnode->redir_list, REDIR_IN, cur->next->token->str))
-					return (printf("add_redir_node() failed IN\n"), 1);
-			}
-			else if (cur->token->options & OUTPUT_REDIR)
-			{
-				if (add_redir_node(&bnode->redir_list, REDIR_OUT, cur->next->token->str))
-					return (printf("add_redir_node() failed OUT\n"), 1);
-			}
 			cur = cur->next;
-			// consume_token(tokens);
 		}
 		cur = cur->next;
-		// consume_token(tokens);
 	}
 	return (0);
 }
@@ -180,30 +175,26 @@ int	put_here_name(t_here_doc *here_node)
 int	parse_here_doc(char *delimiter, char *file_name, size_t *line_count)
 {
 	int		fd;
-	size_t	delimiter_len;
 	char	*line;
-	size_t	doc_line_count;
+	size_t	ln;
 
-	doc_line_count = *line_count;
-	fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0666);
+	ln = *line_count;
+	fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0777);
 	if (fd < 0)
 		return (printf("open failed in parse_here_doc()\n"), 1);
-	// printf("opening here with delimiter (%s)\n", delimiter);
-	delimiter_len = ft_strlen(delimiter);
 	while (1)
 	{
 		line = readline(">");
 		if (!line)
 		{
-			ft_printf(2, "minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", *line_count, delimiter);
-			break ;
+			ft_printf(2, "minishell: warning: here-document at line ");
+			ft_printf(2, "%d delimited by end-of-file (wanted `%s')\n",
+				ln, delimiter);
+			return (0);
 		}
-		if (ft_strncmp(line, delimiter, delimiter_len) == 0 && line[delimiter_len] == 0)
-		{
-			// printf("delimiter met for (%s)\n", delimiter);
-			free(line);
-			break ;
-		}
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
+		&& line[ft_strlen(delimiter)] == 0)
+			return (free(line), 0);
 		(write(fd, line, ft_strlen(line)), write(fd, "\n", 1), free(line));
 		*line_count += 1;
 	}

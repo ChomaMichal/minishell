@@ -76,7 +76,7 @@ typedef struct	s_parse_data
 	char		*line;
 	char		*operators[10];
 	t_list		*tokens;
-	int			*line_count;
+	int			line_count;
 	t_here_doc	*here_list;
 	t_btree		*exec_tree;
 	t_data		*data;

@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 15:08:59 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/23 04:35:30 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/23 07:13:04 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	cleanup(t_data *data)
 int	init_main(t_data *data, char **envp, t_parse_data *d)
 {
 	d->here_list = NULL;
-	d->line_count = 0;
+	// d->line_count = 0;
 	d->exec_tree = NULL;
 	d->tokens = NULL;
 	d->line = NULL;

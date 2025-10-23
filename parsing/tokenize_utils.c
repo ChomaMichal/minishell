@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 15:59:58 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/22 17:54:02 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/22 18:28:55 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,58 +27,6 @@ static int	is_delimiter(char *line, char **operators)
 		op_index++;
 	}
 	return (0);
-}
-
-int	count_double_quote(size_t *count, ssize_t *i, ssize_t word_len, char *line)
-{
-	*count += 1;
-	*i += 1;
-	while (*i < word_len && line[*i] != '\"')
-		*i += 1;
-	if (*i == word_len)
-		return (printf("counted %zi fragments\n", *count), 1);
-	*i += 1;
-	return (0);
-}
-
-int	count_single_quote(size_t *count, ssize_t *i, ssize_t word_len, char *line)
-{
-	*count += 1;
-	*i += 1;
-	while (*i < word_len && line[*i] != '\'')
-		*i += 1;
-	if (*i == word_len)
-		return (printf("counted %zi fragments\n", *count), 1);
-	*i += 1;
-	return (0);
-}
-
-size_t	count_fragments(char *line, ssize_t word_len, char **operators)
-{
-	size_t	count;
-	ssize_t	i;
-
-	count = 0;
-	i = 0;
-	while (i < word_len)
-	{
-		if (line[i] == '\"')
-		{
-			if (count_double_quote(&count, &i, word_len, line))
-				return (count);
-					}
-		else if (line[i] == '\'')
-		{
-			if (count_single_quote(&count, &i, word_len, line))
-				return (count);			
-		}
-		else
-		{
-			count++;
-			i += len_to_quote_or_delimiter(&line[i], operators);
-		}
-	}
-	return (printf("counted %zi fragments\n", count), count);
 }
 
 void	skip_spaces(char *line, size_t *i)

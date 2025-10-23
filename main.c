@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:43:42 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/21 20:56:32 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/23 04:35:45 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (init_main(&data, envp, &d))
 		return (ft_putstrerr("Malloc fail in initialization\n"), 1);
+	d.line_count = 0;
 	while (1)
 	{
 		d.line = readline("<>minishell<>");
@@ -38,10 +39,7 @@ int	main(int argc, char **argv, char **envp)
 			add_history(d.line);
 			data.head = parse(&d);
 			if (data.head)
-			{
-				execute(data.head, &data);
-				cleanup(&data);
-			}
+				(execute(data.head, &data), cleanup(&data), clear_here_list(&d.here_list));
 			rl_on_new_line();
 		}
 		free(d.line);

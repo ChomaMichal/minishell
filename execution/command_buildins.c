@@ -1,15 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_buldins.c                                  :+:      :+:    :+:   */
+/*   command_buildins.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:00:31 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/17 15:20:14 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/23 03:34:18 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../commands/commands.h"
+
 #include "../libft/idlist.h"
 #include "executor.h"
 
@@ -46,7 +46,7 @@ void	echo_wrap(t_btree *tree, t_data *data)
 	int		pid;
 
 	pid = -1;
-	if (tree->redir.in || tree->redir.out)
+	if (tree->redir_list)
 	{
 		pid = fork();
 		if (pid == 0)
@@ -69,7 +69,7 @@ void	cd_wrap(t_btree *tree, t_data *data)
 	int		pid;
 
 	pid = -1;
-	if (tree->redir.in || tree->redir.out)
+	if (tree->redir_list)
 	{
 		pid = fork();
 		signal(SIGINT, SIG_DFL);
@@ -94,7 +94,7 @@ void	export_wrap(t_btree *tree, t_data *data)
 	int		pid;
 
 	pid = -1;
-	if (tree->redir.in || tree->redir.out)
+	if (tree->redir_list)
 	{
 		pid = fork();
 		if (pid == 0)
@@ -122,7 +122,7 @@ void	unset_wrap(t_btree *tree, t_data *data)
 	int		pid;
 
 	pid = -1;
-	if (tree->redir.in || tree->redir.out)
+	if (tree->redir_list)
 	{
 		pid = fork();
 		signal(SIGINT, SIG_DFL);

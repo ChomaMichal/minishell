@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 15:08:59 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/21 21:01:43 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/23 04:35:30 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,13 @@ void	delete_bnode(void *ptr)
 	{
 		node = (t_btree *)ptr;
 		free_split(node->cmd_argv);
-		free(node->redir.in);
-		free(node->redir.out);
-		if (node->redir.here)
-			unlink(node->redir.here);
-		free(node->redir.here);
-		node->redir.here = NULL;
+		clear_redir_list(&node->redir_list);
+		// free(node->redir.in);
+		// free(node->redir.out);
+		// if (node->redir.here)
+		// 	unlink(node->redir.here);
+		// free(node->redir.here);
+		// node->redir.here = NULL;
 		free(node);
 	}
 }
@@ -63,12 +64,13 @@ void	delete_bnode_unlink(void *ptr)
 	{
 		node = (t_btree *)ptr;
 		free_split(node->cmd_argv);
-		free(node->redir.in);
-		free(node->redir.out);
-		if (node->redir.here)
-			unlink(node->redir.here);
-		free(node->redir.here);
-		node->redir.here = NULL;
+		clear_redir_list(&node->redir_list);
+		// free(node->redir.in);
+		// free(node->redir.out);
+		// if (node->redir.here)
+		// 	unlink(node->redir.here);
+		// free(node->redir.here);
+		// node->redir.here = NULL;
 		free(node);
 	}
 }

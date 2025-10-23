@@ -30,13 +30,28 @@ typedef enum	e_bnode_type
 
 //if append == 0 truncate 
 //if append == 1 append
-typedef struct s_redir
+// typedef struct s_redir
+// {
+// 	char	*in;
+// 	char	*here;
+// 	char	*out;
+// 	int		append;
+// }	t_redir;
+
+typedef enum	e_redir_type
 {
-	char	*in;
-	char	*here;
-	char	*out;
-	int		append;
-}	t_redir;
+	REDIR_OUT,
+	REDIR_OUT_APP,
+	REDIR_IN,
+	REDIR_HERE
+}	t_redir_type;
+
+typedef struct	s_redir_list
+{
+	t_redir_type		type;
+	char				*file_name;
+	struct s_redir_list	*next;
+}	t_redir_list;
 
 typedef struct	s_btree
 {
@@ -44,7 +59,8 @@ typedef struct	s_btree
 	struct s_btree	*right;
 	char			**cmd_argv;
 	t_bnode_type	type;
-	t_redir			redir;
+	t_redir_list	*redir_list;
+	// t_redir			redir;
 }	t_btree;
 
 typedef struct	s_here_doc
@@ -77,11 +93,16 @@ typedef struct	s_parse_data
 
 
 /* DEV print.c */
+void	btree_apply_prefix(t_btree *root, void (*applyf)(void *));
 void	btree_apply_suffix(t_btree *root, void (*applyf)(void *));
 void	print_btree_pyramid(const t_btree *node);
 
 /* parsing/parsing.c */
 t_btree	*parse(t_parse_data *d);
+/* parsing/redirections.c */
+void	clear_redir_list(t_redir_list **redir_list);
+void	clear_here_list(t_here_doc **here_list);
+
 // int		btoindex(int options);
 
 // execute

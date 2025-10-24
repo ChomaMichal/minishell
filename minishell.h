@@ -50,6 +50,8 @@ typedef struct	s_btree
 	char			**cmd_argv;
 	t_bnode_type	type;
 	t_redir_list	*redir_list;
+	char			*ambig;
+	int				empty_cmd;
 }	t_btree;
 
 typedef struct	s_here_doc

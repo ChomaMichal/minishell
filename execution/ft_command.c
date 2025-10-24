@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:16:38 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/23 07:31:58 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/23 12:44:42 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,15 @@ void	ft_execve(t_btree *tree, t_data *data)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
+	if (tree->ambig)
+	{
+		ft_putstrerr("minishell: ");
+		ft_putstrerr(tree->ambig);
+		ft_putstrerr(" ambiguous redirection\n");
+		ft_exit(data, "1");
+	}
+	if (tree->empty_cmd)
+		ft_exit(data, "0");
 	if (redirection(tree))
 		ft_exit(data, "1");
 	path = get_path(data->env, tree->cmd_argv[0]);
@@ -94,6 +103,10 @@ void	ft_command(t_btree *tree, t_data *data)
 {
 	int		pid;
 
+	if (tree->ambig)
+		printf("ambig caught in execution\n");
+	if (tree->empty_cmd)
+		printf("empty cmd caught in execution\n");
 	if (is_buildin(tree, data) == 1)
 		return ;
 	pid = fork();

@@ -43,10 +43,16 @@ int	expand(t_parse_data *d)
 	node = d->tokens;
 	while (node)
 	{
+		if (node->token->options & REDIR_OP)
+		{
+			node->token->redir_word = ft_strdup(node->next->token->str);
+			if (!node->token->redir_word)
+				return ("ft_strdup on redir_word failed\n", 1);
+		}
 		if (node->token->options & WORD
 			&& !(node->token->options & EXPANDED_WORD)
 			&& !(node->token->options & HERE_DEL_WORD))
-		{
+		{				
 			if (expand_word(d, node))
 				return (ft_printf(2, "expand_token() failed: (%s)\n",
 						node->token->str), 1);

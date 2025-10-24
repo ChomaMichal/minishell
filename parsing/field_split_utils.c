@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 00:18:14 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/21 22:40:20 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/23 10:30:29 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,7 @@ int	create_split_tokens(t_list **head, char **split_arr, t_expansion_data *xd)
 			return (1);
 		new_token->fragment_count = 1;
 		new_token->fragment_i = xd->i;
-		new_token->fragments = NULL;//malloc(sizeof (t_fragment));
-		// if (!new_token->fragments)
-		// 	return (free(new_token), 1);
-		// ft_memmove(new_token->fragments, xd->token_node->token->fragments,
-		// 	sizeof(t_fragment));
+		new_token->fragments = NULL;
 		new_token->options = new_token->options | WORD | EXPANDED_WORD;
 		if (xd->is_redir_word)
 			new_token->options |= REDIR_WORD;

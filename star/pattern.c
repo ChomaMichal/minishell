@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   pattern.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 18:23:54 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/08 18:53:56 by jel-ghna         ###   ########.fr       */
+/*   Created: 2025/10/27 14:51:15 by mchoma            #+#    #+#             */
+/*   Updated: 2025/10/27 14:53:51 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include <stdio.h>
 
 void	star_forward(size_t *i, size_t *j, char *match, char *str)
@@ -26,7 +25,7 @@ void	star_forward(size_t *i, size_t *j, char *match, char *str)
 		return ;
 	}
 	while (str[(*i) + tmp] == match[(*j) + 1 + tmp] && str[(*i) + tmp]
-		&& match[(*j) + 1 + tmp])
+		&& match[(*j) + 1 + tmp] && !(match[0] == '*' && i == 0))
 		tmp ++;
 	if ((match[(*j) + 1 + tmp] == '*' || match[(*j) + 1 + tmp] == 0) && tmp != 0)
 	{
@@ -46,8 +45,6 @@ int		star_match(char *match, char *str)
 	j = 0;
 	while(1)
 	{
-		if (match[j] == '*' && match[j + 1] == '*')
-			j ++;
 		if (match[j] == '*' &&  str[i])
 			star_forward(&i, &j, match, str);
 		else if (match[j] == str[i] && match[j] && str[i])
@@ -59,7 +56,7 @@ int		star_match(char *match, char *str)
 		{
 			if (str[i] == 0 && match[j] == 0)
 				return (1);
-			if (match[j] == '*' && match[j + 1] == 0)
+			if (str[i] != 0 && match[j] == '*' && match[j + 1] == 0)
 				return (1);
 			return (0);
 		}

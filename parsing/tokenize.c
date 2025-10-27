@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 21:47:30 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/21 22:48:25 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/23 11:05:28 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	set_operator_options(int *options, int op_index, int *is_redir_word)
 	if (op_index == 3 || op_index == 4 || op_index == 5 || op_index == 6)
 	{
 		*options |= REDIR_OP;
-		*is_redir_word = 1;
+		*is_redir_word = op_index;
 	}
 	else if (7 == op_index || op_index == 8)
 		*options |= PARENTHESIS;

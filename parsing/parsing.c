@@ -49,7 +49,7 @@ static void	print_tokens(t_print_d *data)
 	{
 		printf("token (%d) type: (WORD)", token_count++);
 		if (token->options & EMPTY_WORD)
-			printf(" [%s] EMPTY WORD", token->str);
+			printf(" [EMPTY WORD] ");
 		if (token->options & REDIR_WORD)
 			printf(" (REDIRECTION WORD)");
 		printf("\n");
@@ -98,7 +98,7 @@ t_btree	*parse(t_parse_data *d)
 	if (expand(d))
 		return (ft_printf(2, "minishell: expand() failed\n"),
 		del_tokens(d->tokens), NULL);
-	ft_lstiter(d->tokens, print_tokens, &print_data);
+	// ft_lstiter(d->tokens, print_tokens, &print_data);
 	d->exec_tree = create_exec_tree(d);
 	del_tokens(d->tokens);
 	return (d->exec_tree);

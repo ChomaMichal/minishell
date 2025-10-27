@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 19:04:26 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/17 15:14:43 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/23 12:57:38 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,5 @@ void	ft_pipe(t_btree *tree, t_data *data)
 	close (fd [1]);
 	waitpid(pid[0], &data->rt, 0);
 	waitpid(pid[1], &data->rt, 0);
+	data->pids = NULL;
 }

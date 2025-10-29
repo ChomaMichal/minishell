@@ -55,6 +55,7 @@ typedef struct	s_token
 	size_t		fragment_count;
 	t_fragment	*fragments;
 	size_t		fragment_i;
+	int			*stars_arr;
 }	t_token;
 
 typedef struct	s_list
@@ -115,9 +116,10 @@ int		expand(t_parse_data *d);
 /* expand_fragment.c */
 int		expand_fragment(t_expansion_data *xd);
 /* utils */
+int		mark_stars(t_list *target_node, size_t target_len, char *tmp);
 char	*create_var_val(char *str, size_t *start, t_expansion_data *xd);
 char	*safe_strjoin(char **str1, char *str2, int free_second_str);
-int		append_substr(t_list *target_node, char *str, int free_second_str);
+int		append_substr(t_list *target_node, char *str, int free_second_str, int double_quote);
 
 /* field_split.c */
 int		field_split(char *fragment_str, char *expanded, t_expansion_data *xd);

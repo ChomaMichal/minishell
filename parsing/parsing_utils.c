@@ -5,6 +5,7 @@ void	del_token(void *ptr)
 	free(((t_token *)ptr)->fragments);
 	free(((t_token *)ptr)->str);
 	free(((t_token *)ptr)->redir_word);
+	free(((t_token *)ptr)->stars_arr);
 	free(ptr);
 }
 

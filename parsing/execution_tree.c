@@ -37,11 +37,24 @@ t_btree	*make_bnode(t_bnode_type type, t_btree *left, t_btree *right)
 	return (node);
 }
 
+int	dup_append_str(char **cmd_argv, char *str, size_t *word_count)
+{
+	char	*word;
+
+	word = ft_strdup(str);
+	if (!word)
+	{
+		cmd_argv[*word_count] = NULL;
+		return (free_split(cmd_argv), 1);
+	}
+	cmd_argv[(*word_count)++] = word;
+	return (0);
+}
+
 int	store_words(t_list **tokens, char **cmd_argv)
 {
 	t_list	*cur;
 	size_t	word_count;
-	char	*word;
 
 	cur = *tokens;
 	word_count = 0;
@@ -57,13 +70,8 @@ int	store_words(t_list **tokens, char **cmd_argv)
 			cur = cur->next->next;
 			continue ;
 		}
-		word = ft_strdup(cur->token->str);
-		if (!word)
-		{
-			cmd_argv[word_count] = NULL;
-			return (free_split(cmd_argv), 1);
-		}
-		cmd_argv[word_count++] = word;
+		if (dup_append_str(cmd_argv, cur->token->str, &word_count))
+			return (1);
 		cur = cur->next;
 	}
 	cmd_argv[word_count] = NULL;

@@ -47,7 +47,7 @@ int	expand(t_parse_data *d)
 		{
 			node->token->redir_word = ft_strdup(node->next->token->str);
 			if (!node->token->redir_word)
-				return ("ft_strdup on redir_word failed\n", 1);
+				return (1);
 		}
 		if (node->token->options & WORD
 			&& !(node->token->options & EXPANDED_WORD)
@@ -59,7 +59,7 @@ int	expand(t_parse_data *d)
 		}
 		node = node->next;
 	}
-	// if (filename_expansion(&d->tokens, d->line))
-	// 	return (ft_printf(2, "expand_filename() failed\n"), 1);
+	if (filename_expansion(&d->tokens, d->line))
+		return (ft_printf(2, "expand_filename() failed\n"), 1);
 	return (0);
 }

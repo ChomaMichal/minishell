@@ -6,11 +6,44 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:06:53 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/18 01:26:41 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:25:38 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+static void	copy_old_stars_arr(int *old_arr, int *new_arr, size_t old_len)
+{
+	size_t	i;
+
+	i = 0;	
+	if (!old_arr)
+		return ;
+	while (i < old_len)
+	{
+		new_arr[i] = old_arr[i];
+		i++;
+	}
+}
+
+int	mark_stars(t_list *target_node, size_t old_len, char *tmp)
+{
+	int	*stars_arr;
+
+	stars_arr = ft_calloc(sizeof(int) * ft_strlen(tmp), 1);
+	if (!stars_arr)
+		return (1);
+	copy_old_stars_arr(target_node->token->stars_arr, stars_arr, old_len);
+	while (tmp[old_len])
+	{
+		if (tmp[old_len] == '*')
+			stars_arr[old_len] = 1;
+		old_len++;
+	}
+	free(target_node->token->stars_arr);
+	target_node->token->stars_arr = stars_arr;
+	return (0);
+}
 
 char	*create_var_val(char *str, size_t *start, t_expansion_data *xd)
 {
@@ -54,16 +87,20 @@ char	*safe_strjoin(char **str, char *str2, int free_second_str)
 	return (*str);
 }
 
-int	append_substr(t_list *target_node, char *str, int free_second_str)
+int	append_substr(t_list *target_node, char *str, int free_second_str, int double_quote)
 {
 	char	*tmp;
+	size_t	old_len;
 
+	old_len = ft_strlen(target_node->token->str);
 	tmp = ft_strjoin(target_node->token->str, str);
-	free(target_node->token->str);
 	if (free_second_str)
 		free(str);
 	if (!tmp)
-		return (1);
+		return ( 1);
+	if (double_quote && mark_stars(target_node, old_len, tmp))
+		return (free(tmp), 1);
+	free(target_node->token->str);
 	target_node->token->str = tmp;
 	return (0);
 }

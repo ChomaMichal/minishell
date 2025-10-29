@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 00:11:53 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/18 00:15:23 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:26:25 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	field_split(char *fragment_str, char *expanded, t_expansion_data *xd)
 	if (!xd->token_node->token->fragments[xd->i].starts_with_space
 		|| xd->i == 0)
 	{
-		append_substr(xd->target_node, split_arr[0], 0);
+		append_substr(xd->target_node, split_arr[0], 0, 0);
 		if (create_split_tokens(&head, split_arr + 1, xd))
 			return (del_tokens(head), free_split(split_arr), 1);
 	}

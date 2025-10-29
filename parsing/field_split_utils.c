@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 00:18:14 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/23 10:30:29 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:08:42 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static int	set_token(t_token *new_token, t_list *token_node, size_t fragment_i,
 	new_token->options |= EXPANDED_WORD;
 	new_token->fragment_i = fragment_i;
 	new_token->str = ft_strdup("");
+	new_token->stars_arr = NULL;
 	if (!new_token->str)
 		return (1);
 	if (add_token(field_split_head, new_token))

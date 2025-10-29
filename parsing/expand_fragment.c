@@ -32,11 +32,15 @@ static int	expand_single_quoted_fragment(char *fragment_str, t_expansion_data *x
 {
 	char	*tmp;
 	t_list	*target_node;
+	size_t	target_len;
 
 	target_node = xd->target_node;
+	target_len = ft_strlen(target_node->token->str);
 	tmp = ft_strjoin(target_node->token->str, fragment_str);
 	if (!tmp)
 		return (1);
+	if (mark_stars(target_node, target_len, tmp))
+		return (free(tmp), 1);
 	free(target_node->token->str);
 	target_node->token->str = tmp;
 	return (0);
@@ -55,20 +59,20 @@ static int	expand_double_quoted_fragment(char *fragment_str, t_expansion_data *x
 		if (fragment_str[i] == '$')
 		{
 			fragment_str[i] = 0;
-			if (append_substr(xd->target_node, &fragment_str[start], 0))
+			if (append_substr(xd->target_node, &fragment_str[start], 0, 1))
 				return (1);
 			start = i + 1;
 			var_val = create_var_val(&fragment_str[start], &start, xd);
 			if (!var_val)
 				return (1);
-			if (append_substr(xd->target_node, var_val, 1))
+			if (append_substr(xd->target_node, var_val, 1, 1))
 				return (1);
 			i = start;
 		}
 		else
 			i++;
 	}
-	return (append_substr(xd->target_node, &fragment_str[start], 0));
+	return (append_substr(xd->target_node, &fragment_str[start], 0, 1));
 }
 
 static int	expand_unquoted_fragment(char *fragment_str, t_expansion_data *xd)
@@ -84,7 +88,7 @@ static int	expand_unquoted_fragment(char *fragment_str, t_expansion_data *xd)
 	if (!expanded)
 		return (1);
 	if (!ft_strchr(expanded, ' ') && !ft_strchr(expanded, '	'))
-		return (append_substr(xd->target_node, expanded, 1), 0);
+		return (append_substr(xd->target_node, expanded, 1, 0), 0);
 	token->fragments[xd->i].starts_with_space = (ft_strchr(" 	", expanded[0])
 		!= NULL);
 	token->fragments[xd->i].ends_with_space = (*expanded

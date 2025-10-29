@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:26:33 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/22 18:31:35 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/29 16:08:46 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	star_forward(size_t *i, size_t *j, char *match, char *str)
 		return ;
 	}
 	while (str[(*i) + tmp] == match[(*j) + 1 + tmp] && str[(*i) + tmp]
-		&& match[(*j) + 1 + tmp])
+		&& match[(*j) + 1 + tmp] && !(match[0] == '*' && i == 0))
 		tmp ++;
 	if ((match[(*j) + 1 + tmp] == '*' || match[(*j) + 1 + tmp] == 0) && tmp != 0)
 	{
@@ -48,7 +48,7 @@ static void	star_forward(size_t *i, size_t *j, char *match, char *str)
 		((*i)) ++;
 }
 
-static int		star_match(char *match, char *str)
+int		star_match(char *match, char *str, int *stars_arr)
 {
 	size_t	i;
 	size_t	j;
@@ -57,8 +57,6 @@ static int		star_match(char *match, char *str)
 	j = 0;
 	while(1)
 	{
-		if (match[j] == '*' && match[j + 1] == '*')
-			j ++;
 		if (match[j] == '*' &&  str[i])
 			star_forward(&i, &j, match, str);
 		else if (match[j] == str[i] && match[j] && str[i])
@@ -70,14 +68,19 @@ static int		star_match(char *match, char *str)
 		{
 			if (str[i] == 0 && match[j] == 0)
 				return (1);
-			if (match[j] == '*' && match[j + 1] == 0)
+			if (str[i] != 0 && match[j] == '*' && match[j + 1] == 0)
 				return (1);
 			return (0);
 		}
 	}
 }
 
-char	**expand_star_append(char *match, char ***arr)
+//||
+//||
+//V
+// THIS ARRAY CAN BE NULL, IN THAT CASE DON'T DO ANYTHING !!!!!!!!!!!
+// stars_arr[i] = 1 for stars that should NOT expand for match[i] 
+char	**expand_star_append(char *match, char ***arr, int *stars_arr)
 {
 	DIR				*directory;
 	struct dirent	*idk;
@@ -91,16 +94,25 @@ char	**expand_star_append(char *match, char ***arr)
 	idk = readdir(directory);
 	while (idk)
 	{
-		if (star_match(match, idk->d_name) == 1)
+		if (star_match(match, idk->d_name, stars_arr) == 1)
 		{
 			str = ft_strdup(idk->d_name);
 			if (str == NULL)
-				return (closedir(directory), NULL);
+				return (free_arr(arr), closedir(directory), NULL);
 			if (ft_append_arr_str(arr, str) == NULL)
-				return (free(str), closedir(directory), NULL);
+				return (free(str), free_arr(arr), closedir(directory), NULL);
 		}
 		idk = readdir(directory);
 	}
+	printf("[");
+	if (stars_arr)
+	{
+		for (size_t i = 0; i < strlen(match); i++)
+			printf("%d", stars_arr[i]);
+	}
+	else
+		printf("EMPTY");
+	printf("]");
 	return (free(idk), closedir(directory), *arr);
 }
 
@@ -128,6 +140,7 @@ int	create_files_tokens(t_list **head, char **split_arr, size_t fragment_i, t_li
 		new_token->str = ft_strdup(split_arr[arr_counter - 1]);
 		if (!new_token->str)
 			return (free(new_token->fragments), free(new_token), 1);
+		new_token->stars_arr = NULL;
 		if (add_token(head, new_token))
 			return (free(new_token->fragments), free(new_token->str),
 				free(new_token), 1);
@@ -142,9 +155,9 @@ int	expand_filename(t_list **node, size_t fragment_i)
 
 	files_arr = NULL;
 	files_list = NULL;
-	files_arr = expand_star_append((*node)->token->str, &files_arr);
+	files_arr = expand_star_append((*node)->token->str, &files_arr, (*node)->token->stars_arr);
 	if (!files_arr)
-		return (printf("expand_star_append() returned NULL"), 0);
+		return (0);
 	if (create_files_tokens(&files_list, files_arr, fragment_i, *node))
 		return (free_split(files_arr), del_tokens(files_list), 1);
 	free_split(files_arr);
@@ -169,11 +182,8 @@ int	filename_expansion(t_list **head, char *line)
 			// 	;
 			// else if (expand_filename(&node, node->token->fragment_i))
 			// 	return (1);
-			if (ft_strchr(node->token->str, '*'))
-			{
-				if (expand_filename(&node, node->token->fragment_i))
-					return (1);
-			}
+			if (expand_filename(&node, node->token->fragment_i))
+				return (1);
 		}
 		node = node->next;
 	}

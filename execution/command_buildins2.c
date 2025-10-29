@@ -11,54 +11,28 @@
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
-#include "../libft/idlist.h"
 #include "../commands/commands.h"
 #include "executor.h"
 
 void	env_wrap(t_btree *tree, t_data *data)
 {
-	int		pid;
-
-	pid = -1;
-	if (tree->redir_list)
-	{
-		pid = fork();
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_IGN);
-		redirection(tree);
-	}
-	if (pid <= 0)
-		ft_env(data);
-	if (pid == 0)
-		ft_exit(data, NULL);
-	if (pid != 0)
-		add_last_id(&data->pids, pid);
+	redit_buildin(tree->redir_list, 0);
+	ft_env(data);
+	redit_buildin(tree->redir_list, 1);
 }
 
 void	pwd_wrap(t_btree *tree, t_data *data)
 {
-	int		pid;
-
-	pid = -1;
-	if (tree->redir_list)
-	{
-		pid = fork();
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_IGN);
-		redirection(tree);
-	}
-	if (pid <= 0)
-		ft_pwd(data);
-	if (pid == 0)
-		ft_exit(data, NULL);
-	if (pid != 0)
-		add_last_id(&data->pids, pid);
+	redit_buildin(tree->redir_list, 0);
+	ft_pwd(data);
+	redit_buildin(tree->redir_list, 1);
 }
 
 void	exit_wrap(t_btree *tree, t_data *data)
 {
+	redit_buildin(tree->redir_list, 0);
 	ft_exit(data, tree->cmd_argv[1]);
-	add_last_id(&data->pids, -1);
+	redit_buildin(tree->redir_list, 1);
 }
 
 int	is_buildin(t_btree *tree, t_data *data)

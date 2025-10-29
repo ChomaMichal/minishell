@@ -41,6 +41,8 @@ char	**expand_star_append(char *match, char ***arr)
 	if (ft_opendir(path, &directory) == NULL)
 		return (*arr);
 	idk = readdir(directory);
+	idk = readdir(directory);
+	idk = readdir(directory);
 	while (idk)
 	{
 		if (star_match(match, idk->d_name) == 1)

@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-int		sgnl = 0;
+
+volatile int sgnl = 0;
 
 void	print_env(char **envp)
 {
@@ -28,6 +29,7 @@ int	main(int argc, char **argv, char **envp)
 	t_data			data;
 	t_parse_data	d;
 
+	rl_catch_signals = 0;
 	if (init_main(&data, envp, &d))
 		return (ft_putstrerr("Malloc fail in initialization\n"), 1);
 	d.line_count = 0;

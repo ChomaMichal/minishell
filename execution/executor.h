@@ -16,6 +16,9 @@
 # include "../libft/libft.h"
 # include "../libft/idlist.h"
 
+//returns 1 on sucsess -1 on faill if revert == 1 it reverts the fds back to 
+//stdin and stdout
+int		redit_buildin(t_redir_list *list, int revert);
 char	*get_path(char**envp, char *command);
 void	ft_execve(t_btree *tree, t_data *data);
 int		wait_and_get_exit_value(t_ids *list);

@@ -2,7 +2,7 @@
 # define MINISHELL_H
 
 //global
-extern int sgnl; 
+extern volatile int sgnl; 
 
 typedef struct s_list t_list;
 

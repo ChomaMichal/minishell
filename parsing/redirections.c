@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/29 12:44:53 by mchoma            #+#    #+#             */
+/*   Updated: 2025/10/29 12:45:44 by mchoma           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 int	add_here_node(t_here_doc **here_list, char *delimiter, t_btree *bnode)
@@ -207,9 +219,14 @@ int	parse_here_doc(char *delimiter, char *file_name, size_t *line_count)
 	fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0777);
 	if (fd < 0)
 		return (printf("open failed in parse_here_doc()\n"), 1);
-	while (1)
+	while (sgnl == 0)
 	{
 		line = readline(">");
+		if (sgnl == 1)
+		{
+			free(line);
+			break;
+		}
 		if (!line)
 		{
 			ft_printf(2, "minishell: warning: here-document at line ");

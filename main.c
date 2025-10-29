@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int		sgnl = 0;
+
 void	print_env(char **envp)
 {
 	size_t	i;
@@ -32,15 +34,16 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		d.line = readline("<>minishell<>");
+		sgnl = 0;
 		if (!d.line)
 			break ;
 		if (d.line[0] && ++d.line_count)
 		{
 			add_history(d.line);
 			data.head = parse(&d);
-			if (data.head)
+			if (data.head &&  sgnl == 0)
 				(execute(data.head, &data), cleanup(&data), clear_here_list(&d.here_list));
-			rl_on_new_line();
+			sgnl = 0;
 		}
 		free(d.line);
 	}

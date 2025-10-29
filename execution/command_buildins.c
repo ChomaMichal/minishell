@@ -46,23 +46,7 @@ void	echo_wrap(t_btree *tree, t_data *data)
 {
 	int		pid;
 
-	pid = -1;
-	if (tree->redir_list)
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_IGN);
-			redirection(tree);
-		}
-	}
-	if (pid <= 0)
-		echo_maker(tree, data);
-	if (pid == 0)
-		ft_exit(data, NULL);
-	if (pid != 0)
-		add_last_id(&data->pids, pid);
+	echo_maker(tree, data);
 }
 
 void	cd_wrap(t_btree *tree, t_data *data)
@@ -141,4 +125,46 @@ void	unset_wrap(t_btree *tree, t_data *data)
 		ft_exit(data, NULL);
 	if (pid != 0)
 		add_last_id(&data->pids, pid);
+}
+
+
+int		in_dup_open()
+{
+	int		rt;
+	int		fd;
+
+	rt = dup(STDIN_FILENO);
+	if (rt == -1)
+		return (ft_putstrerr("redirection failed\n"), -1);
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		return (ft_putstrerr("redirection failed\n"), -1);
+	if (dup2(fd, STDIN_FILENO))
+		return (ft_putstrerr("redirection failed\n"), -1);
+	
+	return (rt);
+}
+
+
+//dup original fd than dup 2 a new one to the original 
+//place than after the funcion dup 2 the dupped original back 
+//original[0] == std in
+//original[1] == std out
+int		redit_buildin(t_redir_list list)
+{
+	int	i;
+	static int original[2];
+
+	while (list.next)
+	{
+		if (list.type  == REDIR_OUT)
+			original[1] = ft_open(list.file_name, O_WRONLY | O_TRUNC);
+		if (list.type  == REDIR_OUT_APP)
+			original[1] = ft_open(list.file_name, O_WRONLY | O_APPEND);
+		if (list.type  == REDIR_IN)
+			original[0] = ft_open()
+
+		if (list.type  == REDIR_HERE)
+				
+	}
 }

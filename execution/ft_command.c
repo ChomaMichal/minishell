@@ -20,6 +20,16 @@
 //if it is not found exit with 127 
 //if found and not executable exit with 126
 
+
+// int		ft_open()
+// {
+// 	if (out > -1)
+// 		close(out);
+// 	out = open(cur->file_name, O_WRONLY | O_CREAT | O_APPEND, 0777);
+// 	if (out == -1)
+// 		return (ft_printf(2, "open failed in redirection() REDIR_OUT_APP\n"), -1);
+// }
+//
 int	redirection(t_btree *tree)
 {
 	int				in;

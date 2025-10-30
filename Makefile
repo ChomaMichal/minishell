@@ -51,7 +51,8 @@ EXECUTE = execution/binsearch.c\
 		  execution/command_buildins.c\
 		  execution/command_buildins2.c\
 		  execution/ft_subshell.c\
-		  execution/redirection.c
+		  execution/redirection.c\
+		  execution/buildinredit.c
 
 OBJ_DIR = objects/
 TEST_OBJ_DIR = test_objects/

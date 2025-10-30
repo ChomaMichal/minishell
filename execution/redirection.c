@@ -6,21 +6,22 @@
 /*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:05:49 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/30 15:12:48 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/30 16:44:23 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../minishell.h"
+
 static int	open_dup2_in(char *filename)
 {
 	int		fd;
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		return (ft_printf(2, "open failed in redirection() REDIR_HERE|REDIR_IN\n"), -1);
-	if (dup2(fd,STDIN_FILENO) == -1)
+		return (ft_printf(2, "open failed in redirection\n"), -1);
+	if (dup2(fd, STDIN_FILENO) == -1)
 		return (ft_printf(2, "dup2 failed in redirection\n"), -1);
 	close(fd);
-	return(1);
+	return (1);
 }
 
 static int	open_dup2_out_append(char *filename)
@@ -29,11 +30,11 @@ static int	open_dup2_out_append(char *filename)
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		return (ft_printf(2, "open failed in redirection() REDIR_HERE|REDIR_IN\n"), -1);
-	if (dup2(fd,STDIN_FILENO) == -1)
+		return (ft_printf(2, "open failed in redirection\n"), -1);
+	if (dup2(fd, STDOUT_FILENO) == -1)
 		return (ft_printf(2, "dup2 failed in redirection\n"), -1);
 	close(fd);
-	return(1);
+	return (1);
 }
 
 static int	open_dup2_out_truncate(char *filename)
@@ -42,11 +43,11 @@ static int	open_dup2_out_truncate(char *filename)
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		return (ft_printf(2, "open failed in redirection() REDIR_HERE|REDIR_IN\n"), -1);
-	if (dup2(fd,STDIN_FILENO) == -1)
+		return (ft_printf(2, "open failed in redirection\n"), -1);
+	if (dup2(fd, STDOUT_FILENO) == -1)
 		return (ft_printf(2, "dup2 failed in redirection\n"), -1);
 	close(fd);
-	return(1);
+	return (1);
 }
 
 int	redir_dup2(t_btree *tree)

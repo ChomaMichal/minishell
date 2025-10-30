@@ -12,6 +12,7 @@
 
 #include "../libft/idlist.h"
 #include "executor.h"
+
 void	ft_and(t_btree *tree, t_data *data)
 {
 	int		rt;
@@ -31,4 +32,3 @@ void	ft_and(t_btree *tree, t_data *data)
 	if (rt == 0)
 		execute(tree->right, data);
 }
-

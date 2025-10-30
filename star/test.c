@@ -31,13 +31,11 @@ char	**expand_star_append(char *match, char ***arr)
 {
 	DIR				*directory;
 	struct dirent	*idk;
-	int				i;
 	char			path[PATH_MAX];
 	char			*str;
 
 	if (getcwd(path, PATH_MAX) == NULL)
 		return (NULL);
-	i = 0;
 	if (ft_opendir(path, &directory) == NULL)
 		return (*arr);
 	idk = readdir(directory);
@@ -58,6 +56,7 @@ char	**expand_star_append(char *match, char ***arr)
 	return (free(idk), closedir(directory), *arr);
 }
 
+/*
 int main(int argc, char **argv)
 {
 	char	**paths;
@@ -75,7 +74,7 @@ int main(int argc, char **argv)
 	free_arr((void ***) &paths);
 	return (0);
 }
-
+*/
 /*
 int	star_match(char *match, char *str)
 {

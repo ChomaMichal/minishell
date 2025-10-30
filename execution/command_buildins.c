@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:00:31 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/23 12:44:06 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/30 16:41:33 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	echo_maker(t_btree *tree, t_data *data)
 
 void	echo_wrap(t_btree *tree, t_data *data)
 {
-	
 	redit_buildin(tree->redir_list, 0);
 	echo_maker(tree, data);
 	redit_buildin(tree->redir_list, 1);
@@ -78,109 +77,4 @@ void	unset_wrap(t_btree *tree, t_data *data)
 	else
 		ft_unset(data, tree->cmd_argv[1]);
 	redit_buildin(tree->redir_list, 1);
-}
-
-
-int		in_dup_open(char *filename, int *original)
-{
-	int		rt;
-	int		fd;
-
-	if (original[0] <= -1)
-	{
-		rt = dup(STDIN_FILENO);
-		if (rt == -1)
-			return (ft_putstrerr("redirection failed\n"), -2);
-	}
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-		return (ft_putstrerr("redirection failed\n"), -2);
-	if (dup2(fd, STDIN_FILENO))
-		return (ft_putstrerr("redirection failed\n"), -2);
-	return (rt);
-}
-
-int		out_dup_app(char *filename, int *original)
-{
-	int		rt;
-	int		fd;
-
-	if (original[1] <= -1)
-	{
-		rt = dup(STDOUT_FILENO);
-		if (rt == -1)
-			return (ft_putstrerr("redirection failed\n"), -2);
-	}
-	fd = open(filename, O_WRONLY | O_APPEND);
-	if (fd == -1)
-		return (ft_putstrerr("redirection failed\n"), -2);
-	if (dup2(fd, STDOUT_FILENO))
-		return (ft_putstrerr("redirection failed\n"), -2);
-	return (rt);
-}
-
-int		out_dup_trunc(char *filename, int *original)
-{
-	int		rt;
-	int		fd;
-
-	if (original[1] <= -1)
-	{
-		rt = dup(STDOUT_FILENO);
-		if (rt == -1)
-			return (ft_putstrerr("redirection failed\n"), -2);
-	}
-	fd = open(filename, O_WRONLY | O_TRUNC);
-	if (fd == -1)
-		return (ft_putstrerr("redirection failed\n"), -2);
-	if (dup2(fd, STDOUT_FILENO))
-		return (ft_putstrerr("redirection failed\n"), -2);
-	return (rt);
-}
-
-int		ft_revert(int *original)
-{
-	if (original[0] != -1)
-	{
-		if (dup2(original[0], STDIN_FILENO) == -1)
-			return (-1);
-		close (original[0]);
-	}
-	if (original[1] != -1)
-	{
-		if (dup2(original[1], STDOUT_FILENO) == -1)
-			return (-1);
-		close(original[1]);
-	}
-	original[1] = -1;
-	original[0] = -1;
-	return (1);
-}
-
-//dup original fd than dup 2 a new one to the original 
-//place than after the funcion dup 2 the dupped original back 
-//original[0] == std in
-//original[1] == std out
-int		redit_buildin(t_redir_list *list, int revert)
-{
-	int	i;
-	static int original[2] = {-1, -1};
-
-	if (revert == 1)
-		return (ft_revert(original));
-	while (list && original[1] != -2 && original[0] != -2)
-	{
-		if (list->type  == REDIR_OUT)
-			original[1] = out_dup_trunc(list->file_name, original);
-		if (list->type  == REDIR_OUT_APP)
-			original[1] = out_dup_app(list->file_name, original);
-		if (list->type  == REDIR_IN)
-			original[0] = in_dup_open(list->file_name, original);
-		if (list->type  == REDIR_HERE)
-			original[0] = in_dup_open(list->file_name, original);
-		list = list->next;
-	}
-	if(original[0] == -2 || original[1] == -2)
-		return (-1);
-	return (1);
 }

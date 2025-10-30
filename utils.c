@@ -9,7 +9,6 @@
 /*   Updated: 2025/10/23 11:25:17 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include <signal.h>
 #include "minishell.h"
 
@@ -49,12 +48,6 @@ void	delete_bnode(void *ptr)
 		free_split(node->cmd_argv);
 		free(node->ambig);
 		clear_redir_list(&node->redir_list);
-		// free(node->redir.in);
-		// free(node->redir.out);
-		// if (node->redir.here)
-		// 	unlink(node->redir.here);
-		// free(node->redir.here);
-		// node->redir.here = NULL;
 		free(node);
 	}
 }
@@ -68,25 +61,19 @@ void	delete_bnode_unlink(void *ptr)
 		node = (t_btree *)ptr;
 		free_split(node->cmd_argv);
 		free(node->ambig);
-		clear_redir_list(&node->redir_list);
-		// free(node->redir.in);
-		// free(node->redir.out);
-		// if (node->redir.here)
-		// 	unlink(node->redir.here);
-		// free(node->redir.here);
-		// node->redir.here = NULL;
+		clear_redir_list_unlink(&node->redir_list);
 		free(node);
 	}
 }
 
 void	cleanup(t_data *data)
 {
+	data->rt = wait_and_get_exit_value(data->pids);
 	if (data->subshell == 1)
 		btree_apply_suffix(data->head, delete_bnode);
 	if (data->subshell == 0)
 		btree_apply_suffix(data->head, delete_bnode_unlink);
 	data->head = NULL;
-	data->rt = wait_and_get_exit_value(data->pids);
 }
 
 int	init_main(t_data *data, char **envp, t_parse_data *d)

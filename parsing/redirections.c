@@ -102,6 +102,25 @@ void	clear_redir_list(t_redir_list **redir_list)
 	*redir_list = NULL;
 }
 
+void	clear_redir_list_unlink(t_redir_list **redir_list)
+{
+	t_redir_list	*cur;
+	t_redir_list	*next;
+
+	cur = *redir_list;
+	while (cur)
+	{
+		next = cur->next;
+		printf("%s == here\n", cur->file_name);
+		if (cur->type == REDIR_HERE)
+			unlink(cur->file_name);
+		free(cur->file_name);
+		free(cur);
+		cur = next;
+	}
+	*redir_list = NULL;
+}
+
 int	is_ambiguous_redir(t_list *tokens)
 {
 	t_list	*cur;
@@ -180,8 +199,6 @@ void	clear_here_list(t_here_doc **here_list)
 	{
 		next = cur->next;
 		free(cur->delimiter);
-		// printf("UNLINK (%s)\n", cur->file_name);
-		unlink(cur->file_name);
 		free(cur->file_name);
 		free(cur);
 		cur = next;
@@ -209,16 +226,17 @@ int	put_here_name(t_here_doc *here_node)
 	return (0);
 }
 
-int	parse_here_doc(char *delimiter, char *file_name, size_t *line_count)
+int	write_to_here_doc(char *delimiter, char *file_name, size_t *line_count)
 {
 	int		fd;
 	char	*line;
 	size_t	ln;
 
 	ln = *line_count;
+	printf("%s filename\n", file_name);
 	fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0777);
 	if (fd < 0)
-		return (printf("open failed in parse_here_doc()\n"), 1);
+		return (printf("open failed in parse_here_doc()\n"), close(fd), 1);
 	while (sgnl == 0)
 	{
 		line = readline(">");
@@ -236,10 +254,11 @@ int	parse_here_doc(char *delimiter, char *file_name, size_t *line_count)
 		}
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
 		&& line[ft_strlen(delimiter)] == 0)
-			return (free(line), 0);
+			return (free(line), close(fd), 0);
 		(write(fd, line, ft_strlen(line)), write(fd, "\n", 1), free(line));
 		*line_count += 1;
 	}
+	close (fd);
 	return (0);
 }
 
@@ -256,7 +275,7 @@ int	open_write_here_docs(t_here_doc **here_list, t_parse_data *d)
 		cur->file_name = here_name(&here_i);
 		if (!cur->file_name)
 			return (printf("here_name() failed\n"), 1);
-		if (parse_here_doc(cur->delimiter, cur->file_name, &d->line_count))
+		if (write_to_here_doc(cur->delimiter, cur->file_name, &d->line_count))
 			return (printf("parse_here_doc() failed\n"), clear_here_list(here_list), 1);
 		if (put_here_name(cur))
 			return (printf("put_here_name() failed\n"), clear_here_list(here_list), 1);

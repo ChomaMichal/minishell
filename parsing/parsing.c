@@ -101,5 +101,6 @@ t_btree	*parse(t_parse_data *d)
 	// ft_lstiter(d->tokens, print_tokens, &print_data);
 	d->exec_tree = create_exec_tree(d);
 	del_tokens(d->tokens);
+	clear_here_list(&d->here_list);
 	return (d->exec_tree);
 }

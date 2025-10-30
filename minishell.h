@@ -111,6 +111,7 @@ void	delete_bnode(void *ptr);
 void	delete_bnode_unlink(void *ptr);
 void	print_env(char **envp);
 void	cleanup(t_data *data);
+void	clear_redir_list_unlink(t_redir_list **redir_list);
 int		init_main(t_data *data, char **envp, t_parse_data *d);
 
 #endif

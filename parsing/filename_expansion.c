@@ -3,27 +3,83 @@
 /*                                                        :::      ::::::::   */
 /*   filename_expansion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josefelghnam <josefelghnam@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:26:33 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/29 16:08:46 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/31 00:21:42 by josefelghna      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	insert_expanded_filenames(t_list **files_list, t_list **node)
+static void	insert_expanded_filenames(t_list **files_list, t_list **node)
 {
 	free((*node)->token->fragments);
-	// free((*node)->token->str);
-	// free((*node)->token);
+	free((*node)->token->stars_arr);
+	free((*node)->token->str);
+	free((*node)->token);
 	ft_lstlast(*files_list)->next = (*node)->next;
 	(*node)->token = (*files_list)->token;
 	(*node)->next = (*files_list)->next;
-	// free(*files_list);
+	free(*files_list);
 }
 
-static void	star_forward(size_t *i, size_t *j, char *match, char *str)
+// static void	star_forward(size_t *i, char *match, char *str, int *stars_arr)
+// {
+// 	size_t	tmp;
+
+// 	tmp = 0;
+// 	if (str[i[0]] != 0 && match[i[1]] == '*' && !stars_arr[i[1]]
+// 		&& match[i[1] + 1] == 0)
+// 	{
+// 		while (str[i[0]])
+// 			i[0] += 1;
+// 		while (match[i[1]])
+// 			i[1] += 1;
+// 		return ;
+// 	}
+// 	while (str[i[0] + tmp] == match[i[1] + 1 + tmp] && str[i[0] + tmp]
+// 		&& match[i[1] + 1 + tmp] && !(match[0] == '*' && !stars_arr[0]
+// 		&& i == 0))
+// 		tmp ++;
+// 	if (((match[i[1] + 1 + tmp] == '*' && !stars_arr[i[1] + 1 + tmp])
+// 		|| match[i[1] + 1 + tmp] == 0) && tmp != 0)
+// 	{
+// 		i[1] = i[1] + tmp + 1;
+// 		i[0] = i[0] + tmp;
+// 	}
+// 	else
+// 		i[0] += 1;
+// }
+
+// int		star_match(char *match, char *str, int *stars_arr)
+// {
+// 	size_t	i[2];
+
+// 	i[0] = 0;
+// 	i[1] = 0;
+// 	while(1)
+// 	{
+// 		if (match[i[1]] == '*' &&  str[i[0]] && !stars_arr[i[1]])
+// 			star_forward(i, match, str, stars_arr);
+// 		else if (match[i[1]] == str[i[0]] && match[i[1]] && str[i[0]])
+// 		{
+// 			i[0] += 1;
+// 			i[1] += 1;
+// 		}
+// 		else
+// 		{
+// 			if (str[i[0]] == 0 && match[i[1]] == 0)
+// 				return (1);
+// 			if (str[i[0]] != 0 && match[i[1]] == '*' && !stars_arr[i[1]]
+// 				&& match[i[1] + 1] == 0)
+// 				return (1);
+// 			return (0);
+// 		}
+// 	}
+// }
+
+void	star_forward(size_t *i, size_t *j, char *match, char *str)
 {
 	size_t	tmp;
 
@@ -39,25 +95,26 @@ static void	star_forward(size_t *i, size_t *j, char *match, char *str)
 	while (str[(*i) + tmp] == match[(*j) + 1 + tmp] && str[(*i) + tmp]
 		&& match[(*j) + 1 + tmp] && !(match[0] == '*' && i == 0))
 		tmp ++;
-	if ((match[(*j) + 1 + tmp] == '*' || match[(*j) + 1 + tmp] == 0) && tmp != 0)
+	if ((match[(*j) + 1 + tmp] == '*'
+			|| match[(*j) + 1 + tmp] == 0) && tmp != 0)
 	{
 		(*j) = (*j) + tmp + 1;
 		(*i) = (*i) + tmp;
 	}
 	else
-		((*i)) ++;
+		(*i)++;
 }
 
-int		star_match(char *match, char *str, int *stars_arr)
+int	star_match(char *match, char *str, int *stars_arr)
 {
 	size_t	i;
 	size_t	j;
 
 	i = 0;
 	j = 0;
-	while(1)
+	while (1)
 	{
-		if (match[j] == '*' &&  str[i])
+		if (match[j] == '*' && str[i])
 			star_forward(&i, &j, match, str);
 		else if (match[j] == str[i] && match[j] && str[i])
 		{
@@ -74,11 +131,10 @@ int		star_match(char *match, char *str, int *stars_arr)
 		}
 	}
 }
-
 //||
 //||
 //V
-// THIS ARRAY CAN BE NULL, IN THAT CASE DON'T DO ANYTHING !!!!!!!!!!!
+// THIS stars_arr ARRAY CAN BE NULL, IN THAT CASE DON'T DO ANYTHING !!!!!!!!!!!
 // stars_arr[i] = 1 for stars that should NOT expand for match[i] 
 char	**expand_star_append(char *match, char ***arr, int *stars_arr)
 {
@@ -87,7 +143,7 @@ char	**expand_star_append(char *match, char ***arr, int *stars_arr)
 	char			path[PATH_MAX];
 	char			*str;
 
-	if (getcwd(path, PATH_MAX) == NULL)
+	if (getcwd(path, PATH_MAX) == NULL) // CHECK HOW THIS FUNCTION BEHAVES ON ERRORS. (malloc?) need free?
 		return (NULL);
 	if (ft_opendir(path, &directory) == NULL)
 		return (*arr);
@@ -104,15 +160,6 @@ char	**expand_star_append(char *match, char ***arr, int *stars_arr)
 		}
 		idk = readdir(directory);
 	}
-	printf("[");
-	if (stars_arr)
-	{
-		for (size_t i = 0; i < strlen(match); i++)
-			printf("%d", stars_arr[i]);
-	}
-	else
-		printf("EMPTY");
-	printf("]");
 	return (free(idk), closedir(directory), *arr);
 }
 
@@ -172,9 +219,18 @@ int	filename_expansion(t_list **head, char *line)
 	node = *head;
 	while (node)
 	{
-		if (node->token->options & WORD && !(node->token->options & EXPANDED_WORD)
-			&& node->token->fragments[0].type == UNQUOTED) // THIS MIGHT NEED TO BE CHANGED, READ THE MANUAL, SEARCH FOR UNQUOTED '*'
+
+		if (node->token->options & WORD && !(node->token->options & EXPANDED_WORD)) // THIS MIGHT NEED TO BE CHANGED, READ THE MANUAL, SEARCH FOR UNQUOTED '*'
 		{
+			printf("[");
+			if (node->token->stars_arr)
+			{
+				for (size_t i = 0; i < strlen(node->token->str); i++)
+					printf("%d", node->token->stars_arr[i]);
+			}
+			else
+				printf("EMPTY");
+			printf("]");
 			// printf("fragment_i is (%zi) --- for token (%s), it's type is (%d)\n", node->token->fragment_i, node->token->str, node->token->fragments[node->token->fragment_i].type);
 			// if (node->token->options & EXPANDED_WORD && node->token->fragments && node->token->fragments[node->token->fragment_i].type != UNQUOTED)
 			// 	;

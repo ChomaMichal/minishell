@@ -1,5 +1,5 @@
 NAME = minishell
-CC = clang
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 LIBS = -lreadline -lhistory
 HEADERS = minishell.h libft/libft.h\
@@ -62,7 +62,7 @@ TEST_OBJ = $(patsubst %.c,$(TEST_OBJ_DIR)%.o,$(ALL_SRC))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(LIBS) $^ -o $@
+	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
 
 $(OBJ_DIR)%.o: %.c
 	mkdir -p $(dir $@)
@@ -70,7 +70,7 @@ $(OBJ_DIR)%.o: %.c
 
 # ---- TEST BUILD ----
 test: $(TEST_OBJ)
-	$(CC) $(CFLAGS) $(LIBS) $^ -o test
+	$(CC) $(CFLAGS) $^ $(LIBS) -o test
 
 testj :
 	make test -j `nproc`

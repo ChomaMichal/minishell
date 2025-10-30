@@ -32,14 +32,14 @@ static int	expand_single_quoted_fragment(char *fragment_str, t_expansion_data *x
 {
 	char	*tmp;
 	t_list	*target_node;
-	size_t	target_len;
+	size_t	old_len;
 
 	target_node = xd->target_node;
-	target_len = ft_strlen(target_node->token->str);
+	old_len = ft_strlen(target_node->token->str);
 	tmp = ft_strjoin(target_node->token->str, fragment_str);
 	if (!tmp)
 		return (1);
-	if (mark_stars(target_node, target_len, tmp))
+	if (mark_stars(target_node, old_len, tmp))
 		return (free(tmp), 1);
 	free(target_node->token->str);
 	target_node->token->str = tmp;

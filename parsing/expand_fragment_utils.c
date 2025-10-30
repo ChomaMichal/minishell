@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_fragment_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josefelghnam <josefelghnam@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:06:53 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/28 17:25:38 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/10/31 00:20:49 by josefelghna      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,26 @@ static void	copy_old_stars_arr(int *old_arr, int *new_arr, size_t old_len)
 	size_t	i;
 
 	i = 0;	
-	if (!old_arr)
+	if (!old_arr || old_len == 0)
 		return ;
 	while (i < old_len)
 	{
 		new_arr[i] = old_arr[i];
 		i++;
 	}
+}
+
+int	dont_mark_stars(t_list *target_node, size_t old_len, char *tmp)
+{
+	int	*stars_arr;
+
+	stars_arr = ft_calloc(sizeof(int) * ft_strlen(tmp), 1);
+	if (!stars_arr)
+		return (1);
+	copy_old_stars_arr(target_node->token->stars_arr, stars_arr, old_len);
+	free(target_node->token->stars_arr);
+	target_node->token->stars_arr = stars_arr;
+	return (0);
 }
 
 int	mark_stars(t_list *target_node, size_t old_len, char *tmp)
@@ -97,8 +110,10 @@ int	append_substr(t_list *target_node, char *str, int free_second_str, int doubl
 	if (free_second_str)
 		free(str);
 	if (!tmp)
-		return ( 1);
-	if (double_quote && mark_stars(target_node, old_len, tmp))
+		return (1);
+	if (!double_quote && dont_mark_stars(target_node, old_len, tmp))
+		return (free(tmp), 1);
+	else if (double_quote && mark_stars(target_node, old_len, tmp))
 		return (free(tmp), 1);
 	free(target_node->token->str);
 	target_node->token->str = tmp;

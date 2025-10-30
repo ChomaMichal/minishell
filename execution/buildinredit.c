@@ -93,7 +93,6 @@ int	ft_revert(int *original)
 //original[1] == std out
 int	redit_buildin(t_redir_list *list, int revert)
 {
-	int			i;
 	static int	original[2] = {-1, -1};
 
 	if (revert == 1)

@@ -1,15 +1,16 @@
-#include "parsing.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lst.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/03 18:54:42 by jel-ghna          #+#    #+#             */
+/*   Updated: 2025/11/03 19:06:37 by jel-ghna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// DELETE THIS FUNCTION, WE ONLY NEED IT FOR PRINTING THE TOKENS.
-void	ft_lstiter(t_list *lst, void (*f)(t_print_d *), t_print_d *data)
-{
-	while (lst)
-	{
-		data->token = lst->token;
-		f(data);
-		lst = lst->next;
-	}
-}
+#include "parsing.h"
 
 t_list	*ft_lstnew(t_token *token)
 {

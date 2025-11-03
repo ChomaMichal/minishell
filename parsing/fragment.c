@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fragment.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/03 18:55:44 by jel-ghna          #+#    #+#             */
+/*   Updated: 2025/11/03 18:55:44 by jel-ghna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 static int	fragment_quoted(char *line, t_token *token, size_t *i, char quote)
@@ -15,7 +27,8 @@ static int	fragment_quoted(char *line, t_token *token, size_t *i, char quote)
 		return (0);
 	}
 	token->fragments[token->fragment_count].start = *i + 1;
-	token->fragments[token->fragment_count].end = *i + 1 + (match - &line[*i] - 2);
+	token->fragments[token->fragment_count].end
+		= *i + 1 + (match - &line[*i] - 2);
 	token->fragments[token->fragment_count].starts_with_space = 0;
 	token->fragments[token->fragment_count].ends_with_space = 0;
 	token->fragments[token->fragment_count].type = (quote == '\"') + 1;
@@ -24,7 +37,8 @@ static int	fragment_quoted(char *line, t_token *token, size_t *i, char quote)
 	return (0);
 }
 
-static void	fragment_unquoted(char *line, t_token *token, size_t *i, char **operators)
+static void	fragment_unquoted(char *line, t_token *token, size_t *i,
+	char **operators)
 {
 	size_t	unquoted_len;
 
@@ -43,7 +57,7 @@ int	handle_fragments(char *line, char **operators, t_token *token, size_t *i)
 	size_t	fragment_count;
 
 	fragment_count = 0;
-	while(line[*i] && len_to_unquoted_delimiter(&line[*i], operators) > 0)
+	while (line[*i] && len_to_unquoted_delimiter(&line[*i], operators) > 0)
 	{
 		if (line[*i] == '\"' || line[*i] == '\'')
 		{

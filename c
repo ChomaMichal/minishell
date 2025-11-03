@@ -1,1 +1,0 @@
-[00000][05][05]minishell.pdf tests .github aaaaqaaaa .git *qweqwe*haha . "lololo.c" .vscode ft_command.c print.c Makefile btree_apply.c shell.nix commands test parsing readline.supp *q"*"continue .. utils.c main.c libft minishell.h test_objects star *.c execution .gitignore "zezeze.c"

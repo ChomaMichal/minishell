@@ -6,21 +6,28 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 15:08:59 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/23 11:25:17 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/03 20:03:01 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include "minishell.h"
 
+int	ms_signal_event_hook(void)
+{
+	write(0, "^C\n", 3);
+	rl_replace_line("", 1);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
 void	signal_parent_sigint(int sig)
 {
 	int		i;
 
 	i = sig;
-	write(STDIN_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_redisplay();
+	// C Standards: we should not use readline functions in signal handlers
+	// write(STDIN_FILENO, "\n", 1);
 }
 
 void	set_operators(char **operators)
@@ -89,6 +96,7 @@ void	cleanup(t_data *data)
 
 int	init_main(t_data *data, char **envp, t_parse_data *d)
 {
+	rl_signal_event_hook = ms_signal_event_hook;
 	d->here_list = NULL;
 	// d->line_count = 0;
 	d->exec_tree = NULL;

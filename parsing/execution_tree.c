@@ -200,7 +200,6 @@ void	print_redirs(void *ptr)
 	}
 }
 
-// BIG ISSUE FOUND: WHAT HAPPENS WHEN MALLOC FAILS DEEP INSIDE ONE OF THESE FUNCTIONS?? YOU RETURN NULL, WHICH IS A VALID RETURN VALUE??
 t_btree	*create_exec_tree(t_parse_data *d)
 {
 	t_btree	*tree;

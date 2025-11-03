@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   filename_expansion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josefelghnam <josefelghnam@student.42.f    +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:26:33 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/31 00:21:42 by josefelghna      ###   ########.fr       */
+/*   Updated: 2025/11/03 19:07:11 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,146 +24,8 @@ static void	insert_expanded_filenames(t_list **files_list, t_list **node)
 	free(*files_list);
 }
 
-// static void	star_forward(size_t *i, char *match, char *str, int *stars_arr)
-// {
-// 	size_t	tmp;
-
-// 	tmp = 0;
-// 	if (str[i[0]] != 0 && match[i[1]] == '*' && !stars_arr[i[1]]
-// 		&& match[i[1] + 1] == 0)
-// 	{
-// 		while (str[i[0]])
-// 			i[0] += 1;
-// 		while (match[i[1]])
-// 			i[1] += 1;
-// 		return ;
-// 	}
-// 	while (str[i[0] + tmp] == match[i[1] + 1 + tmp] && str[i[0] + tmp]
-// 		&& match[i[1] + 1 + tmp] && !(match[0] == '*' && !stars_arr[0]
-// 		&& i == 0))
-// 		tmp ++;
-// 	if (((match[i[1] + 1 + tmp] == '*' && !stars_arr[i[1] + 1 + tmp])
-// 		|| match[i[1] + 1 + tmp] == 0) && tmp != 0)
-// 	{
-// 		i[1] = i[1] + tmp + 1;
-// 		i[0] = i[0] + tmp;
-// 	}
-// 	else
-// 		i[0] += 1;
-// }
-
-// int		star_match(char *match, char *str, int *stars_arr)
-// {
-// 	size_t	i[2];
-
-// 	i[0] = 0;
-// 	i[1] = 0;
-// 	while(1)
-// 	{
-// 		if (match[i[1]] == '*' &&  str[i[0]] && !stars_arr[i[1]])
-// 			star_forward(i, match, str, stars_arr);
-// 		else if (match[i[1]] == str[i[0]] && match[i[1]] && str[i[0]])
-// 		{
-// 			i[0] += 1;
-// 			i[1] += 1;
-// 		}
-// 		else
-// 		{
-// 			if (str[i[0]] == 0 && match[i[1]] == 0)
-// 				return (1);
-// 			if (str[i[0]] != 0 && match[i[1]] == '*' && !stars_arr[i[1]]
-// 				&& match[i[1] + 1] == 0)
-// 				return (1);
-// 			return (0);
-// 		}
-// 	}
-// }
-
-void	star_forward(size_t *i, size_t *j, char *match, char *str)
-{
-	size_t	tmp;
-
-	tmp = 0;
-	if (str[(*i)] != 0 && match[(*j)] == '*' && match[((*j)) + 1] == 0)
-	{
-		while (str[(*i)])
-			(*i)++;
-		while (match[(*j)])
-			(*j)++;
-		return ;
-	}
-	while (str[(*i) + tmp] == match[(*j) + 1 + tmp] && str[(*i) + tmp]
-		&& match[(*j) + 1 + tmp] && !(match[0] == '*' && i == 0))
-		tmp ++;
-	if ((match[(*j) + 1 + tmp] == '*'
-			|| match[(*j) + 1 + tmp] == 0) && tmp != 0)
-	{
-		(*j) = (*j) + tmp + 1;
-		(*i) = (*i) + tmp;
-	}
-	else
-		(*i)++;
-}
-
-int	star_match(char *match, char *str, int *stars_arr)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	while (1)
-	{
-		if (match[j] == '*' && str[i])
-			star_forward(&i, &j, match, str);
-		else if (match[j] == str[i] && match[j] && str[i])
-		{
-			i ++;
-			j ++;
-		}
-		else
-		{
-			if (str[i] == 0 && match[j] == 0)
-				return (1);
-			if (str[i] != 0 && match[j] == '*' && match[j + 1] == 0)
-				return (1);
-			return (0);
-		}
-	}
-}
-//||
-//||
-//V
-// THIS stars_arr ARRAY CAN BE NULL, IN THAT CASE DON'T DO ANYTHING !!!!!!!!!!!
-// stars_arr[i] = 1 for stars that should NOT expand for match[i] 
-char	**expand_star_append(char *match, char ***arr, int *stars_arr)
-{
-	DIR				*directory;
-	struct dirent	*idk;
-	char			path[PATH_MAX];
-	char			*str;
-
-	if (getcwd(path, PATH_MAX) == NULL) // CHECK HOW THIS FUNCTION BEHAVES ON ERRORS. (malloc?) need free?
-		return (NULL);
-	if (ft_opendir(path, &directory) == NULL)
-		return (*arr);
-	idk = readdir(directory);
-	while (idk)
-	{
-		if (star_match(match, idk->d_name, stars_arr) == 1)
-		{
-			str = ft_strdup(idk->d_name);
-			if (str == NULL)
-				return (free_arr(arr), closedir(directory), NULL);
-			if (ft_append_arr_str(arr, str) == NULL)
-				return (free(str), free_arr(arr), closedir(directory), NULL);
-		}
-		idk = readdir(directory);
-	}
-	return (free(idk), closedir(directory), *arr);
-}
-
-int	create_files_tokens(t_list **head, char **split_arr, size_t fragment_i, t_list *token_node)
+static int	create_files_tokens(t_list **head, char **split_arr,
+	size_t fragment_i, t_list *token_node)
 {
 	t_token	*new_token;
 	size_t	arr_counter;
@@ -174,20 +36,17 @@ int	create_files_tokens(t_list **head, char **split_arr, size_t fragment_i, t_li
 		new_token = create_token(0);
 		if (!new_token)
 			return (1);
-		new_token->fragment_count = 1;
 		new_token->fragment_i = fragment_i;
-		new_token->fragments = malloc(sizeof (t_fragment)); // MAKE FRAGMENTS FOR THIS AND MAKE IT UQNUOTED FRAGMENTS, SO WHEN YOU PASS IT TO FILENAME_EXPANSION IT KNOWS THAT IT CAME FROM AN UNQUOTED EXPANSION
+		new_token->fragments = malloc(sizeof (t_fragment));
 		if (!new_token->fragments)
 			return (free(new_token), 1);
 		ft_memmove(new_token->fragments, token_node->token->fragments,
 			sizeof(t_fragment));
-		new_token->options = new_token->options | WORD | EXPANDED_WORD;
-		if (token_node->token->options & REDIR_WORD)
-			new_token->options |= REDIR_WORD;
+		new_token->options = new_token->options | WORD | EXPANDED_WORD
+			| (token_node->token->options & REDIR_WORD);
 		new_token->str = ft_strdup(split_arr[arr_counter - 1]);
 		if (!new_token->str)
 			return (free(new_token->fragments), free(new_token), 1);
-		new_token->stars_arr = NULL;
 		if (add_token(head, new_token))
 			return (free(new_token->fragments), free(new_token->str),
 				free(new_token), 1);
@@ -195,14 +54,15 @@ int	create_files_tokens(t_list **head, char **split_arr, size_t fragment_i, t_li
 	return (0);
 }
 
-int	expand_filename(t_list **node, size_t fragment_i)
+static int	expand_filename(t_list **node, size_t fragment_i)
 {
 	char	**files_arr;
 	t_list	*files_list;
 
 	files_arr = NULL;
 	files_list = NULL;
-	files_arr = expand_star_append((*node)->token->str, &files_arr, (*node)->token->stars_arr);
+	files_arr = expand_star_append((*node)->token->str, &files_arr,
+			(*node)->token->stars_arr);
 	if (!files_arr)
 		return (0);
 	if (create_files_tokens(&files_list, files_arr, fragment_i, *node))
@@ -219,32 +79,13 @@ int	filename_expansion(t_list **head, char *line)
 	node = *head;
 	while (node)
 	{
-
-		if (node->token->options & WORD && !(node->token->options & EXPANDED_WORD)) // THIS MIGHT NEED TO BE CHANGED, READ THE MANUAL, SEARCH FOR UNQUOTED '*'
+		if (node->token->options & WORD
+			&& !(node->token->options & EXPANDED_WORD))
 		{
-			printf("[");
-			if (node->token->stars_arr)
-			{
-				for (size_t i = 0; i < strlen(node->token->str); i++)
-					printf("%d", node->token->stars_arr[i]);
-			}
-			else
-				printf("EMPTY");
-			printf("]");
-			// printf("fragment_i is (%zi) --- for token (%s), it's type is (%d)\n", node->token->fragment_i, node->token->str, node->token->fragments[node->token->fragment_i].type);
-			// if (node->token->options & EXPANDED_WORD && node->token->fragments && node->token->fragments[node->token->fragment_i].type != UNQUOTED)
-			// 	;
-			// else if (ft_strchr(node->token->str, '*') == NULL)
-			// 	;
-			// else if (expand_filename(&node, node->token->fragment_i))
-			// 	return (1);
 			if (expand_filename(&node, node->token->fragment_i))
 				return (1);
 		}
 		node = node->next;
 	}
-	// for (t_list *cur = *head; cur; cur = cur->next)
-	// 	if (cur->token->options & WORD)
-	// 		printf("tokens is (%s)\n", cur->token->str);
 	return (0);
 }

@@ -1,4 +1,0 @@
-')
-as $HOME
-stop3
-/bin/rm -f out

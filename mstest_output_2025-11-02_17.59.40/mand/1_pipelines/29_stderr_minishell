@@ -1,4 +1,0 @@
-warning: here-document at line 7 delimited by end-of-file (wanted `stop3ls: cannot access '.tmp1': No such file or directory
-ls: cannot access '.tmp3': No such file or directory
-ls: cannot access '.tmp0': No such file or directory
-ls: cannot access 'out': No such file or directory

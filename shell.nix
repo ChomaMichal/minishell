@@ -5,6 +5,7 @@ pkgs.mkShell {
 	pkgs.gnumake
 	pkgs.norminette
 	pkgs.clang
+	pkgs.lldb
     pkgs.readline
     pkgs.ncurses  # often needed by readline
     pkgs.pkg-config  # helps detect libraries

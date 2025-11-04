@@ -77,6 +77,11 @@ test: $(TEST_OBJ)
 testj :
 	make test -j `nproc`
 
+sta:
+	cc -g star/*.c libft/*.c -o sta
+	
+
+
 $(TEST_OBJ_DIR)%.o: %.c
 	mkdir -p $(dir $@)
 	$(CC) -Wall -Wextra -g -c $< -o $@
@@ -100,5 +105,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re test runt ctest testj
-
+.PHONY: all clean fclean re test runt ctest testj sta

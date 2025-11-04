@@ -20,6 +20,8 @@ int	star_match(char *match, char *str);
 
 int	star_match(char *match, char *str);
 
+int	star_match_recur(char *match, char *str);
+
 static DIR	*ft_opendir(char *path, DIR **directory)
 {
 	*directory = opendir(path);
@@ -43,7 +45,7 @@ char	**expand_star_append(char *match, char ***arr)
 	idk = readdir(directory);
 	while (idk)
 	{
-		if (star_match(match, idk->d_name) == 1)
+		if (star_match_recur(match, idk->d_name) == 1)
 		{
 			str = ft_strdup(idk->d_name);
 			if (str == NULL)
@@ -56,7 +58,6 @@ char	**expand_star_append(char *match, char ***arr)
 	return (free(idk), closedir(directory), *arr);
 }
 
-/*
 int main(int argc, char **argv)
 {
 	char	**paths;
@@ -74,7 +75,6 @@ int main(int argc, char **argv)
 	free_arr((void ***) &paths);
 	return (0);
 }
-*/
 /*
 int	star_match(char *match, char *str)
 {

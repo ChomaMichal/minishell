@@ -1,2 +1,0 @@
-minishell: syntax error near unexpected token `|minishell: validate_tokens() failed
-../42_minishell_tester/tester.sh: line 635: 100486 Segmentation fault      (core dumped) LD_PRELOAD=/home/mchoma/42_minishell_tester/utils/libintercept/libintercept.so /home/mchoma/minishell/minishell

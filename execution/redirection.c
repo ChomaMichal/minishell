@@ -28,7 +28,7 @@ static int	open_dup2_out_append(char *filename)
 {
 	int		fd;
 
-	fd = open(filename, O_RDONLY);
+	fd = open(filename, O_WRONLY);
 	if (fd == -1)
 		return (ft_printf(2, "open failed in redirection\n"), -1);
 	if (dup2(fd, STDOUT_FILENO) == -1)
@@ -41,7 +41,7 @@ static int	open_dup2_out_truncate(char *filename)
 {
 	int		fd;
 
-	fd = open(filename, O_RDONLY);
+	fd = open(filename, O_WRONLY);
 	if (fd == -1)
 		return (ft_printf(2, "open failed in redirection\n"), -1);
 	if (dup2(fd, STDOUT_FILENO) == -1)

@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 #include <stdio.h>
 
+int	star_match_recur(char *match, char *str);
+
 void	star_forward(size_t *i, size_t *j, char *match, char *str)
 {
 	size_t	tmp;
@@ -33,33 +35,36 @@ void	star_forward(size_t *i, size_t *j, char *match, char *str)
 		(*j) = (*j) + tmp + 1;
 		(*i) = (*i) + tmp;
 	}
-	else
-		(*i)++;
 }
 
-int	star_match(char *match, char *str)
+int	star_forward_wrap(char *match, char *str)
 {
 	size_t	i;
 	size_t	j;
 
 	i = 0;
 	j = 0;
-	while (1)
-	{
-		if (match[j] == '*' && str[i])
-			star_forward(&i, &j, match, str);
-		else if (match[j] == str[i] && match[j] && str[i])
-		{
-			i ++;
-			j ++;
-		}
-		else
-		{
-			if (str[i] == 0 && match[j] == 0)
-				return (1);
-			if (str[i] != 0 && match[j] == '*' && match[j + 1] == 0)
-				return (1);
-			return (0);
-		}
-	}
+	if (match[0] != '*' || match[0] == 0 || str[0] == 0)
+		return (0);
+	if (match[0] == '*' && str[0])
+		star_forward(&i, &j, match, str);
+	if (i != 0 && star_match_recur(match + j, str + i) == 1)
+		return (1);
+	return (star_forward_wrap(match, str + 1));
+}
+
+
+int	star_match_recur(char *match, char *str)
+{
+	if ((str[0] != 0 && match[0]  == 0) || (str[0] == 0 && match[0]  != 0))
+		return (0);
+	if (str[0] == 0 && match[0] == 0)
+		return (1);
+	if (str[0] != 0 && match[0] == '*' && match[1] == 0)
+		return (1);
+	else if (match[0] == str[0] && match[0] && str[0])
+		return (star_match_recur(match + 1, str + 1));
+	else if (match[0] == '*' && str[0])
+		return (star_forward_wrap(match, str));
+	return (0);
 }

@@ -1,2 +1,0 @@
-minishell: warning: here-document at line 1 delimited by end-of-file (wanted `"asd"cat: write error: Bad file descriptor
-cat: Makefile: No such file or directory

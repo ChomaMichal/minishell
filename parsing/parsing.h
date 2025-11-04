@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 18:24:45 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/03 18:51:34 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/04 22:21:58 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int		expand(t_parse_data *d);
 int		expand_fragment(t_expansion_data *xd);
 /* utils */
 int		mark_stars(t_list *target_node, size_t target_len, char *tmp);
+int		dont_mark_stars(t_list *target_node, size_t old_len, char *tmp);
 char	*create_var_val(char *str, size_t *start, t_expansion_data *xd);
 char	*safe_strjoin(char **str1, char *str2, int free_second_str);
 int		append_substr(t_list *target_node, char *str, int free_second_str,

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/04 18:41:19 by jel-ghna          #+#    #+#             */
+/*   Updated: 2025/11/04 18:58:05 by jel-ghna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 int	add_here_node(t_here_doc **here_list, char *delimiter, t_btree *bnode)
@@ -90,6 +102,44 @@ void	clear_redir_list(t_redir_list **redir_list)
 	*redir_list = NULL;
 }
 
+void	clear_redir_list_unlink(t_redir_list **redir_list)
+{
+	t_redir_list	*cur;
+	t_redir_list	*next;
+
+	cur = *redir_list;
+	while (cur)
+	{
+		next = cur->next;
+		printf("%s == here\n", cur->file_name);
+		if (cur->type == REDIR_HERE)
+			unlink(cur->file_name);
+		free(cur->file_name);
+		free(cur);
+		cur = next;
+	}
+	*redir_list = NULL;
+}
+
+void	clear_here_list(t_here_doc **here_list)
+{
+	t_here_doc	*cur;
+	t_here_doc	*next;
+
+	cur = *here_list;
+	while (cur)
+	{
+		next = cur->next;
+		free(cur->delimiter);
+		// printf("UNLINK (%s)\n", cur->file_name);
+		unlink(cur->file_name);
+		free(cur->file_name);
+		free(cur);
+		cur = next;
+	}
+	*here_list = NULL;
+}
+
 int	is_ambiguous_redir(t_list *tokens)
 {
 	t_list	*cur;
@@ -109,6 +159,12 @@ int	is_ambiguous_redir(t_list *tokens)
 	return (0);
 }
 
+void	clear_all_redirs(t_btree *bnode, t_here_doc **here_list)
+{
+	clear_redir_list(&bnode->redir_list);
+	clear_here_list(here_list);
+}
+
 int	create_redirections(t_list **tokens, t_btree *bnode, t_here_doc **here_list)
 {
 	t_list	*cur;
@@ -123,14 +179,14 @@ int	create_redirections(t_list **tokens, t_btree *bnode, t_here_doc **here_list)
 			{
 				bnode->ambig = ft_strdup(cur->token->redir_word);
 				if (!bnode->ambig)
-					return (printf("ft_strdup failed on bnode->ambig\n"), 1);
+					return (clear_all_redirs(bnode, here_list), 1);
 			}
 			if (add_redir_node(&bnode->redir_list, cur->token->options,
 				cur->next->token->str))
-				return (printf("add_redir_node() failed\n"), 1);
+				return (clear_all_redirs(bnode, here_list), 1);
 			if (cur->token->options & HERE_DOC)
 				if (add_here_node(here_list, cur->next->token->str, bnode))
-					return (printf("add_here_node() failed in create_redirections()\n"), 1);
+					return (clear_all_redirs(bnode, here_list), 1);
 			cur = cur->next;
 		}
 		cur = cur->next;
@@ -158,25 +214,6 @@ char	*here_name(int *here_i)
 	return (name);
 }
 
-void	clear_here_list(t_here_doc **here_list)
-{
-	t_here_doc	*cur;
-	t_here_doc	*next;
-
-	cur = *here_list;
-	while (cur)
-	{
-		next = cur->next;
-		free(cur->delimiter);
-		// printf("UNLINK (%s)\n", cur->file_name);
-		unlink(cur->file_name);
-		free(cur->file_name);
-		free(cur);
-		cur = next;
-	}
-	*here_list = NULL;
-}
-
 int	put_here_name(t_here_doc *here_node)
 {
 	t_redir_list	*cur;
@@ -197,7 +234,7 @@ int	put_here_name(t_here_doc *here_node)
 	return (0);
 }
 
-int	parse_here_doc(char *delimiter, char *file_name, size_t *line_count)
+int	write_to_here_doc(char *delimiter, char *file_name, size_t *line_count)
 {
 	int		fd;
 	char	*line;
@@ -206,8 +243,8 @@ int	parse_here_doc(char *delimiter, char *file_name, size_t *line_count)
 	ln = *line_count;
 	fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0777);
 	if (fd < 0)
-		return (printf("open failed in parse_here_doc()\n"), 1);
-	while (1)
+		return (close(fd), 1);
+	while (sgnl = 0)
 	{
 		line = readline(">");
 		if (!line)
@@ -219,11 +256,11 @@ int	parse_here_doc(char *delimiter, char *file_name, size_t *line_count)
 		}
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
 		&& line[ft_strlen(delimiter)] == 0)
-			return (free(line), 0);
+			return (free(line), close(fd), 0);
 		(write(fd, line, ft_strlen(line)), write(fd, "\n", 1), free(line));
 		*line_count += 1;
 	}
-	return (0);
+	return (close(fd), 0);
 }
 
 int	open_write_here_docs(t_here_doc **here_list, t_parse_data *d)
@@ -239,7 +276,7 @@ int	open_write_here_docs(t_here_doc **here_list, t_parse_data *d)
 		cur->file_name = here_name(&here_i);
 		if (!cur->file_name)
 			return (printf("here_name() failed\n"), 1);
-		if (parse_here_doc(cur->delimiter, cur->file_name, &d->line_count))
+		if (write_to_here_doc(cur->delimiter, cur->file_name, &d->line_count))
 			return (printf("parse_here_doc() failed\n"), clear_here_list(here_list), 1);
 		if (put_here_name(cur))
 			return (printf("put_here_name() failed\n"), clear_here_list(here_list), 1);

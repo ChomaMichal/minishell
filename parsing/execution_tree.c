@@ -139,6 +139,8 @@ t_btree	*parse_command(t_list **tokens, t_here_doc **here_list)
 	{
 		consume_token(tokens);
 		bnode = parse_and_or(tokens, here_list);
+		if (!bnode)
+			return (NULL);
 		cur = *tokens;
 		if (!cur || !(cur->token->options & CLOSE_PARENTHESIS))
 			return (ft_printf(2, "Error: Expected `)'\n"), NULL);
@@ -155,12 +157,19 @@ t_btree	*parse_pipeline(t_list **tokens, t_here_doc **here_list)
 	t_btree	*left;
 	t_btree	*right;
 
+	right = NULL;
 	left = parse_command(tokens, here_list);
+	if (!left)
+		return (NULL);
 	while (*tokens && (*tokens)->token->options & PIPE)
 	{
 		consume_token(tokens);
 		right = parse_command(tokens, here_list);
+		if (!right)
+			return (NULL);
 		left = make_bnode(BNODE_PIPE, left, right);
+		if (!left)
+			return (NULL);
 	}
 	return (left);
 }
@@ -171,17 +180,24 @@ t_btree	*parse_and_or(t_list **tokens, t_here_doc **here_list)
 	t_btree	*right;
 	t_list	*cur;
 
+	right = NULL;
 	left = parse_pipeline(tokens, here_list);
+	if (!left)
+		return (NULL);
 	while ((*tokens)
 		&& ((*tokens)->token->options & AND || (*tokens)->token->options & OR))
 	{
 		cur = *tokens;
 		consume_token(tokens);
 		right = parse_pipeline(tokens, here_list);
+		if (!right)
+			return (NULL);
 		if (cur->token->options & AND)
 			left = make_bnode(BNODE_AND, left, right);
 		else if (cur->token->options & OR)
 			left = make_bnode(BNODE_OR, left, right);
+		if ((cur->token->options & AND & OR) && !left)
+			return (NULL);
 	}
 	return (left);
 }
@@ -207,6 +223,8 @@ t_btree	*create_exec_tree(t_parse_data *d)
 
 	tokens = d->tokens;
 	tree = parse_and_or(&tokens, &d->here_list);
+	if (!tree)
+		return (NULL);
 	if (open_write_here_docs(&d->here_list, d))
 		return (printf("run_here_doc() failed\n"), NULL);
 	// for (t_here_doc *cur = d->here_list; cur; cur = cur->next)

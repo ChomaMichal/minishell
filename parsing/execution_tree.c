@@ -8,7 +8,7 @@ simple_command:	WORD { WORD }
 subshell:		"(" and_or ")"
 */
 
-t_btree	*parse_and_or(t_list **tokens, t_here_doc **here_list);
+t_btree	*parse_and_or(t_list **tokens, t_here_doc **here_list, int *flag);
 
 t_list	*consume_token(t_list **tokens)
 {
@@ -20,13 +20,16 @@ t_list	*consume_token(t_list **tokens)
 	return (cur);
 }
 
-t_btree	*make_bnode(t_bnode_type type, t_btree *left, t_btree *right)
+t_btree	*make_bnode(t_bnode_type type, t_btree *left, t_btree *right, int *flag)
 {
 	t_btree	*node;
 
 	node = malloc(sizeof(t_btree));
 	if (!node)
-		return (palloc_err(), NULL);
+	{
+		*flag = -1;
+		return (palloc_err(), left);
+	}
 	node->cmd_argv = NULL;
 	node->redir_list = NULL;
 	node->type = type;
@@ -103,18 +106,18 @@ char	**create_cmd_argv(t_list **tokens)
 	return (cmd_argv);
 }
 
-t_btree	*parse_command_args(t_list **tokens, t_here_doc **here_list)
+t_btree	*parse_command_args(t_list **tokens, t_here_doc **here_list, int *flag)
 {
 	t_list	*cur;
 	t_btree	*bnode;
 
 	cur = *tokens;
-	bnode = make_bnode(BNODE_COMMAND, NULL, NULL);
+	bnode = make_bnode(BNODE_COMMAND, NULL, NULL, flag);
 	if (!bnode)
 		return (ft_printf(2, "malloc failed in make_bnode(): parse_command()\n"), NULL);
 	bnode->cmd_argv = create_cmd_argv(tokens);
 	if (!bnode->cmd_argv)
-		return (ft_printf(2, "malloc failed in create_cmd_argv()\n"), NULL);
+		return (ft_printf(2, "malloc failed in create_cmd_argv()\n"), delete_bnode(bnode), NULL);
 	if (bnode->cmd_argv[0] == NULL)
 		bnode->empty_cmd = 1;
 	if (create_redirections(tokens, bnode, here_list))
@@ -127,7 +130,7 @@ t_btree	*parse_command_args(t_list **tokens, t_here_doc **here_list)
 	return (bnode);
 }
 
-t_btree	*parse_command(t_list **tokens, t_here_doc **here_list)
+t_btree	*parse_command(t_list **tokens, t_here_doc **here_list, int *flag)
 {
 	t_list	*cur;
 	t_btree	*bnode;
@@ -138,66 +141,69 @@ t_btree	*parse_command(t_list **tokens, t_here_doc **here_list)
 	if (cur->token->options & OPEN_PARENTHESIS)
 	{
 		consume_token(tokens);
-		bnode = parse_and_or(tokens, here_list);
+		bnode = parse_and_or(tokens, here_list, flag);
 		if (!bnode)
 			return (NULL);
 		cur = *tokens;
 		if (!cur || !(cur->token->options & CLOSE_PARENTHESIS))
 			return (ft_printf(2, "Error: Expected `)'\n"), NULL);
 		consume_token(tokens);
-		return (make_bnode(BNODE_SUBSHELL, bnode, NULL));
+		return (make_bnode(BNODE_SUBSHELL, bnode, NULL, flag));
 	}
 	else if (cur->token->options & WORD || cur->token->options & REDIR_OP)
-		return (parse_command_args(tokens, here_list));
+		return (parse_command_args(tokens, here_list, flag));
 	return (ft_printf(2, "Error: Unexpected token\n"), NULL);
 }
 
-t_btree	*parse_pipeline(t_list **tokens, t_here_doc **here_list)
+t_btree	*parse_pipeline(t_list **tokens, t_here_doc **here_list, int *flag)
 {
 	t_btree	*left;
 	t_btree	*right;
 
 	right = NULL;
-	left = parse_command(tokens, here_list);
-	if (!left)
-		return (NULL);
+	left = parse_command(tokens, here_list, flag);
+	if (flag)
+		return (left);
 	while (*tokens && (*tokens)->token->options & PIPE)
 	{
 		consume_token(tokens);
-		right = parse_command(tokens, here_list);
-		if (!right)
-			return (NULL);
-		left = make_bnode(BNODE_PIPE, left, right);
+		right = parse_command(tokens, here_list, flag);
+		if (flag)
+			return (left);
+		left = make_bnode(BNODE_PIPE, left, right, flag);
 		if (!left)
 			return (NULL);
 	}
 	return (left);
 }
 
-t_btree	*parse_and_or(t_list **tokens, t_here_doc **here_list)
+t_btree	*parse_and_or(t_list **tokens, t_here_doc **here_list, int *flag)
 {
 	t_btree	*left;
 	t_btree	*right;
 	t_list	*cur;
 
 	right = NULL;
-	left = parse_pipeline(tokens, here_list);
-	if (!left)
-		return (NULL);
+	left = parse_pipeline(tokens, here_list, flag);
+	if (flag == -1)
+		return (left);
 	while ((*tokens)
 		&& ((*tokens)->token->options & AND || (*tokens)->token->options & OR))
 	{
 		cur = *tokens;
 		consume_token(tokens);
-		right = parse_pipeline(tokens, here_list);
-		if (!right)
-			return (NULL);
+		right = parse_pipeline(tokens, here_list, flag);
+		if (flag)
+			return (left);
 		if (cur->token->options & AND)
-			left = make_bnode(BNODE_AND, left, right);
+			left = make_bnode(BNODE_AND, left, right, flag);
 		else if (cur->token->options & OR)
-			left = make_bnode(BNODE_OR, left, right);
+		{
+
+			left = make_bnode(BNODE_OR, left, right, flag);
+		}
 		if ((cur->token->options & AND & OR) && !left)
-			return (NULL);
+			return (NULL);	
 	}
 	return (left);
 }
@@ -219,12 +225,15 @@ void	print_redirs(void *ptr)
 t_btree	*create_exec_tree(t_parse_data *d)
 {
 	t_btree	*tree;
+	int 	flag;
 	t_list	*tokens;
 
+	flag = 0;
 	tokens = d->tokens;
-	tree = parse_and_or(&tokens, &d->here_list);
-	if (!tree)
-		return (NULL);
+	tree = parse_and_or(&tokens, &d->here_list, &flag);
+	// printf("head: (%p) tree (%p)\n", head, tree);
+	if (flag)
+		return (btree_apply_suffix(tree, delete_bnode), NULL);
 	if (open_write_here_docs(&d->here_list, d))
 		return (printf("run_here_doc() failed\n"), NULL);
 	// for (t_here_doc *cur = d->here_list; cur; cur = cur->next)

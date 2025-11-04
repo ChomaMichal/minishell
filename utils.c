@@ -6,37 +6,21 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 15:08:59 by mchoma            #+#    #+#             */
-/*   Updated: 2025/11/04 18:54:03 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/04 19:16:09 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <signal.h>
+
 #include "minishell.h"
 #include "libft/idlist.h"
 
-int	ms_signal_event_hook(void)
-{
-	write(0, "^C\n", 3);
-	rl_replace_line("", 1);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
 void	signal_parent_sigint(int sig)
 {
-<<<<<<< HEAD
-	int		i;
-
-	i = sig;
-	// C Standards: we should not use readline functions in signal handlers
-	// write(STDIN_FILENO, "\n", 1);
-=======
 	(void)(sig);
 	sgnl = 1;
 	(void)write(STDIN_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
->>>>>>> 5c012d97ef026f77ccd46fdfc156fb1f2dee24a7
 }
 
 void	set_operators(char **operators)
@@ -84,17 +68,12 @@ void	delete_bnode_unlink(void *ptr)
 void	cleanup(t_data *data)
 {
 	data->rt = wait_and_get_exit_value(data->pids);
-<<<<<<< HEAD
-=======
 	free_pids(&data->pids);
->>>>>>> 5c012d97ef026f77ccd46fdfc156fb1f2dee24a7
 	if (data->subshell == 1)
 		btree_apply_suffix(data->head, delete_bnode);
 	if (data->subshell == 0)
 		btree_apply_suffix(data->head, delete_bnode_unlink);
 	data->head = NULL;
-<<<<<<< HEAD
-=======
 }
 
 char	*shlvl(char *org)
@@ -125,12 +104,10 @@ char **init_env(char **envp)
 		i ++;
 	}
 	return (rt);
->>>>>>> 5c012d97ef026f77ccd46fdfc156fb1f2dee24a7
 }
 
 int	init_main(t_data *data, char **envp, t_parse_data *d)
 {
-	rl_signal_event_hook = ms_signal_event_hook;
 	d->here_list = NULL;
 	// d->line_count = 0;
 	d->exec_tree = NULL;

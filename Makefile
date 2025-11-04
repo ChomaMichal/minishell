@@ -25,12 +25,14 @@ COMMANDS = commands/cd.c\
 
 PARSING = parsing/execution_tree.c\
 		parsing/expand_fragment_utils.c\
+		parsing/expand_fragment_utils_2.c\
 		parsing/expand_fragment.c\
 		parsing/expand.c\
 		parsing/field_split_utils.c\
 		parsing/field_split.c\
 		parsing/filename_expansion.c\
 		parsing/fragment.c\
+		parsing/expand_star_append.c\
 		parsing/ft_lst.c\
 		parsing/parsing_utils.c\
 		parsing/parsing.c\
@@ -64,7 +66,7 @@ TEST_OBJ = $(patsubst %.c,$(TEST_OBJ_DIR)%.o,$(ALL_SRC))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(LIBS) $^ -o $@
+	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
 
 $(OBJ_DIR)%.o: %.c
 	mkdir -p $(dir $@)
@@ -72,7 +74,7 @@ $(OBJ_DIR)%.o: %.c
 
 # ---- TEST BUILD ----
 test: $(TEST_OBJ)
-	$(CC) $(CFLAGS) $(LIBS) $^ -o test
+	$(CC) $(CFLAGS) $^ $(LIBS) -o test
 
 testj :
 	make test -j `nproc`

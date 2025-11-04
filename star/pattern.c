@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   pattern.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 14:51:15 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/27 14:53:51 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/11/04 19:15:00 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <stdio.h>
 
 int	star_match_recur(char *match, char *str);

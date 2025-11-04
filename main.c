@@ -3,24 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/30 16:21:03 by mchoma            #+#    #+#             */
+/*   Created: 2025/10/09 18:43:42 by mchoma            #+#    #+#             */
+/*   Updated: 2025/11/04 19:12:29 by jel-ghna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*   Updated: 2025/10/30 16:21:05 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 volatile int sgnl = 0;
-
-void	print_env(char **envp)
-{
-	size_t	i;
-
-	i = 0;
-	while (envp[i++])
-		printf("%s\n", envp[i - 1]);
-}
 
 int	main(int argc, char **argv, char **envp)
 {

@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 00:18:14 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/23 10:30:29 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/03 18:56:32 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@ static int	set_token(t_token *new_token, t_list *token_node, size_t fragment_i,
 	t_list **field_split_head)
 {
 	new_token->fragment_count = 1;
-	new_token->fragments = NULL;//token_node->token->fragments;
+	new_token->fragments = NULL;
 	new_token->options |= WORD;
 	new_token->options |= EXPANDED_WORD;
 	new_token->fragment_i = fragment_i;
 	new_token->str = ft_strdup("");
+	new_token->stars_arr = NULL;
 	if (!new_token->str)
 		return (1);
 	if (add_token(field_split_head, new_token))
@@ -55,7 +56,8 @@ int	create_split_tokens(t_list **head, char **split_arr, t_expansion_data *xd)
 	return (0);
 }
 
-// FIRST CHECK OF NEXT FUNCTION MEANS THE EXPANDED STRING RESULTED IN ONLY SPACES (I ONLY ENTER THIS FUNCTION IF THE EXPANSION HAS SPACES),
+// FIRST CHECK OF NEXT FUNCTION MEANS THE EXPANDED STRING RESULTED IN
+//		ONLY SPACES (I ONLY ENTER THIS FUNCTION IF THE EXPANSION HAS SPACES),
 // IN THIS CASE WE NEED TO HANDLE IT AS A SPLITTER OF THE WORD.
 int	insert_split_tokens(t_list **field_split_head, t_list *token_node,
 	t_list **target_node, size_t fragment_i)

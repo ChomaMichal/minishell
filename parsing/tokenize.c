@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 21:47:30 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/23 11:05:28 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/03 19:16:14 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ static int	handle_word(t_parse_data *d, size_t *i, int is_redir_word)
 	if (!token->fragments)
 		return (free(token), palloc_err(), 1);
 	token->str = ft_substr(&d->line[*i], 0, word_len);
+	if (!token->str)
+		return (free(token->fragments), free(token), palloc_err(), 1);
 	if (handle_fragments(d->line, d->operators, token, i))
 		return (free(token->fragments), free(token->str), free(token), 1);
 	if (add_token(&d->tokens, token))

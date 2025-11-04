@@ -6,10 +6,10 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 15:08:59 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/23 11:25:17 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/04 19:16:09 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <signal.h>
+
 #include "minishell.h"
 #include "libft/idlist.h"
 

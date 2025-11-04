@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/03 18:56:52 by jel-ghna          #+#    #+#             */
+/*   Updated: 2025/11/03 18:57:06 by jel-ghna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 static void	set_xd(t_expansion_data *xd, t_parse_data *d, t_list *target_node)
@@ -47,19 +59,19 @@ int	expand(t_parse_data *d)
 		{
 			node->token->redir_word = ft_strdup(node->next->token->str);
 			if (!node->token->redir_word)
-				return ("ft_strdup on redir_word failed\n", 1);
+				return (1);
 		}
 		if (node->token->options & WORD
 			&& !(node->token->options & EXPANDED_WORD)
 			&& !(node->token->options & HERE_DEL_WORD))
-		{				
+		{
 			if (expand_word(d, node))
 				return (ft_printf(2, "expand_token() failed: (%s)\n",
 						node->token->str), 1);
 		}
 		node = node->next;
 	}
-	// if (filename_expansion(&d->tokens, d->line))
-	// 	return (ft_printf(2, "expand_filename() failed\n"), 1);
+	if (filename_expansion(&d->tokens, d->line))
+		return (ft_printf(2, "expand_filename() failed\n"), 1);
 	return (0);
 }

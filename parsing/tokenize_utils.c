@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 15:59:58 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/22 18:28:55 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/03 18:52:09 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	skip_spaces(char *line, size_t *i)
 	while (line[*i] == ' ' || line[*i] == '	')
 		*i += 1;
 }
+
 ssize_t	len_to_unquoted_delimiter(char *line, char **operators)
 {
 	ssize_t	len;

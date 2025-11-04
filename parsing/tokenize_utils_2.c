@@ -6,13 +6,14 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 21:42:35 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/23 11:11:10 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/03 18:53:00 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-static int	count_double_quote(size_t *count, ssize_t *i, ssize_t word_len, char *line)
+static int	count_double_quote(size_t *count, ssize_t *i, ssize_t word_len,
+	char *line)
 {
 	*count += 1;
 	*i += 1;
@@ -24,7 +25,8 @@ static int	count_double_quote(size_t *count, ssize_t *i, ssize_t word_len, char 
 	return (0);
 }
 
-static int	count_single_quote(size_t *count, ssize_t *i, ssize_t word_len, char *line)
+static int	count_single_quote(size_t *count, ssize_t *i, ssize_t word_len,
+	char *line)
 {
 	*count += 1;
 	*i += 1;
@@ -64,6 +66,7 @@ t_token	*create_token(int is_redir_word)
 	token->str = NULL;
 	token->redir_word = NULL;
 	token->fragment_i = 0;
+	token->stars_arr = NULL;
 	return (token);
 }
 
@@ -80,11 +83,11 @@ size_t	count_fragments(char *line, ssize_t word_len, char **operators)
 		{
 			if (count_double_quote(&count, &i, word_len, line))
 				return (count);
-					}
+		}
 		else if (line[i] == '\'')
 		{
 			if (count_single_quote(&count, &i, word_len, line))
-				return (count);			
+				return (count);
 		}
 		else
 		{

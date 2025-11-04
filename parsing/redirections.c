@@ -3,9 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/29 12:44:53 by mchoma            #+#    #+#             */
+/*   Created: 2025/11/04 18:41:19 by jel-ghna          #+#    #+#             */
+/*   Updated: 2025/11/04 20:04:07 by jel-ghna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*   Updated: 2025/10/29 12:45:44 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -120,6 +124,23 @@ void	clear_redir_list_unlink(t_redir_list **redir_list)
 	*redir_list = NULL;
 }
 
+void	clear_here_list(t_here_doc **here_list)
+{
+	t_here_doc	*cur;
+	t_here_doc	*next;
+
+	cur = *here_list;
+	while (cur)
+	{
+		next = cur->next;
+		free(cur->delimiter);
+		free(cur->file_name);
+		free(cur);
+		cur = next;
+	}
+	*here_list = NULL;
+}
+
 int	is_ambiguous_redir(t_list *tokens)
 {
 	t_list	*cur;
@@ -139,6 +160,12 @@ int	is_ambiguous_redir(t_list *tokens)
 	return (0);
 }
 
+void	clear_all_redirs(t_btree *bnode, t_here_doc **here_list)
+{
+	clear_redir_list(&bnode->redir_list);
+	clear_here_list(here_list);
+}
+
 int	create_redirections(t_list **tokens, t_btree *bnode, t_here_doc **here_list)
 {
 	t_list	*cur;
@@ -153,14 +180,14 @@ int	create_redirections(t_list **tokens, t_btree *bnode, t_here_doc **here_list)
 			{
 				bnode->ambig = ft_strdup(cur->token->redir_word);
 				if (!bnode->ambig)
-					return (printf("ft_strdup failed on bnode->ambig\n"), 1);
+					return (clear_all_redirs(bnode, here_list), 1);
 			}
 			if (add_redir_node(&bnode->redir_list, cur->token->options,
 				cur->next->token->str))
-				return (printf("add_redir_node() failed\n"), 1);
+				return (clear_all_redirs(bnode, here_list), 1);
 			if (cur->token->options & HERE_DOC)
 				if (add_here_node(here_list, cur->next->token->str, bnode))
-					return (printf("add_here_node() failed in create_redirections()\n"), 1);
+					return (clear_all_redirs(bnode, here_list), 1);
 			cur = cur->next;
 		}
 		cur = cur->next;
@@ -186,23 +213,6 @@ char	*here_name(int *here_i)
 		return (free(name), here_name(here_i));
 	}
 	return (name);
-}
-
-void	clear_here_list(t_here_doc **here_list)
-{
-	t_here_doc	*cur;
-	t_here_doc	*next;
-
-	cur = *here_list;
-	while (cur)
-	{
-		next = cur->next;
-		free(cur->delimiter);
-		free(cur->file_name);
-		free(cur);
-		cur = next;
-	}
-	*here_list = NULL;
 }
 
 int	put_here_name(t_here_doc *here_node)
@@ -235,6 +245,10 @@ int	write_to_here_doc(char *delimiter, char *file_name, size_t *line_count)
 	printf("%s filename\n", file_name);
 	fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0777);
 	if (fd < 0)
+		return (close(fd), 1);
+	while (sgnl = 0)
+		return (printf("open failed in parse_here_doc()\n"), close(fd), 1);
+	while (sgnl == 0)
 		return (printf("open failed in parse_here_doc()\n"), close(fd), 1);
 	while (sgnl == 0)
 	{
@@ -257,6 +271,7 @@ int	write_to_here_doc(char *delimiter, char *file_name, size_t *line_count)
 		(write(fd, line, ft_strlen(line)), write(fd, "\n", 1), free(line));
 		*line_count += 1;
 	}
+	return (close(fd), 0);
 	close (fd);
 	return (0);
 }

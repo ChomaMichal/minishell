@@ -1,0 +1,4 @@
+Didn't find executable binary
+Binary /bin/echo not found
+cat: tmp_redir_out: No such file or directory
+rm: cannot remove 'tmp_redir_out': No such file or directory

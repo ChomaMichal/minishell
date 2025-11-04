@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 #include <signal.h>
 #include "minishell.h"
+#include "libft/idlist.h"
 
 void	signal_parent_sigint(int sig)
 {
@@ -69,11 +70,44 @@ void	delete_bnode_unlink(void *ptr)
 void	cleanup(t_data *data)
 {
 	data->rt = wait_and_get_exit_value(data->pids);
+	free_pids(&data->pids);
 	if (data->subshell == 1)
 		btree_apply_suffix(data->head, delete_bnode);
 	if (data->subshell == 0)
 		btree_apply_suffix(data->head, delete_bnode_unlink);
 	data->head = NULL;
+}
+
+char	*shlvl(char *org)
+{
+	return (ft_strjoinf2("SHLVL=", ft_itoa(ft_atoi(org + 6) + 1)));
+}
+
+char **init_env(char **envp)
+{
+	size_t	i;
+	int		lvl;
+	char	**rt;
+	
+	lvl = 0;
+	i = 0;
+	while (envp[i])
+		i ++;
+	rt = ft_calloc (i, sizeof(char *) + 1);
+	if (rt  == NULL)
+		return (NULL);
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "SHLVL=", 6) == 0)
+			rt[i] = shlvl(envp[i]);
+		else 
+			rt[i] = ft_strdup(envp[i]);
+		if (rt[i] == NULL)
+			return (free_arr((void ***)&rt), NULL);
+		i ++;
+	}
+	return (rt);
 }
 
 int	init_main(t_data *data, char **envp, t_parse_data *d)
@@ -85,7 +119,7 @@ int	init_main(t_data *data, char **envp, t_parse_data *d)
 	d->line = NULL;
 	d->data = data;
 	set_operators(d->operators);
-	data->env = ft_coppyarrstr(envp);
+	data->env = init_env(envp);
 	if (data->env == NULL)
 		return (-1);
 	data->rt = 0;

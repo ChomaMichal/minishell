@@ -1,0 +1,2 @@
+open failed in redirection() REDIR_HERE|REDIR_IN
+cat: Makefile: No such file or directory

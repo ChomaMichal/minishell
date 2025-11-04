@@ -71,6 +71,8 @@ char	*get_path_path(char**envp, char *command)
 
 	arr = NULL;
 	tmp = get_env_path(envp);
+	if (tmp == NULL)
+		return (NULL);
 	arr = ft_split(tmp + 5, ':');
 	tmp = NULL;
 	j = 0;

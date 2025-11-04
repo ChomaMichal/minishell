@@ -1,0 +1,14 @@
+syntax error near unexpected token `>minishell: validate_tokens() failed
+Binary fe not found
+Binary wf not found
+Binary fwe not found
+Binary f not found
+Binary stop not found
+Binary dw not found
+Binary stop1 not found
+Binary dwasd not found
+Binary stop2 not found
+cat: Makefile: No such file or directory
+cat: out: No such file or directory
+Didn't find executable binary
+Binary /bin/rm not found

@@ -1,0 +1,10 @@
+tmp_path_test1/test1.c: In function ‘main’:
+tmp_path_test1/test1.c:2:12: warning: ignoring return value of ‘write’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+    2 | int main(){write(1, "1\n", 2);}
+      |            ^~~~~~~~~~~~~~~~~~
+tmp_path_test2/test2.c: In function ‘main’:
+tmp_path_test2/test2.c:2:12: warning: ignoring return value of ‘write’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+    2 | int main(){write(1, "2\n", 2);}
+      |            ^~~~~~~~~~~~~~~~~~
+Didn't find executable binary
+Binary /bin/rm not found

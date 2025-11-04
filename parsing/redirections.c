@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 18:41:19 by jel-ghna          #+#    #+#             */
 /*   Updated: 2025/11/04 18:58:05 by jel-ghna         ###   ########.fr       */
+=======
+/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/29 12:44:53 by mchoma            #+#    #+#             */
+/*   Updated: 2025/10/29 12:45:44 by mchoma           ###   ########.fr       */
+>>>>>>> 5c012d97ef026f77ccd46fdfc156fb1f2dee24a7
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +128,7 @@ void	clear_redir_list_unlink(t_redir_list **redir_list)
 	*redir_list = NULL;
 }
 
+<<<<<<< HEAD
 void	clear_here_list(t_here_doc **here_list)
 {
 	t_here_doc	*cur;
@@ -140,6 +148,8 @@ void	clear_here_list(t_here_doc **here_list)
 	*here_list = NULL;
 }
 
+=======
+>>>>>>> 5c012d97ef026f77ccd46fdfc156fb1f2dee24a7
 int	is_ambiguous_redir(t_list *tokens)
 {
 	t_list	*cur;
@@ -214,6 +224,26 @@ char	*here_name(int *here_i)
 	return (name);
 }
 
+<<<<<<< HEAD
+=======
+void	clear_here_list(t_here_doc **here_list)
+{
+	t_here_doc	*cur;
+	t_here_doc	*next;
+
+	cur = *here_list;
+	while (cur)
+	{
+		next = cur->next;
+		free(cur->delimiter);
+		free(cur->file_name);
+		free(cur);
+		cur = next;
+	}
+	*here_list = NULL;
+}
+
+>>>>>>> 5c012d97ef026f77ccd46fdfc156fb1f2dee24a7
 int	put_here_name(t_here_doc *here_node)
 {
 	t_redir_list	*cur;
@@ -241,12 +271,23 @@ int	write_to_here_doc(char *delimiter, char *file_name, size_t *line_count)
 	size_t	ln;
 
 	ln = *line_count;
+	printf("%s filename\n", file_name);
 	fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0777);
 	if (fd < 0)
+<<<<<<< HEAD
 		return (close(fd), 1);
 	while (sgnl = 0)
+=======
+		return (printf("open failed in parse_here_doc()\n"), close(fd), 1);
+	while (sgnl == 0)
+>>>>>>> 5c012d97ef026f77ccd46fdfc156fb1f2dee24a7
 	{
 		line = readline(">");
+		if (sgnl == 1)
+		{
+			free(line);
+			break;
+		}
 		if (!line)
 		{
 			ft_printf(2, "minishell: warning: here-document at line ");
@@ -260,7 +301,12 @@ int	write_to_here_doc(char *delimiter, char *file_name, size_t *line_count)
 		(write(fd, line, ft_strlen(line)), write(fd, "\n", 1), free(line));
 		*line_count += 1;
 	}
+<<<<<<< HEAD
 	return (close(fd), 0);
+=======
+	close (fd);
+	return (0);
+>>>>>>> 5c012d97ef026f77ccd46fdfc156fb1f2dee24a7
 }
 
 int	open_write_here_docs(t_here_doc **here_list, t_parse_data *d)

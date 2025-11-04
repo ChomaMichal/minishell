@@ -26,7 +26,7 @@ int	cd_path(t_data *data, char **path)
 	if (arr == NULL)
 		return (free(str), 0);
 	free(str);
-	while (arr[i] && i++)
+	while (++i != -1 && arr[i] )
 	{
 		str = ft_strjoin(arr[i], "/");
 		if (str == NULL)
@@ -45,6 +45,8 @@ int	ft_cd(t_data *data, char *path)
 {
 	size_t	i;
 
+	if (path == NULL)
+		return (set_rt(&data->rt, 2), 0);
 	if (*path != '/')
 	{
 		i = cd_path(data, &path);

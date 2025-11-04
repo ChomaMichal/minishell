@@ -6,7 +6,11 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:26:29 by mchoma            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/10/29 15:50:29 by jel-ghna         ###   ########.fr       */
+=======
+/*   Updated: 2025/11/04 11:59:20 by mchoma           ###   ########.fr       */
+>>>>>>> 5c012d97ef026f77ccd46fdfc156fb1f2dee24a7
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +55,7 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strjoinf1(char *s1, char const *s2);
+char	*ft_strjoinf2(const char *s1, char *s2);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);

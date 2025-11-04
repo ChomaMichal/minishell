@@ -1,6 +1,9 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+//global
+extern volatile int sgnl; 
+
 typedef struct s_list t_list;
 
 //this contains ids of the child processes that are currently running

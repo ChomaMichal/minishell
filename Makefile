@@ -1,6 +1,11 @@
 NAME = minishell
+<<<<<<< HEAD
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+=======
+CC = clang
+CFLAGS = -Wall -Wextra 
+>>>>>>> 5c012d97ef026f77ccd46fdfc156fb1f2dee24a7
 LIBS = -lreadline -lhistory
 HEADERS = minishell.h libft/libft.h\
 		parsing/parsing.h commands/commands.h ids/ids.h execution/execution.h
@@ -12,7 +17,7 @@ SRC = utils.c main.c btree_apply.c print.c \
 		libft/ft_split.c libft/ft_strchr.c libft/ft_strdup.c libft/ft_strjoin.c libft/ft_strjoinf1.c libft/ft_strlcpy.c \
 		libft/ft_strlen.c libft/ft_strncmp.c libft/ft_strnstr.c libft/ft_strsjoin.c libft/ft_substr.c \
 		libft/ft_write_types.c libft/ft_write_types2.c libft/palloc_err.c\
-		libft/add_last_id.c libft/free_pids.c
+		libft/add_last_id.c libft/free_pids.c libft/ft_strjoinf2.c
 
 COMMANDS = commands/cd.c\
 			commands/echo.c\
@@ -52,7 +57,9 @@ EXECUTE = execution/binsearch.c\
 		  execution/ft_pipe.c\
 		  execution/command_buildins.c\
 		  execution/command_buildins2.c\
-		  execution/ft_subshell.c
+		  execution/ft_subshell.c\
+		  execution/redirection.c\
+		  execution/buildinredit.c
 
 OBJ_DIR = objects/
 TEST_OBJ_DIR = test_objects/
@@ -77,6 +84,11 @@ test: $(TEST_OBJ)
 testj :
 	make test -j `nproc`
 
+sta:
+	cc -g star/*.c libft/*.c -o sta
+	
+
+
 $(TEST_OBJ_DIR)%.o: %.c
 	mkdir -p $(dir $@)
 	$(CC) -Wall -Wextra -g -c $< -o $@
@@ -100,5 +112,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re test runt ctest testj
-
+.PHONY: all clean fclean re test runt ctest testj sta

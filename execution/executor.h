@@ -6,7 +6,7 @@
 /*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:14:01 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/17 15:20:11 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/10/30 15:16:05 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include "../libft/libft.h"
 # include "../libft/idlist.h"
 
+//returns 1 on sucsess -1 on faill if revert == 1 it reverts the fds back to 
+//stdin and stdout
+int		redit_buildin(t_redir_list *list, int revert);
 char	*get_path(char**envp, char *command);
 void	ft_execve(t_btree *tree, t_data *data);
 int		wait_and_get_exit_value(t_ids *list);
@@ -28,7 +31,7 @@ void	ft_or(t_btree *tree, t_data *data);
 void	ft_command(t_btree *tree, t_data *data);
 void	ft_pipe(t_btree *tree, t_data *data);
 void	execute(t_btree *tree, t_data *data);
-int		redirection(t_btree *tree);
+int		redir_dup2(t_btree *tree);
 void	env_wrap(t_btree *tree, t_data *data);
 void	pwd_wrap(t_btree *tree, t_data *data);
 void	exit_wrap(t_btree *tree, t_data *data);
@@ -38,6 +41,7 @@ void	echo_wrap(t_btree *tree, t_data *data);
 void	cd_wrap(t_btree *tree, t_data *data);
 void	export_wrap(t_btree *tree, t_data *data);
 void	unset_wrap(t_btree *tree, t_data *data);
+int		redirection(t_btree *tree);
 
 typedef struct s_command
 {

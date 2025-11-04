@@ -44,6 +44,7 @@ int	star_forward_wrap(char *match, char *str)
 
 	i = 0;
 	j = 0;
+<<<<<<< HEAD
 	if (match[0] != '*' || match[0] == 0 || str[0] == 0)
 		return (0);
 	if (match[0] == '*' && str[0])
@@ -67,4 +68,24 @@ int	star_match_recur(char *match, char *str)
 	else if (match[0] == '*' && str[0])
 		return (star_forward_wrap(match, str));
 	return (0);
+=======
+	while(1)
+	{
+		if (match[j] == '*' &&  str[i])
+			star_forward(&i, &j, match, str);
+		else if (match[j] == str[i] && match[j] && str[i])
+		{
+			i ++;
+			j ++;
+		}
+		else
+		{
+			if (str[i] == 0 && match[j] == 0)
+				return (1);
+			if (str[i] != 0 && match[j] == '*' && match[j + 1] == 0)
+				return (1);
+			return (0);
+		}
+	}
+>>>>>>> main
 }

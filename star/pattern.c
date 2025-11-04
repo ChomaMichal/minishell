@@ -37,6 +37,7 @@ void	star_forward(size_t *i, size_t *j, char *match, char *str)
 	}
 }
 
+
 int	star_forward_wrap(char *match, char *str)
 {
 	size_t	i;

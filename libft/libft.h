@@ -21,17 +21,11 @@
 # include <string.h>
 # include <stdint.h>
 
-/* FROM JOSEF'S LIBFT */
-// void	btree_apply_prefix(t_btree *root, void (*applyf)(void *));
-// void	btree_apply_infix(t_btree *root, void (*applyf)(void *));
-// void	btree_apply_suffix(t_btree *root, void (*applyf)(void *));
-
 char	**ft_append_arr_str(char ***arr, char *str);
 size_t	ft_arrlen(void **arr);
 int		ft_atoi(const char *nptr);
 long	ft_atoi_but_better(const char *nptr);
 int		ft_hextoi_base(char *str, char *base);
-
 void	*ft_calloc(size_t nmemb, size_t size);
 char	**ft_coppyarrstr(char **arr);
 void	free_arr(void ***arr);

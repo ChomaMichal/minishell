@@ -111,7 +111,6 @@ void	clear_redir_list_unlink(t_redir_list **redir_list)
 	while (cur)
 	{
 		next = cur->next;
-		printf("%s == here\n", cur->file_name);
 		if (cur->type == REDIR_HERE)
 			unlink(cur->file_name);
 		free(cur->file_name);

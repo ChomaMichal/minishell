@@ -27,6 +27,8 @@ int	main(int argc, char **argv, char **envp)
 	t_data			data;
 	t_parse_data	d;
 
+	(void) argc;
+	(void) argv;
 	if (init_main(&data, envp, &d))
 		return (ft_putstrerr("Malloc fail in initialization\n"), 1);
 	d.line_count = 0;

@@ -1,0 +1,3 @@
+PYTHONNOUSERSITE=1
+NIX_USER_PROFILE_DIR=/nix/var/nix/profiles/per-user/mchoma
+USER=@?/

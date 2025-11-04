@@ -1,0 +1,4 @@
+echo $1
+tmp_test_sh == here
+echo $2
+tmp_test_sh == here

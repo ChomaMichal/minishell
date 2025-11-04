@@ -1,0 +1,13 @@
+')
+as $HOME
+stop3
+/bin/rm -f out
+.tmp0 filename
+.tmp1 filename
+.tmp2 filename
+.tmp3 filename
+.tmp0 == here
+.tmp1 == here
+.tmp2 == here
+out == here
+.tmp3 == here

@@ -15,11 +15,9 @@
 
 void	signal_parent_sigint(int sig)
 {
-	int		i;
-
-	i = sig;
+	(void)(sig);
 	sgnl = 1;
-	write(STDIN_FILENO, "\n", 1);
+	(void)write(STDIN_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -86,10 +84,8 @@ char	*shlvl(char *org)
 char **init_env(char **envp)
 {
 	size_t	i;
-	int		lvl;
 	char	**rt;
 	
-	lvl = 0;
 	i = 0;
 	while (envp[i])
 		i ++;

@@ -1,0 +1,4 @@
+redirection failed
+bash: cd: wtf: No such file or directory
+malloc_consolidate(): unaligned fastbin chunk detected
+../42_minishell_tester/tester.sh: line 635: 58329 Aborted                 (core dumped) LD_PRELOAD=/home/mchoma/42_minishell_tester/utils/libintercept/libintercept.so /home/mchoma/minishell/minishell

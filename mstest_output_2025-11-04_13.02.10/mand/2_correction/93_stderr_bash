@@ -1,0 +1,2 @@
+mkdir: cannot create directory ‘bla_test’: File exists
+cd: bla_test: Permission denied

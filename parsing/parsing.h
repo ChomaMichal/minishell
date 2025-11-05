@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 18:24:45 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/04 22:21:58 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/05 13:57:19 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ void	del_tokens(t_list *tokens);
 int		is_operator(char *cur_char, char **operators);
 void	set_len_and_op(char *line_start, char **operators,
 				size_t *substr_len, int *op_index);
+void	parse_set_rt(t_parse_data *d, int rt);
 
 /* fragment.c */
 int		handle_fragments(char *line, char **operators, t_token *token,

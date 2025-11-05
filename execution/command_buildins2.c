@@ -16,22 +16,28 @@
 
 void	env_wrap(t_btree *tree, t_data *data)
 {
-	redit_buildin(tree->redir_list, 0);
-	ft_env(data);
+	if (redit_buildin(tree->redir_list, 0) == 1)
+		ft_env(data);
+	else 
+		data->rt = 1;
 	redit_buildin(tree->redir_list, 1);
 }
 
 void	pwd_wrap(t_btree *tree, t_data *data)
 {
-	redit_buildin(tree->redir_list, 0);
-	ft_pwd(data);
+	if (redit_buildin(tree->redir_list, 0) == 1)
+		ft_pwd(data);
+	else 
+		data->rt = 1;
 	redit_buildin(tree->redir_list, 1);
 }
 
 void	exit_wrap(t_btree *tree, t_data *data)
 {
-	redit_buildin(tree->redir_list, 0);
-	ft_exit(data, tree->cmd_argv[1]);
+	if (redit_buildin(tree->redir_list, 0) == 1)
+		ft_exit(data, tree->cmd_argv[1]);
+	else 
+		data->rt = 1;
 	redit_buildin(tree->redir_list, 1);
 }
 

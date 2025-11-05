@@ -24,7 +24,7 @@ int	in_dup_open(char *filename, int *in)
 	}
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		return (ft_putstrerr("redirection failed\n"), -2);
+		return (ft_putstrerr("open in redirection failed\n"), -2);
 	if (dup2(fd, STDIN_FILENO) == -1)
 		return (close(fd), ft_putstrerr("redirection failed\n"), -2);
 	close (fd);
@@ -74,13 +74,13 @@ int	ft_revert(int *in, int *out)
 	if (*in != -1)
 	{
 		if (dup2(*in, STDIN_FILENO) == -1)
-			return (ft_printf(2, "Error dup2\n"), -2);
+			return (ft_printf(2, "Error dup2\n"), -1);
 		close (*in);
 	}
 	if (*out != -1)
 	{
 		if (dup2(*out, STDOUT_FILENO) == -1)
-			return (ft_printf(2, "Error dup2\n"), -2);
+			return (ft_printf(2, "Error dup2\n"), -1);
 		close(*out);
 	}
 	*out = -1;
@@ -98,10 +98,10 @@ int	redit_buildin(t_redir_list *list, int revert)
 	static int	out = -1;
 	int			err;
 
-	err = 0;
+	err = 1;
 	if (revert == 1)
 		return (ft_revert(&in, &out));
-	while (list && err > -1)
+	while (list && err == 1)
 	{
 		if (list->type == REDIR_OUT)
 			err = out_dup_trunc(list->file_name, &out);

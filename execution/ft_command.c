@@ -26,7 +26,7 @@ void	ft_execve(t_btree *tree, t_data *data)
 		ft_printf(2, "idk abigous redirection i guess \n skill issue UwU\n");
 	if (tree->empty_cmd)
 		ft_exit(data, "0");
-	if (redir_dup2(tree))
+	if (redir_dup2(tree) == -1)
 		ft_exit(data, "1");
 	path = get_path(data->env, tree->cmd_argv[0]);
 	if (path == NULL)

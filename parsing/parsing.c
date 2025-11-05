@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 19:05:10 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/05 18:09:44 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/05 18:19:43 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	print_fragment_str(char *line, t_token *token, size_t fragment_i)
 	return (0);
 }
 
-print_redir_list(t_btree *bnode)
+int print_redir_list(t_btree *bnode)
 {
 	printf("++for node (%s)[%i]\n", bnode->cmd_argv[0], bnode->type);
 	if (bnode->redir_list)

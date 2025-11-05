@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 18:54:13 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/05 13:41:17 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/05 13:57:12 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	set_len_and_op(char *line_start, char **operators,
 	*substr_len = len;
 }
 
-void	set_rt(t_parse_data *d, int rt)
+void	parse_set_rt(t_parse_data *d, int rt)
 {
 	d->data->rt = rt;
 }

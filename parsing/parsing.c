@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 19:05:10 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/05 13:44:48 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/05 13:57:50 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ t_btree	*parse(t_parse_data *d)
 	print_data.operators = d->operators;
 	d->tokens = tokenize(d);
 	if (!d->tokens)
-		return (set_rt(d, 2), NULL);
+		return (parse_set_rt(d, 2), NULL);
 	if (validate_tokens(d->tokens, d->operators))
-		return (set_rt(d, 2), del_tokens(d->tokens), NULL);
+		return (parse_set_rt(d, 2), del_tokens(d->tokens), NULL);
 	if (expand(d))
-		return (set_rt(d, 2), del_tokens(d->tokens), NULL);
+		return (parse_set_rt(d, 2), del_tokens(d->tokens), NULL);
 	d->exec_tree = create_exec_tree(d);
 	del_tokens(d->tokens);
 	clear_here_list(&d->here_list);
 	if (!d->exec_tree)
-		set_rt(d, 2);
+		parse_set_rt(d, 2);
 	return (d->exec_tree);
 }

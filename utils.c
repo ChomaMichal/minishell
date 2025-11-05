@@ -67,7 +67,11 @@ void	delete_bnode_unlink(void *ptr)
 
 void	cleanup(t_data *data)
 {
-	data->rt = wait_and_get_exit_value(data->pids);
+	int		rt;
+
+	rt = wait_and_get_exit_value(data->pids);
+	if (rt != -1)
+		data->rt = rt;
 	free_pids(&data->pids);
 	if (data->subshell == 1)
 		btree_apply_suffix(data->head, delete_bnode);

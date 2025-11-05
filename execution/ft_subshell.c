@@ -14,6 +14,7 @@
 void	ft_subshell(t_btree *tree, t_data *data)
 {
 	int	pid;
+	int	rt;
 
 	pid = fork();
 	if (pid == 0)
@@ -27,5 +28,7 @@ void	ft_subshell(t_btree *tree, t_data *data)
 	}
 	else
 		add_last_id(&data->pids, pid);
-	data->rt = wait_and_get_exit_value(data->pids);
+	rt = wait_and_get_exit_value(data->pids);
+	if (rt != -1)
+		data->rt = rt;
 }

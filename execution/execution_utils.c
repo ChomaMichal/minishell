@@ -17,7 +17,7 @@ int	wait_and_get_exit_value(t_ids *list)
 	int	rt;
 
 	if (list == NULL)
-		return (0);
+		return (-1);
 	if (list->pid == -1)
 		return (wait_and_get_exit_value(list->next));
 	if (list->next == NULL)

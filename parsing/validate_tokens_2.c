@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 21:53:46 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/16 21:57:38 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:43:20 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ int	validate_close_paren(t_list *cur, long *paren_count)
 		return (1);
 	}
 	*paren_count -= 1;
+	while (cur->next && cur->next->token->options & REDIR_OP
+	&& cur->next->next && cur->next->next->token->options & WORD)
+	{
+		cur = cur->next;
+		cur = cur->next;
+	}
 	if (cur->next && cur->next->token->options & WORD)
 	{
 		ft_printf(2, "minishell: syntax error near unexpected token `%s'\n",

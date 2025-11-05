@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:07:12 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/08 11:38:53 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:58:19 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	parse_format(int fd, const char *format, va_list args, int *count)
 	{
 		ptr = ft_strchr(&format[i], '%');
 		if (!ptr)
-			return (*count += ft_putstr_fd((char *)&format[i], 1), fd);
+			return (*count += ft_putstr_fd((char *)&format[i], fd), 1);
 		len = (size_t)(ptr - &format[i]);
 		write(fd, &format[i], len);
 		i += len + 1;

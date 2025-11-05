@@ -20,7 +20,6 @@ void	read_pipe(t_btree *tree, t_data *data, int *fd)
 {
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	close(STDIN_FILENO);
 	data->subshell = 1;
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
@@ -33,7 +32,6 @@ void	write_pipe(t_btree *tree, t_data *data, int *fd)
 {
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	close(STDOUT_FILENO);
 	data->subshell = 1;
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
@@ -59,8 +57,8 @@ void	ft_pipe(t_btree *tree, t_data *data)
 	pid[1] = fork();
 	if (pid[1] == 0)
 		write_pipe(tree, data, fd);
-	close (fd [0]);
-	close (fd [1]);
+	close(fd[0]);
+	close(fd[1]);
 	waitpid(pid[0], &data->rt, 0);
 	waitpid(pid[1], &data->rt, 0);
 	data->pids = NULL;

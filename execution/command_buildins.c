@@ -13,6 +13,7 @@
 #include "../libft/idlist.h"
 #include "executor.h"
 #include "../commands/commands.h"
+#include <stdio.h>
 
 int	echo_maker(t_btree *tree, t_data *data)
 {
@@ -23,6 +24,7 @@ int	echo_maker(t_btree *tree, t_data *data)
 	flag = 0;
 	i = 1;
 	str = NULL;
+	
 	if ((tree->cmd_argv)[0] && (tree->cmd_argv)[i] != 0)
 		if (ft_strncmp(tree->cmd_argv[i], "-n", 3) == 0 && ++flag)
 			i++;

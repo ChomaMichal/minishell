@@ -1,6 +1,6 @@
 NAME = minishell
 CC = clang
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -O0
 LIBS = -lreadline -lhistory
 HEADERS = minishell.h libft/libft.h\
 		parsing/parsing.h commands/commands.h ids/ids.h execution/execution.h

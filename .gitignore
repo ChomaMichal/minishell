@@ -1,4 +1,6 @@
 vgcore.*
 .nfs*
 mstest*
+test_objects
+test
 

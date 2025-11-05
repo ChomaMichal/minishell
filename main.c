@@ -40,7 +40,6 @@ int	main(int argc, char **argv, char **envp)
 			if (data.head && sgnl == 0)
 				execute(data.head, &data);
 		}
-		free(d.line);
 		cleanup(&data);
 		rl_on_new_line();
 	}

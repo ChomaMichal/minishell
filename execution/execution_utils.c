@@ -22,11 +22,14 @@ int	wait_and_get_exit_value(t_ids *list)
 		return (wait_and_get_exit_value(list->next));
 	if (list->next == NULL)
 	{
-		waitpid(list->pid, &rt, 0);
-		if (WIFSIGNALED(rt))
-			return (WTERMSIG(rt) + 128);
-		WEXITSTATUS(rt);
-		return (WEXITSTATUS(rt));
+		if (waitpid(list->pid, &rt, 0) != -1)
+		{
+			if (WIFSIGNALED(rt))
+				return (WTERMSIG(rt) + 128);
+			WEXITSTATUS(rt);
+			return (WEXITSTATUS(rt));
+		}
+		return (-1);
 	}
 	waitpid(list->pid, NULL, 0);
 	return (wait_and_get_exit_value(list->next));

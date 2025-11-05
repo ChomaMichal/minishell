@@ -36,7 +36,7 @@ int	print_fragment_str(char *line, t_token *token, size_t fragment_i)
 	return (0);
 }
 
-print_redir_list(t_btree *bnode)
+int print_redir_list(t_btree *bnode)
 {
 	printf("++for node (%s)[%i]\n", bnode->cmd_argv[0], bnode->type);
 	if (bnode->redir_list)
@@ -46,6 +46,7 @@ print_redir_list(t_btree *bnode)
 	}
 	else
 		printf("	NO REDIRS\n");
+	return (1);
 
 }
 
@@ -80,5 +81,5 @@ t_btree	*parse(t_parse_data *d)
 	// {
 	// 	btree_apply_prefix(d->exec_tree, apply_print_to_bnode);
 	// }
-	return (d->exec_tree);
+	return (free(d->line), d->exec_tree);
 }

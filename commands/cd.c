@@ -57,17 +57,13 @@ int	ft_cd(t_data *data, char *path)
 	}
 	if (*path == 0)
 	{
-		free(path);
 		path = ft_get_env_value(data->env, "HOME");
-		if (path == NULL)
-			return (set_rt(&data->rt, 1), 0);
+		if (path == NULL || chdir(path))
+			return (free(path), set_rt(&data->rt, 1), 0);
+		free(path);
 	}
-	if (chdir(path) == -1)
-	{
-		ft_putstr_fd("bash: cd: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return (set_rt(&data->rt, 1), 0);
-	}
+	else if (chdir(path) == -1)
+		return (ft_printf(2, "minishell: cd: No path %s skill issue\n", path)
+			, set_rt(&data->rt, 1), 0);
 	return (set_rt(&data->rt, 0), 1);
 }

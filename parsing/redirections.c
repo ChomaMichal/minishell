@@ -250,10 +250,7 @@ int	write_to_here_doc(char *delimiter, char *file_name, size_t *line_count)
 	{
 		line = readline(">");
 		if (sgnl != 0)
-		{
-			free(line);
-			break;
-		}
+			return (close(fd), free(line), 1);
 		if (!line)
 		{
 			ft_printf(2, "minishell: warning: here-document at line ");

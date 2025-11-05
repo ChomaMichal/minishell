@@ -249,7 +249,7 @@ int	write_to_here_doc(char *delimiter, char *file_name, size_t *line_count)
 	while (sgnl == 0)
 	{
 		line = readline(">");
-		if (sgnl == 1)
+		if (sgnl != 0)
 		{
 			free(line);
 			break;

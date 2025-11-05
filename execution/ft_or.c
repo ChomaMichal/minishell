@@ -26,6 +26,8 @@ void	ft_or(t_btree *tree, t_data *data)
 	}
 	execute(tree->left, data);
 	rt = wait_and_get_exit_value(data->pids);
+	if (rt == -1)
+		rt = data->rt;
 	free_pids(&data->pids);
 	if (subshell == 1)
 		data->subshell = 1;

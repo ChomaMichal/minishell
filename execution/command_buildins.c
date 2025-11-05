@@ -46,37 +46,54 @@ int	echo_maker(t_btree *tree, t_data *data)
 
 void	echo_wrap(t_btree *tree, t_data *data)
 {
-	redit_buildin(tree->redir_list, 0);
-	echo_maker(tree, data);
+	if (redit_buildin(tree->redir_list, 0) == 1)
+		echo_maker(tree, data);
+	else
+	{
+		data->rt = 1;
+	}
 	redit_buildin(tree->redir_list, 1);
 }
 
 void	cd_wrap(t_btree *tree, t_data *data)
 {
-	redit_buildin(tree->redir_list, 0);
-	if (!tree->cmd_argv[1])
-		ft_cd(data, ft_strdup(""));
-	else
-		ft_cd(data, tree->cmd_argv[1]);
+	if (redit_buildin(tree->redir_list, 0) == 1)
+	{
+		if (!tree->cmd_argv[1])
+			ft_cd(data, ft_strdup(""));
+		else
+			ft_cd(data, tree->cmd_argv[1]);
+	}
+	else 
+		data->rt = 1;
 	redit_buildin(tree->redir_list, 1);
 }
 
 void	export_wrap(t_btree *tree, t_data *data)
 {
-	redit_buildin(tree->redir_list, 0);
-	if (!tree->cmd_argv[1])
-		ft_export(data, "");
-	else
-		ft_export(data, tree->cmd_argv[1]);
+	if (redit_buildin(tree->redir_list, 0) == 1)
+	{
+		if (!tree->cmd_argv[1])
+			ft_export(data, "");
+		else
+			ft_export(data, tree->cmd_argv[1]);
+	}
+	else 
+		data->rt = 1;
 	redit_buildin(tree->redir_list, 1);
 }
 
 void	unset_wrap(t_btree *tree, t_data *data)
 {
-	redit_buildin(tree->redir_list, 0);
-	if (!tree->cmd_argv[1])
-		ft_unset(data, "");
-	else
-		ft_unset(data, tree->cmd_argv[1]);
+	if (redit_buildin(tree->redir_list, 0) == 1)
+	{
+		redit_buildin(tree->redir_list, 0);
+		if (!tree->cmd_argv[1])
+			ft_unset(data, "");
+		else
+			ft_unset(data, tree->cmd_argv[1]);
+	}
+	else 
+		data->rt = 1;
 	redit_buildin(tree->redir_list, 1);
 }

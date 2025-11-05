@@ -15,7 +15,7 @@ static int	open_dup2_in(char *filename)
 {
 	int		fd;
 
-	fd = open(filename, O_RDONLY | O_CREAT, 0777);
+	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		return (ft_printf(2, "open failed in redirection\n"), -1);
 	if (dup2(fd, STDIN_FILENO) == -1)

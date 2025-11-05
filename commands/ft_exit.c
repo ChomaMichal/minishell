@@ -12,6 +12,7 @@
 
 #include "commands.h"
 #include "../minishell.h"
+#include "../libft/idlist.h"
 
 int	ft_exit(t_data *data, char *str)
 {
@@ -25,6 +26,7 @@ int	ft_exit(t_data *data, char *str)
 		btree_apply_suffix(data->head, delete_bnode);
 	else if (data->head != NULL && data->subshell == 0)
 		btree_apply_suffix(data->head, delete_bnode_unlink);
+	free_pids(&data->pids);
 	free_arr((void ***)&data->env);
 	exit(i);
 }

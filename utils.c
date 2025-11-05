@@ -101,7 +101,7 @@ char **init_env(char **envp)
 	i = 0;
 	while (envp[i])
 		i ++;
-	rt = ft_calloc (i, sizeof(char *) + 1);
+	rt = ft_calloc (i + 1, sizeof(char *));
 	if (rt  == NULL)
 		return (NULL);
 	i = 0;

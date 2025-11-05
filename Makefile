@@ -90,7 +90,7 @@ $(TEST_OBJ_DIR)%.o: %.c
 	$(CC) -Wall -Wextra -g -c $< -o $@
 
 runt: test
-	valgrind --leak-check=full --suppressions=readline.supp ./test
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./test
 
 runtj:
 	make fclean

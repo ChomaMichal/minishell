@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_star_append.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josefelghnam <josefelghnam@student.42.f    +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:07:30 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/05 02:49:56 by josefelghna      ###   ########.fr       */
+/*   Updated: 2025/11/05 12:21:52 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	star_forward_wrap(char *match, char *str, int *stars_arr)
 
 	i = 0;
 	j = 0;
-	if (stars_arr[0] == 0 || match[0] == 0 || str[0] == 0)
+	if (match[0] != '*' || stars_arr[0] || match[0] == 0 || str[0] == 0)
 		return (0);
 	if (match[0] == '*' && !stars_arr[0] && str[0])
 		star_forward(&i, &j, match, str, stars_arr);
@@ -77,6 +77,10 @@ char	**expand_star_append(char *match, char ***arr, int *stars_arr)
 	char			path[PATH_MAX];
 	char			*str;
 
+	// printf("on (%s) stars_arr is:[", match);
+	// for (size_t i = 0; i < ft_strlen(match); i++)
+	// 	printf("%i", stars_arr[i]);
+	// printf("]\n");
 	if (getcwd(path, PATH_MAX) == NULL) // CHECK HOW THIS FUNCTION BEHAVES ON ERRORS. (malloc?) need free?
 		return (NULL);
 	if (ft_opendir(path, &directory) == NULL)

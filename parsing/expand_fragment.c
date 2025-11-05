@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_fragment.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josefelghnam <josefelghnam@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 18:59:33 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/03 18:59:33 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/05 01:32:36 by josefelghna      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ static char	*create_expanded_fragment(char *fragment_str, char **target_str,
 				return (NULL);
 			start = i + 1;
 			var_value = create_var_val(&fragment_str[start], &start, xd);
-			if (!var_value || !safe_strjoin(target_str, var_value, 1))
+			if (!var_value)
+				return (free(*target_str), NULL);
+			if (!safe_strjoin(target_str, var_value, 1))
 				return (NULL);
 			i = start;
 		}
@@ -102,7 +104,7 @@ static int	expand_unquoted_fragment(char *fragment_str, t_expansion_data *xd)
 	if (!expanded)
 		return (1);
 	if (!ft_strchr(expanded, ' ') && !ft_strchr(expanded, '	'))
-		return (append_substr(xd->target_node, expanded, 1, 0), 0);
+		return (append_substr(xd->target_node, expanded, 1, 0));
 	token->fragments[xd->i].starts_with_space = (ft_strchr(" 	", expanded[0])
 			!= NULL);
 	token->fragments[xd->i].ends_with_space = (*expanded

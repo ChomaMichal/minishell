@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   palloc_err.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: josefelghnam <josefelghnam@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:48:15 by mchoma            #+#    #+#             */
-/*   Updated: 2025/10/30 16:48:22 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/11/05 01:50:48 by josefelghna      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	palloc_err(void)
 {
-	perror("minishell: Allocation Error");
+	write(2, "minishell: Allocation Error\n", 28);
 }

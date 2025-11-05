@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josefelghnam <josefelghnam@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:43:42 by mchoma            #+#    #+#             */
-/*   Updated: 2025/11/04 19:12:29 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/05 02:08:00 by josefelghna      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,22 @@ int	main(int argc, char **argv, char **envp)
 	d.line_count = 0;
 	while (1)
 	{
-		d.line = readline("<>minishell<>");
+		// d.line = readline("<>minishell<>");
+		write(1, "<>minishell<> ", 14);
+		d.line = get_next_line(0);
 		if (!d.line)
 			break ;
+		d.line[ft_strlen(d.line) - 1] = 0;
 		if (d.line[0] && ++d.line_count)
 		{
-			add_history(d.line);
+			// add_history(d.line);
 			data.head = parse(&d);
 			if (data.head)
 				execute(data.head, &data);
 		}
 		cleanup(&data);
 		free(d.line);
-		rl_on_new_line();
+		// rl_on_new_line();
 	}
 	ft_exit(&data, NULL);
 	return (0);

@@ -55,5 +55,7 @@ void	ft_command(t_btree *tree, t_data *data)
 	{
 		close(STDIN_FILENO);
 		close(STDOUT_FILENO);
+		data->rt = wait_and_get_exit_value(data->pids);
+		free_pids(&data->pids);
 	}
 }

@@ -24,10 +24,10 @@ void	ft_execve(t_btree *tree, t_data *data)
 	signal(SIGQUIT, SIG_DFL);
 	if (tree->ambig)
 		ft_printf(2, "idk abigous redirection i guess \n skill issue UwU\n");
+	if (!tree->ambig && redir_dup2(tree) == -1)
+		ft_exit(data, "1");
 	if (tree->empty_cmd)
 		ft_exit(data, "0");
-	if (redir_dup2(tree) == -1)
-		ft_exit(data, "1");
 	path = get_path(data->env, tree->cmd_argv[0]);
 	if (path == NULL)
 	{
@@ -44,11 +44,7 @@ void	ft_command(t_btree *tree, t_data *data)
 {
 	int		pid;
 
-	if (tree->ambig)
-		printf("ambig caught in execution\n");
-	if (tree->empty_cmd)
-		printf("empty cmd caught in execution\n");
-	if (is_buildin(tree, data) == 1)
+	if (!tree->empty_cmd && is_buildin(tree, data) == 1)
 		return ;
 	pid = fork();
 	if (pid == 0)

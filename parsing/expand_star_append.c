@@ -45,6 +45,12 @@ int	star_forward_wrap(char *match, char *str, int *stars_arr)
 
 	i = 0;
 	j = 0;
+	while (match[0] == '*' && stars_arr[0] == 0
+		&& match[1] == '*' && stars_arr[1] == 0)
+	{
+		match++;
+		stars_arr ++;
+	}
 	if (match[0] != '*' || stars_arr[0] || match[0] == 0 || str[0] == 0)
 		return (0);
 	if (match[0] == '*' && !stars_arr[0] && str[0])

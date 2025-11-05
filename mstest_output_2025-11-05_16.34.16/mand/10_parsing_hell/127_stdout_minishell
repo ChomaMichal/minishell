@@ -1,0 +1,14 @@
+ not executable
+.tmp3 filename
+open failed in parse_here_doc()
+parse_here_doc() failed
+run_here_doc() failed
+ not found
+.tmp3 filename
+open failed in parse_here_doc()
+parse_here_doc() failed
+run_here_doc() failed
+.tmp3 filename
+open failed in parse_here_doc()
+parse_here_doc() failed
+run_here_doc() failed

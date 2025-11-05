@@ -1,0 +1,12 @@
+/home/mchoma
+HOME=/home/mchoma
+CARGO_HOME=/usr/share/rust/cargo
+RUSTUP_HOME=/usr/share/rust/rustup
+HOMEBREW_CACHE=/tmp/mchoma/Homebrew/Caches
+HOMEBREW_TEMP=/tmp/mchoma/Homebrew/Temp
+42
+HOME=42
+CARGO_HOME=/usr/share/rust/cargo
+RUSTUP_HOME=/usr/share/rust/rustup
+HOMEBREW_CACHE=/tmp/mchoma/Homebrew/Caches
+HOMEBREW_TEMP=/tmp/mchoma/Homebrew/Temp

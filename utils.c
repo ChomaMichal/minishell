@@ -12,15 +12,11 @@
 
 #include "minishell.h"
 #include "libft/idlist.h"
+#include <sys/ioctl.h>
 
 void	signal_parent_sigint(int sig)
 {
-	(void)(sig);
-	sgnl = 1;
-	(void)write(STDIN_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	sgnl = sig;
 }
 
 void	set_operators(char **operators)
@@ -69,10 +65,18 @@ void	cleanup(t_data *data)
 {
 	int		rt;
 
-	rt = wait_and_get_exit_value(data->pids);
-	if (rt != -1)
-		data->rt = rt;
-	free_pids(&data->pids);
+	if (sgnl != 0)
+	{
+		data->rt = sgnl + 128;
+		sgnl = 0;
+	}
+	else
+	{
+		rt = wait_and_get_exit_value(data->pids);
+		if (rt != -1)
+			data->rt = rt;
+		free_pids(&data->pids);
+	}
 	if (data->subshell == 1)
 		btree_apply_suffix(data->head, delete_bnode);
 	if (data->subshell == 0)
@@ -110,10 +114,18 @@ char **init_env(char **envp)
 	return (rt);
 }
 
+int		rlhook(void)
+{
+	if (ioctl(STDIN_FILENO, TIOCSTI, "\n") == -1)
+		ft_putstrerr("oictl error\n");
+	rl_replace_line("", 0);
+	return (0);
+}
+
 int	init_main(t_data *data, char **envp, t_parse_data *d)
 {
 	d->here_list = NULL;
-	// d->line_count = 0;
+	d->line_count = 0;
 	d->exec_tree = NULL;
 	d->tokens = NULL;
 	d->line = NULL;
@@ -126,6 +138,7 @@ int	init_main(t_data *data, char **envp, t_parse_data *d)
 	data->subshell = 0;
 	data->pids = NULL;
 	data->head = NULL;
+	rl_signal_event_hook = rlhook;
 	signal(SIGINT, signal_parent_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 18:41:19 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/06 13:37:42 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:12:58 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ int	write_to_here_doc(char *delimiter, char *file_name, size_t *line_count)
 	while (1)
 	{
 		line = readline(">");
-		if (sgnl != 0)
+		if (g_sgnl != 0)
 			return (close(fd), free(line), 1);
 		if (!line)
 		{

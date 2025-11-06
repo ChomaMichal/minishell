@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:43:42 by mchoma            #+#    #+#             */
-/*   Updated: 2025/11/06 12:01:39 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:17:32 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 #include "minishell.h"
 
-volatile sig_atomic_t sgnl = 0;
+volatile sig_atomic_t	g_sgnl = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(d.line);
 			data.head = parse(&d);
-			if (data.head && sgnl == 0)
+			if (data.head && g_sgnl == 0)
 				execute(data.head, &data);
 		}
 		cleanup(&data);

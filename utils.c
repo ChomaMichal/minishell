@@ -6,18 +6,12 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 15:08:59 by mchoma            #+#    #+#             */
-/*   Updated: 2025/11/06 13:18:41 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:22:35 by mchoma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft/idlist.h"
-#include <sys/ioctl.h>
-
-void	signal_parent_sigint(int sig)
-{
-	sgnl = sig;
-}
 
 void	set_operators(char **operators)
 {
@@ -64,79 +58,19 @@ void	delete_bnode_unlink(void *ptr)
 void	cleanup(t_data *data)
 {
 	int		rt;
-	
+
 	rt = wait_and_get_exit_value(data->pids);
 	if (rt != -1)
 		data->rt = rt;
 	free_pids(&data->pids);
-	if (sgnl != 0)
+	if (g_sgnl != 0)
 	{
-		data->rt = sgnl + 128;
-		sgnl = 0;
+		data->rt = g_sgnl + 128;
+		g_sgnl = 0;
 	}
 	if (data->subshell == 1)
 		btree_apply_suffix(data->head, delete_bnode);
 	if (data->subshell == 0)
 		btree_apply_suffix(data->head, delete_bnode_unlink);
 	data->head = NULL;
-}
-
-char	*shlvl(char *org)
-{
-	return (ft_strjoinf2("SHLVL=", ft_itoa(ft_atoi(org + 6) + 1)));
-}
-
-char **init_env(char **envp)
-{
-	size_t	i;
-	char	**rt;
-	
-	i = 0;
-	while (envp[i])
-		i ++;
-	rt = ft_calloc (i + 1, sizeof(char *));
-	if (rt  == NULL)
-		return (NULL);
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "SHLVL=", 6) == 0)
-			rt[i] = shlvl(envp[i]);
-		else 
-			rt[i] = ft_strdup(envp[i]);
-		if (rt[i] == NULL)
-			return (free_arr((void ***)&rt), NULL);
-		i ++;
-	}
-	return (rt);
-}
-
-int		rlhook(void)
-{
-	if (ioctl(STDIN_FILENO, TIOCSTI, "\n") == -1)
-		ft_putstrerr("oictl error\n");
-	rl_replace_line("", 0);
-	return (0);
-}
-
-int	init_main(t_data *data, char **envp, t_parse_data *d)
-{
-	d->here_list = NULL;
-	d->line_count = 0;
-	d->exec_tree = NULL;
-	d->tokens = NULL;
-	d->line = NULL;
-	d->data = data;
-	set_operators(d->operators);
-	data->env = init_env(envp);
-	if (data->env == NULL)
-		return (-1);
-	data->rt = 0;
-	data->subshell = 0;
-	data->pids = NULL;
-	data->head = NULL;
-	rl_signal_event_hook = rlhook;
-	signal(SIGINT, signal_parent_sigint);
-	signal(SIGQUIT, SIG_IGN);
-	return (0);
 }

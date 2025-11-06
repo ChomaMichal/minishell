@@ -23,7 +23,7 @@ void	ft_execve(t_btree *tree, t_data *data)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (tree->ambig)
-		ft_printf(2, "idk abigous redirection i guess \n skill issue UwU\n");
+		ft_putstrerr("idk abigous redirection i guess \n skill issue UwU\n");
 	if (!tree->ambig && redir_dup2(tree) == -1)
 		ft_exit(data, "1");
 	if (tree->empty_cmd)

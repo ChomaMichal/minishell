@@ -1,8 +1,9 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
+#include <signal.h>
 
 //global
-extern volatile int sgnl; 
+extern volatile sig_atomic_t sgnl; 
 
 typedef struct s_list t_list;
 

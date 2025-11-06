@@ -16,7 +16,7 @@
 
 #include "minishell.h"
 
-volatile int sgnl = 0;
+volatile sig_atomic_t sgnl = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(d.line);
 			data.head = parse(&d);
-			if (data.head)
+			if (data.head && sgnl == 0)
 				execute(data.head, &data);
 		}
 		cleanup(&data);

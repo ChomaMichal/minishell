@@ -25,12 +25,12 @@ int	echo_maker(t_btree *tree, t_data *data)
 	i = 1;
 	str = NULL;
 	
-	if ((tree->cmd_argv)[0] && (tree->cmd_argv)[i] != 0)
-		if (ft_strncmp(tree->cmd_argv[i], "-n", 3) == 0 && ++flag)
-			i++;
+	while ((tree->cmd_argv)[0] && (tree->cmd_argv)[i] != 0 && 
+		(!ft_strncmp(tree->cmd_argv[i], "-n", 3) && i ++))
+			flag = 1;
 	while (tree->cmd_argv[i])
 	{
-		if (!(i == 1 || (i == 2 && flag == 1)))
+		if (!(i == 1 || (tree->cmd_argv[i - 1][0] == '-')))
 		{
 			str = ft_strjoinf1(str, " ");
 			if (str == NULL)

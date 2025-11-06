@@ -24,7 +24,8 @@ COMMANDS = commands/cd.c\
 			commands/ft_exit.c\
 			commands/set_rt.c
 
-PARSING = parsing/execution_tree.c\
+PARSING = parsing/execution_tree_2.c\
+		parsing/execution_tree.c\
 		parsing/expand_fragment_utils.c\
 		parsing/expand_fragment_utils_2.c\
 		parsing/expand_fragment.c\
@@ -35,8 +36,11 @@ PARSING = parsing/execution_tree.c\
 		parsing/fragment.c\
 		parsing/expand_star_append.c\
 		parsing/ft_lst.c\
+		parsing/here_doc.c\
 		parsing/parsing_utils.c\
 		parsing/parsing.c\
+		parsing/redirections_utils_2.c\
+		parsing/redirections_utils.c\
 		parsing/redirections.c\
 		parsing/tokenize_utils_2.c\
 		parsing/tokenize_utils.c\

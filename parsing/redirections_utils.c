@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:29:54 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/06 14:41:53 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:09:09 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	add_redir_node(t_redir_list **redir_list, int options, char *file_name)
 {
 	t_redir_list	*new_node;
-	t_redir_list	*cur;
 
 	new_node = malloc(sizeof(t_redir_list));
 	if (!new_node)

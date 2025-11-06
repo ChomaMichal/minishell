@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_fragment.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josefelghnam <josefelghnam@student.42.f    +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 18:59:33 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/05 01:32:36 by josefelghna      ###   ########.fr       */
+/*   Updated: 2025/11/06 15:06:49 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static int	expand_unquoted_fragment(char *fragment_str, t_expansion_data *xd)
 			!= NULL);
 	token->fragments[xd->i].ends_with_space = (*expanded
 			&& ft_strchr(" 	", expanded[ft_strlen(expanded) - 1]));
-	if (field_split(fragment_str, expanded, xd))
+	if (field_split(expanded, xd))
 		return (free(expanded), 1);
 	return (free(expanded), 0);
 }

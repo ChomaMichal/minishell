@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:11:05 by mchoma            #+#    #+#             */
-/*   Updated: 2025/11/06 14:18:56 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/11/06 14:59:20 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <fcntl.h>
+
 //global
 extern volatile sig_atomic_t	g_sgnl;
-
-typedef struct s_list	t_list;
+typedef struct s_list			t_list;
 
 //this contains ids of the child processes that are currently running
 typedef struct s_ids

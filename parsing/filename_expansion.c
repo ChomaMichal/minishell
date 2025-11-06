@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:26:33 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/06 12:36:36 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:07:29 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int	expand_filename(t_list **node, size_t fragment_i)
 	return (0);
 }
 
-int	filename_expansion(t_list **head, char *line)
+int	filename_expansion(t_list **head)
 {
 	t_list	*node;
 	char	*found;

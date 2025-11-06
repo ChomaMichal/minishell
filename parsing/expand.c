@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 18:56:52 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/03 18:57:06 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:21:02 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,11 @@ int	expand(t_parse_data *d)
 			&& !(node->token->options & HERE_DEL_WORD))
 		{
 			if (expand_word(d, node))
-				return (ft_printf(2, "expand_token() failed: (%s)\n",
-						node->token->str), 1);
+				return (1);
 		}
 		node = node->next;
 	}
-	if (filename_expansion(&d->tokens, d->line))
-		return (ft_printf(2, "expand_filename() failed\n"), 1);
+	if (filename_expansion(&d->tokens))
+		return (1);
 	return (0);
 }

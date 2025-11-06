@@ -6,13 +6,13 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 00:18:14 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/06 12:26:33 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:05:27 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-static int	set_token(t_token *new_token, t_list *token_node, size_t fragment_i,
+static int	set_token(t_token *new_token, size_t fragment_i,
 	t_list **field_split_head)
 {
 	new_token->fragment_count = 1;
@@ -76,7 +76,7 @@ int	insert_split_tokens(t_list **field_split_head, t_list *token_node,
 		new_token = create_token(0);
 		if (!new_token)
 			return (1);
-		if (set_token(new_token, token_node, fragment_i, field_split_head))
+		if (set_token(new_token, fragment_i, field_split_head))
 			return (free(new_token), 1);
 	}
 	last_field = ft_lstlast(*field_split_head);

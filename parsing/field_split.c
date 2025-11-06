@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 00:11:53 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/10/28 17:26:25 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:06:22 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	handle_str_of_dels(char ***split_arr)
 	return (0);
 }
 
-static int	handle_str_of_one_word(char ***split_arr, t_expansion_data *xd)
+static int	handle_str_of_one_word(char ***split_arr)
 {
 	char	**tmp;
 
@@ -53,13 +53,13 @@ static int	handle_one_str_arr(char ***split_arr, t_expansion_data *xd)
 		&& xd->token_node->token->fragments[xd->i].ends_with_space
 		&& xd->i + 1 < xd->token_node->token->fragment_count)
 	{
-		if (handle_str_of_one_word(split_arr, xd))
+		if (handle_str_of_one_word(split_arr))
 			return (free_split(*split_arr), 1);
 	}
 	return (0);
 }
 
-int	field_split(char *fragment_str, char *expanded, t_expansion_data *xd)
+int	field_split(char *expanded, t_expansion_data *xd)
 {
 	t_list	*head;
 	char	**split_arr;

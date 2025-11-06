@@ -26,7 +26,7 @@ int	cd_path(t_data *data, char **path)
 	if (arr == NULL)
 		return (free(str), 0);
 	free(str);
-	while (++i != -1 && arr[i] )
+	while (++i != -1 && arr[i])
 	{
 		str = ft_strjoin(arr[i], "/");
 		if (str == NULL)

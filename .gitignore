@@ -1,4 +1,8 @@
 vgcore.*
 .nfs*
+<<<<<<< HEAD
 mstest_*
+=======
+mstest*
+>>>>>>> 01c44f2 (removed traces from ms test)
 

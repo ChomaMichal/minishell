@@ -227,6 +227,7 @@ t_btree	*create_exec_tree(t_parse_data *d)
 	if (flag)
 		return (btree_apply_suffix(tree, delete_bnode), NULL);
 	if (open_write_here_docs(&d->here_list, d))
-		return (printf("run_here_doc() failed\n"), NULL);
+		return (printf("run_here_doc() failed\n"), 
+			btree_apply_suffix(tree, delete_bnode), NULL);
 	return (tree);
 }

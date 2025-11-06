@@ -60,7 +60,7 @@ void	cd_wrap(t_btree *tree, t_data *data)
 	if (redit_buildin(tree->redir_list, 0) == 1)
 	{
 		if (!tree->cmd_argv[1])
-			ft_cd(data, ft_strdup(""));
+			ft_cd(data, "");
 		else
 			ft_cd(data, tree->cmd_argv[1]);
 	}

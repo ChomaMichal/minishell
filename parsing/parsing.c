@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 19:05:10 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/06 12:41:12 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:36:11 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,5 @@ t_btree	*parse(t_parse_data *d)
 	clear_here_list(&d->here_list);
 	if (!d->exec_tree)
 		parse_set_rt(d, 2);
-	return (d->exec_tree);
+	return (free(d->line), d->exec_tree);
 }

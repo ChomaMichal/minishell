@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:09:04 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/06 14:19:39 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:20:29 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ t_btree	*create_exec_tree(t_parse_data *d)
 	if (flag)
 		return (btree_apply_suffix(tree, delete_bnode), NULL);
 	if (open_write_here_docs(&d->here_list, d))
-		return (printf("run_here_doc() failed\n"),
-			btree_apply_suffix(tree, delete_bnode), NULL);
+		return (btree_apply_suffix(tree, delete_bnode), NULL);
 	return (tree);
 }

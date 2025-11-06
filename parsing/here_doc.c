@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:30:29 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/06 14:42:38 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:22:57 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ static char	*here_name(int *here_i)
 	name = ft_strjoin(".tmp", name_index);
 	free(name_index);
 	if (!name)
-		return (NULL);
+		return (free(name_index), NULL);
 	if (access(name, F_OK) == 0)
 	{
 		*here_i += 1;
-		return (free(name), here_name(here_i));
+		return (free(name), free(name_index), here_name(here_i));
 	}
 	return (name);
 }
@@ -73,7 +73,7 @@ static int	write_to_here_doc(char *delimiter, char *file_name,
 	while (1)
 	{
 		line = readline(">");
-		if (sgnl != 0)
+		if (g_sgnl != 0)
 			return (close(fd), free(line), 1);
 		if (!line)
 			return (print_here_warning(ln, delimiter), 0);
@@ -90,7 +90,6 @@ int	open_write_here_docs(t_here_doc **here_list, t_parse_data *d)
 {
 	int				here_i;
 	t_here_doc		*cur;
-	t_redir_list	*redir_node;
 
 	here_i = 0;
 	cur = *here_list;

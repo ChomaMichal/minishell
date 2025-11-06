@@ -6,15 +6,21 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:07:30 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/06 14:33:30 by mchoma           ###   ########.fr       */
+/*   Updated: 2025/11/06 15:12:25 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	star_match_recur(char *match, char *str, int *stars_arr);
+static int	star_match_recur(char *match, char *str, int *stars_arr);
 
-void	star_forward(size_t *i, char *match, char *str, int *stars_arr)
+static DIR	*ft_opendir(char *path, DIR **directory)
+{
+	*directory = opendir(path);
+	return (*directory);
+}
+
+static void	star_forward(size_t *i, char *match, char *str, int *stars_arr)
 {
 	size_t	tmp;
 
@@ -40,7 +46,7 @@ void	star_forward(size_t *i, char *match, char *str, int *stars_arr)
 	}
 }
 
-int	star_forward_wrap(char *match, char *str, int *stars_arr)
+static int	star_forward_wrap(char *match, char *str, int *stars_arr)
 {
 	size_t	i[2];
 

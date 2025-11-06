@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 19:05:10 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/06 14:24:00 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:23:28 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,6 @@ int	btoindex(int options)
 	while (!((options >> i) & 1))
 		i++;
 	return (i);
-}
-
-int	print_fragment_str(char *line, t_token *token, size_t fragment_i)
-{
-	char	*fragment_str;
-
-	fragment_str = ft_substr(line, token->fragments[fragment_i].start,
-			token->fragments[fragment_i].end
-			- token->fragments[fragment_i].start + 1);
-	if (!fragment_str)
-		return (1);
-	ft_printf(1, "expanded (%s) ", fragment_str);
-	free(fragment_str);
-	return (0);
 }
 
 t_btree	*parse(t_parse_data *d)

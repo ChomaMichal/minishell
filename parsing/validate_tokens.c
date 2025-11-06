@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 21:55:14 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/06 12:42:34 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:24:59 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	validate_paren(t_list *cur, long *paren_count, char **operators)
 		return (validate_open_paren(cur, paren_count, operators));
 	else if (cur->token->options & CLOSE_PARENTHESIS)
 		return (validate_close_paren(cur, paren_count));
-	return (ft_printf(2, "SOMETHING WRONG (validate_paren())\n"), 0);
+	return (ft_printf(2, "minishell: syntax error\n"), 0);
 }
 
 static int	validate_pipe(t_list *cur, char **operators)

@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 18:24:45 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/06 14:47:03 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:08:39 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,6 @@ typedef enum e_token_options
 	HERE_DEL_WORD = (1 << 16),
 	EXPANDED_WORD = (1 << 17)
 }	t_token_options;
-
-static DIR	*ft_opendir(char *path, DIR **directory)
-{
-	*directory = opendir(path);
-	return (*directory);
-}
 
 typedef struct s_fragment
 {
@@ -120,7 +114,7 @@ int				validate_tokens(t_list *tokens, char **operators);
 int				wrong_first_token(t_list *cur, char **operators);
 int				validate_word(t_list *cur);
 int				validate_open_paren(t_list *cur, long *paren_count,
-				char **operators);
+					char **operators);
 int				validate_close_paren(t_list *cur, long *paren_count);
 
 /* expand.c */
@@ -134,28 +128,27 @@ int				dont_mark_stars(t_list *target_node, size_t old_len, char *tmp);
 char			*create_var_val(char *str, size_t *start, t_expansion_data *xd);
 char			*safe_strjoin(char **str1, char *str2, int free_second_str);
 int				append_substr(t_list *target_node, char *str,
-				int free_second_str, int double_quote);
+					int free_second_str, int double_quote);
 
 /* field_split.c */
-int				field_split(char *fragment_str, char *expanded,
-				t_expansion_data *xd);
+int				field_split(char *expanded, t_expansion_data *xd);
 int				create_split_tokens(t_list **head, char **split_arr,
-				t_expansion_data *xd);
+					t_expansion_data *xd);
 /* utils */
 int				create_split_tokens(t_list **head, char **split_arr,
-				t_expansion_data *xd);
+					t_expansion_data *xd);
 int				insert_split_tokens(t_list **field_split_head,
-				t_list *token_node,
-				t_list **target_node, size_t fragment_i);
+					t_list *token_node,
+					t_list **target_node, size_t fragment_i);
 
 /* filename_expansion.c */
-int				filename_expansion(t_list **head, char *line);
+int				filename_expansion(t_list **head);
 
 /* execution_tree.c */
 t_btree			*create_exec_tree(t_parse_data *d);
 t_list			*consume_token(t_list **tokens);
 t_btree			*make_bnode(t_bnode_type type, t_btree *left, t_btree *right,
-				int *flag);
+					int *flag);
 int				dup_append_str(char **cmd_argv, char *str, size_t *word_count);
 int				store_words(t_list **tokens, char **cmd_argv);
 char			**create_cmd_argv(t_list **tokens, int *flag);
@@ -165,7 +158,7 @@ char			**expand_star_append(char *match, char ***arr, int *stars_arr);
 
 /* redirections.c */
 int				create_redirections(t_list **tokens, t_btree *bnode,
-				t_here_doc **here_list);
+					t_here_doc **here_list);
 /* utils */
 t_redir_type	get_redir_type(int options);
 void			clear_redir_list(t_redir_list **redir_list);
@@ -174,9 +167,9 @@ void			clear_here_list(t_here_doc **here_list);
 void			clear_all_redirs(t_btree *bnode, t_here_doc **here_list);
 t_redir_list	*redir_list_last(t_redir_list *node);
 int				add_here_node(t_here_doc **here_list, char *delimiter,
-				t_btree *bnode);
+					t_btree *bnode);
 int				add_redir_node(t_redir_list **redir_list, int options,
-				char *file_name);
+					char *file_name);
 /* here_doc.c */
 int				open_write_here_docs(t_here_doc **here_list, t_parse_data *d);
 
@@ -184,11 +177,11 @@ int				open_write_here_docs(t_here_doc **here_list, t_parse_data *d);
 void			del_tokens(t_list *tokens);
 int				is_operator(char *cur_char, char **operators);
 void			set_len_and_op(char *line_start, char **operators,
-				size_t *substr_len, int *op_index);
+					size_t *substr_len, int *op_index);
 void			parse_set_rt(t_parse_data *d, int rt);
 
 /* fragment.c */
 int				handle_fragments(char *line, char **operators, t_token *token,
-				size_t *i);
+					size_t *i);
 
 #endif

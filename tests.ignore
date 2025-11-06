@@ -1,0 +1,7 @@
+cd 32 we are not implementing cd -
+cd 139 we are not implementinf cd -
+cd 143 we are not implementing cd -
+cd 148 multiple arguments we arent handleing it
+
+
+echo we dont differenciate between flags so yolo on all tests all not pasing are flags

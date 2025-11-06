@@ -96,7 +96,8 @@ char	**create_cmd_argv(t_list **tokens, int *flag)
 			cur = cur->next;
 		else if (!(cur->token->options & EMPTY_WORD))
 			word_count++;
-		cur = cur->next;
+		if (cur)
+			cur = cur->next;
 	}
 	cmd_argv = malloc(sizeof(char *) * (word_count + 1));
 	if (!cmd_argv)
@@ -212,20 +213,6 @@ t_btree	*parse_and_or(t_list **tokens, t_here_doc **here_list, int *flag)
 			return (delete_bnode(right), left);	
 	}
 	return (left);
-}
-
-void	print_redirs(void *ptr)
-{
-	t_btree	*node;
-
-	node = (t_btree *)ptr;
-	if (node->type == BNODE_COMMAND)
-	{
-		printf("trying to printf list of redirs for node (%s):\n", node->cmd_argv[0]);
-		for (t_redir_list *cur = node->redir_list; cur; cur = cur->next)
-			printf("file_name:(%s)\n", cur->file_name);
-		clear_redir_list(&node->redir_list);
-	}
 }
 
 t_btree	*create_exec_tree(t_parse_data *d)

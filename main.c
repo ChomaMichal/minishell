@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:43:42 by mchoma            #+#    #+#             */
-/*   Updated: 2025/11/05 18:11:43 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 12:01:39 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	main(int argc, char **argv, char **envp)
 			if (data.head)
 				execute(data.head, &data);
 		}
-		free(d.line);
 		cleanup(&data);
 		rl_on_new_line();
 	}

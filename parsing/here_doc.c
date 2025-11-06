@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:30:29 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/06 15:22:57 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:39:02 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ static char	*here_name(int *here_i)
 	name = ft_strjoin(".tmp", name_index);
 	free(name_index);
 	if (!name)
-		return (free(name_index), NULL);
+		return (NULL);
 	if (access(name, F_OK) == 0)
 	{
 		*here_i += 1;
-		return (free(name), free(name_index), here_name(here_i));
+		return (free(name), here_name(here_i));
 	}
 	return (name);
 }

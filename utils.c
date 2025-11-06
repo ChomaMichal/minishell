@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josefelghnam <josefelghnam@student.42.f    +#+  +:+       +#+        */
+/*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 15:08:59 by mchoma            #+#    #+#             */
-/*   Updated: 2025/11/05 01:43:05 by josefelghna      ###   ########.fr       */
+/*   Updated: 2025/11/06 13:18:41 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ char **init_env(char **envp)
 int	init_main(t_data *data, char **envp, t_parse_data *d)
 {
 	d->here_list = NULL;
-	// d->line_count = 0;
 	d->exec_tree = NULL;
 	d->tokens = NULL;
 	d->line = NULL;

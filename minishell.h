@@ -1,11 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchoma <your@mail.com>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/06 14:11:05 by mchoma            #+#    #+#             */
+/*   Updated: 2025/11/06 14:18:56 by mchoma           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
-#include <signal.h>
-
+# include <signal.h>
+# include "libft/libft.h"
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <signal.h>
+# include <sys/wait.h>
+# include <errno.h>
+# include <fcntl.h>
 //global
-extern volatile sig_atomic_t sgnl; 
+extern volatile sig_atomic_t	g_sgnl;
 
-typedef struct s_list t_list;
+typedef struct s_list	t_list;
 
 //this contains ids of the child processes that are currently running
 typedef struct s_ids
@@ -23,7 +42,7 @@ typedef struct s_data
 	int				subshell;
 }	t_data;
 
-typedef enum	e_bnode_type
+typedef enum e_bnode_type
 {
 	BNODE_COMMAND,
 	BNODE_PIPE,
@@ -32,7 +51,7 @@ typedef enum	e_bnode_type
 	BNODE_SUBSHELL
 }	t_bnode_type;
 
-typedef enum	e_redir_type
+typedef enum e_redir_type
 {
 	REDIR_OUT,
 	REDIR_OUT_APP,
@@ -40,14 +59,14 @@ typedef enum	e_redir_type
 	REDIR_HERE
 }	t_redir_type;
 
-typedef struct	s_redir_list
+typedef struct s_redir_list
 {
 	t_redir_type		type;
 	char				*file_name;
 	struct s_redir_list	*next;
 }	t_redir_list;
 
-typedef struct	s_btree
+typedef struct s_btree
 {
 	struct s_btree	*left;
 	struct s_btree	*right;
@@ -58,7 +77,7 @@ typedef struct	s_btree
 	int				empty_cmd;
 }	t_btree;
 
-typedef struct	s_here_doc
+typedef struct s_here_doc
 {
 	char				*delimiter;
 	t_btree				*bnode;
@@ -66,7 +85,7 @@ typedef struct	s_here_doc
 	struct s_here_doc	*next;
 }	t_here_doc;
 
-typedef struct	s_parse_data
+typedef struct s_parse_data
 {
 	char			*line;
 	char			*operators[10];
@@ -76,16 +95,6 @@ typedef struct	s_parse_data
 	t_btree			*exec_tree;
 	t_data			*data;
 }	t_parse_data;
-
-# include "libft/libft.h"
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <sys/wait.h>
-# include <errno.h>
-# include <fcntl.h>
-
 
 /* DEV print.c */
 void	btree_apply_prefix(t_btree *root, void (*applyf)(void *));

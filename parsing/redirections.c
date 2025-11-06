@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 18:41:19 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/05 17:39:21 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:37:42 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,11 +242,10 @@ int	write_to_here_doc(char *delimiter, char *file_name, size_t *line_count)
 	size_t	ln;
 
 	ln = *line_count;
-	// printf("%s filename\n", file_name);
 	fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0777);
 	if (fd < 0)
 		return (close(fd), 1);
-	while (sgnl == 0)
+	while (1)
 	{
 		line = readline(">");
 		if (sgnl != 0)
@@ -288,29 +287,3 @@ int	open_write_here_docs(t_here_doc **here_list, t_parse_data *d)
 	}
 	return (0);
 }
-
-// int	open_write_here_docs(t_here_doc **here_list, t_parse_data *d)
-// {
-// 	int			here_i;
-// 	int			here_fd;
-// 	t_here_doc	*cur;
-// 	char		*line;
-// 	size_t		delimiter_len;
-
-// 	//echo hi <<del1 <<del2 | echo<<del3 2ndcmd | <<del4 echo 3rd cmd | <<del5 echo <<del6 6th cmd <<del7
-// 	cur = *here_list;
-// 	here_fd = -1;
-// 	here_i = 0;
-// 	while (cur)
-// 	{
-// 		if (here_fd >= 0)
-// 			close(here_fd);
-// 		cur->file_name = here_name(&here_i);
-// 		if (!cur->file_name)
-// 			return (printf("here_name() failed\n"), clear_here_list(here_list), 1);
-
-// 		cur->bnode->redir.here = ft_strdup(cur->file_name);
-// 		cur = cur->next;
-// 	}
-// 	return (0);
-// }

@@ -6,7 +6,7 @@
 /*   By: jel-ghna <jel-ghna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:26:33 by jel-ghna          #+#    #+#             */
-/*   Updated: 2025/11/03 19:07:11 by jel-ghna         ###   ########.fr       */
+/*   Updated: 2025/11/06 12:36:36 by jel-ghna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,19 @@ static int	expand_filename(t_list **node, size_t fragment_i)
 int	filename_expansion(t_list **head, char *line)
 {
 	t_list	*node;
+	char	*found;
 
 	node = *head;
 	while (node)
 	{
+		found = NULL;
 		if (node->token->options & WORD
 			&& !(node->token->options & EXPANDED_WORD))
 		{
-			if (expand_filename(&node, node->token->fragment_i))
-				return (1);
+			found = ft_strchr(node->token->str, '*');
+			if (found && !node->token->stars_arr[found - node->token->str])
+				if (expand_filename(&node, node->token->fragment_i))
+					return (1);
 		}
 		node = node->next;
 	}

@@ -52,7 +52,7 @@ Minishell is a simplified shell that mimics the behavior of Bash.  The goal of t
 ## Installation
 
 ### Prerequisites
-- GCC compiler
+- Clang compiler
 - Make
 - Readline library
 

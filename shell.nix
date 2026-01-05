@@ -7,11 +7,10 @@ pkgs.mkShell {
 	pkgs.clang
 	pkgs.lldb
     pkgs.readline
-    pkgs.ncurses  # often needed by readline
-    pkgs.pkg-config  # helps detect libraries
+    pkgs.ncurses
+    pkgs.pkg-config
   ];
 
-  # If some tooling inside the shell needs to *find* the readline .so or .so paths at runtime, you can also set:
   shellHook = ''
 	export LD_LIBRARY_PATH=${pkgs.readline}/lib:${pkgs.ncurses}/lib
 	alias vgt="valgrind --track-fds=all --leak-check=full --trace-children=yes  --suppressions=readline.supp ./test"

@@ -41,10 +41,14 @@ Minishell is a simplified shell that mimics the behavior of Bash.  The goal of t
 | `<<` | Here-document |
 
 ### Expansions
-- **Variable expansion** (`$VAR`, `$? ` for exit status)
+- **Variable expansion** (`$VAR`, `$? ` for exit sta tus)
 - **Quote handling** (single quotes `'.. .'` and double quotes `"..."`)
-- **Wildcard/Star expansion** (`*` - filename expansion/globbing)
+- **Wildcard/Star expansion** (`*` - filename expansion)
 
+### Signal Handling
+
+- **SIGINT and SIGQUIT are hooked and behave as they behave in Bash
+- **There is no undefined behaviour with signal handelingn thanks to using Readline hooks
 ## Installation
 
 ### Prerequisites
@@ -199,7 +203,9 @@ make runt
 ## Authors
 
 - **mchoma** - [ChomaMichal](https://github.com/ChomaMichal)
+    - Execution, signal handling, buildins, star expansion, redirections
 - **jel-ghna** - [YousefElghanam](https://github.com/YousefElghanam)
+    - Parsing, variable expansion, qoute expansion
 
 ---
 

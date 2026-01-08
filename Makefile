@@ -1,7 +1,12 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-LIBS = -lreadline -lhistory
+ifeq ($(shell uname -s),Darwin)
+	CFLAGS = -Wall -Wextra -Werror -I/opt/homebrew/opt/readline/include
+	LIBS = -L/opt/homebrew/opt/readline/lib -lreadline -lhistory
+else
+	CFLAGS = -Wall -Wextra -Werror
+	LIBS = -lreadline -lhistory
+endif
 HEADERS = minishell.h libft/libft.h\
 		parsing/parsing.h commands/commands.h ids/ids.h execution/execution.h
 

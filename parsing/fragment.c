@@ -54,9 +54,6 @@ static void	fragment_unquoted(char *line, t_token *token, size_t *i,
 
 int	handle_fragments(char *line, char **operators, t_token *token, size_t *i)
 {
-	size_t	fragment_count;
-
-	fragment_count = 0;
 	while (line[*i] && len_to_unquoted_delimiter(&line[*i], operators) > 0)
 	{
 		if (line[*i] == '\"' || line[*i] == '\'')
